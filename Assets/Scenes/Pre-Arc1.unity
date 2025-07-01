@@ -186,8 +186,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: bfd1f5a62afb24904944ad07e0e47e7e, type: 2}
-  m_sharedMaterial: {fileID: -2951633949868119164, guid: bfd1f5a62afb24904944ad07e0e47e7e, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2907c203807be41ecaa1e2795646af98, type: 2}
+  m_sharedMaterial: {fileID: 1892986266700254978, guid: 2907c203807be41ecaa1e2795646af98, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1131,12 +1131,11 @@ MonoBehaviour:
   dialoguePanel: {fileID: 921833221}
   dialogueText: {fileID: 278433186}
   dialogueLines:
-  - 'You were born and raised in the UK but your mother was born in a small Czech
-    town she hardly ever spoke of. You were born and raised in the UK but your mother
-    was born in a small Czech town she hardly ever spoke of. You were born and raised
-    in the UK but your mother was born in a small Czech town she hardly ever spoke
-    of. '
-  typingSpeed: 0.02
+  - "You were born and raised in the UK but your mother was born in a small Czech
+    town she hardly ever spoke of. P\u0159\xEDli\u0161 \u017Elu\u0165ou\u010Dk\xFD
+    k\u016F\u0148 \xFAp\u011Bl \u010F\xE1belsk\xE9 \xF3dy. \u0158\xED\u0161e \u010Dn\xED,
+    \u0148adra \u0161\u0165astn\u011B r\u016F\u017E\xED."
+  typingSpeed: 0.01
 --- !u!4 &2143394661
 Transform:
   m_ObjectHideFlags: 0
@@ -1157,7 +1156,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1117757576}
+  - {fileID: 1697441723}
   - {fileID: 373646078}
   - {fileID: 2143394661}
   - {fileID: 1101470124}
-  - {fileID: 1697441723}
