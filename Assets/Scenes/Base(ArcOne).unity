@@ -1135,7 +1135,7 @@ MonoBehaviour:
     town she hardly ever spoke of. P\u0159\xEDli\u0161 \u017Elu\u0165ou\u010Dk\xFD
     k\u016F\u0148 \xFAp\u011Bl \u010F\xE1belsk\xE9 \xF3dy. \u0158\xED\u0161e \u010Dn\xED,
     \u0148adra \u0161\u0165astn\u011B r\u016F\u017E\xED."
-  typingSpeed: 0.01
+  typingSpeed: 0.02
 --- !u!4 &2143394661
 Transform:
   m_ObjectHideFlags: 0
