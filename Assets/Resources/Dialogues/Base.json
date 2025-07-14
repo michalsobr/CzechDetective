@@ -1,0 +1,54 @@
+{
+  "entries": [
+    {
+      "id": "base.intro.one",
+      "lines": [
+        "For the longest time, it was just me and my mom.",
+        "I was born and raised in the UK. It’s all I know. But before that, my mom lived in a small Czech town with the rest of her family.",
+        "I tried asking her about it a few times, but she always dodged the subject. She hardly ever spoke of it.",
+        "That only made me more curious about her past, and about where I come from.",
+        "I’ve always been inquisitive. Maybe that’s why I became a private investigator back in the UK.",
+        "It hasn’t been long since my mom passed and I don’t really have any other family in the UK.",
+        "So, I’ve decided... It’s time!",
+        "It’s time to visit her hometown… and finally uncover my family’s past and my own heritage.",
+        "Oh-",
+        "I almost forgot - she never taught me much Czech…",
+        "But I’m up for the challenge!"
+      ]
+    },
+    {
+      "id": "base.arrival.one",
+      "lines": [
+        "Well, here I am… standing at the town square of a small Czech town called Tichovice.",
+        "Wow -",
+        "It looks so peaceful here...",
+        "I can’t believe this is really the town my mom grew up in.",
+        "This is definitely going to be a trip full of nostalgia… and maybe a little bit of touristy exploration while I’m here.",
+        "<i>You glance around, taking it all in. You’ve wanted to visit this place for the longest time.</i>"
+      ]
+    },
+    {
+      "id": "base.letterman.one",
+      "lines": [
+        ". . .",
+        "<i>You notice an older man standing near the fountain, staring directly at you. He’s holding an envelope.</i>",
+        "“Pan Novák?”",
+        "<i>You nod, slightly confused.</i>",
+        "“Tady. Tento dopis je pro Vás.”",
+        "<i>Hmm… I’m pretty sure tady means here. And dopis… something to do with paper.</i>\n\n<b>What did he just say?</b>"
+      ]
+    },
+    {
+      "id": "base.placeholder.one",
+      "lines": [
+
+      ]
+    },
+    {
+      "id": "base.placeholder.two",
+      "lines": [
+
+      ]
+    }
+  ]
+}

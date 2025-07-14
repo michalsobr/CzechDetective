@@ -312,10 +312,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 238366926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096e5b01935174aee9ccb1198d9d1c13, type: 3}
+  m_Script: {fileID: 11500000, guid: 4acb21206d7a8462b8db47a68ad275d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 0}
   action: 2
 --- !u!1 &345983756
 GameObject:
@@ -330,7 +329,7 @@ GameObject:
   - component: {fileID: 345983758}
   - component: {fileID: 345983757}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MainMenuCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -782,10 +781,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1057133723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096e5b01935174aee9ccb1198d9d1c13, type: 3}
+  m_Script: {fileID: 11500000, guid: 4acb21206d7a8462b8db47a68ad275d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 0}
   action: 1
 --- !u!1 &1145387282
 GameObject:
@@ -1328,10 +1326,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1688878150}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096e5b01935174aee9ccb1198d9d1c13, type: 3}
+  m_Script: {fileID: 11500000, guid: 4acb21206d7a8462b8db47a68ad275d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 0}
   action: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
