@@ -4,8 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 
-/// Handles input and validation for name prompt.
-/// Calls back to whoever owns the scene logic (e.g., BaseController).
+// handles input and validation for name prompt.
 public class NamePromptController : MonoBehaviour
 {
     [Header("UI References")]
