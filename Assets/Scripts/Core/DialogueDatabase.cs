@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DialogueDatabase : MonoBehaviour
 {
+    // singleton
     public static DialogueDatabase Instance { get; private set; }
 
     private Dictionary<string, DialogueEntry> dialogueDict = new();
@@ -20,17 +21,19 @@ public class DialogueDatabase : MonoBehaviour
         Instance = this;
     }
 
+    // gets triggered when this object is enabled.
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    // gets triggered when this object is disabled.
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // when a new scene is loaded, load the database with scene-specific dialogue.
+    // gets triggered when scenes get change - load the database with scene-specific dialogue.
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // skip if in the Init scene.
@@ -39,18 +42,17 @@ public class DialogueDatabase : MonoBehaviour
         LoadCurrentSceneDialogue();
     }
 
-    /// returns the dialogue entry with the given ID, or null if not found.
+    // returns the dialogue entry with the given ID OR null if not found.
     public DialogueEntry Get(string id)
     {
-        if (dialogueDict.TryGetValue(id, out var entry))
-        {
-            return entry;
-        }
+        if (dialogueDict.TryGetValue(id, out var entry)) return entry;
+
         // else.
         Debug.LogWarning($"[DialogueDatabase] Dialogue ID not found: {id}");
         return null;
     }
 
+    // gets the .json file based on the current scene and loads it into the database.
     private void LoadCurrentSceneDialogue()
     {
         string sceneName = SceneManager.GetActiveScene().name;
@@ -67,18 +69,17 @@ public class DialogueDatabase : MonoBehaviour
 
         DialogueListWrapper wrapper = JsonUtility.FromJson<DialogueListWrapper>(jsonFile.text);
 
+        // clear the previous scene's dialogue.
         dialogueDict.Clear();
 
         foreach (DialogueEntry entry in wrapper.entries)
         {
-            if (!string.IsNullOrEmpty(entry.id))
-            {
-                dialogueDict[entry.id] = entry;
-            }
+            if (!string.IsNullOrEmpty(entry.id)) dialogueDict[entry.id] = entry;
         }
 
         Debug.Log($"[DialogueDatabase] Loaded {dialogueDict.Count} dialogues for scene '{sceneName}'.");
     }
+    
     // JsonUtility requires a wrapper class.
     [Serializable]
     private class DialogueListWrapper

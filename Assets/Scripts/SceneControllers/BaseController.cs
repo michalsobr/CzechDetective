@@ -18,9 +18,11 @@ public class BaseController : SceneFlowController
             return;
         }
 
+        // show current scene's entry dialogue (if there is one to be triggered).
         ShowSceneEntryDialogue(state);
     }
 
+    // triggered when creating new game - shows the canvas where the player name is to be chosen.
     private void ShowNamePrompt()
     {
         if (namePromptCanvas)
@@ -36,7 +38,7 @@ public class BaseController : SceneFlowController
         }
     }
 
-    // gets called after name is confirmed.
+    // gets called after the name is confirmed.
     private void OnNameChosenContinue(string playerName)
     {
         GameManager.Instance.CreateNewGame(playerName);
@@ -49,44 +51,29 @@ public class BaseController : SceneFlowController
         ShowIntroDialogue();
     }
 
-    // TODO logic for actions after specific dialogues are completed.
+    // logic for actions after specific dialogues are completed.
     public override void OnDialogueComplete(string id)
     {
         base.OnDialogueComplete(id);
         Debug.Log($"[BaseController] Dialogue completed: {id}");
 
-        if (id == "base.intro.one")
-        {
-            Debug.Log($"[BaseController] Next dialogue.");
-            ShowArrivalDialogue();
-        }
-        else if (id == "base.arrival.one")
-        {
-            ShowLettermanDialogue();
-        }
+        if (id == "base.intro.one") ShowArrivalDialogue();
+
+        else if (id == "base.arrival.one") ShowLettermanDialogue("one");
+        else if (id == "base.letterman.one") ShowLettermanDialogue("two");
+        else if (id == "base.letterman.two") ShowLettermanDialogue("three");
+        else if (id == "base.letterman.three") ShowLettermanDialogue("four");
+        else if (id == "base.letterman.four") ShowLettermanDialogue("five");
+        
     }
     public override void ShowSceneEntryDialogue(GameState state)
     {
         // run the parent method (if there is anything to run).
         base.ShowSceneEntryDialogue(state);
 
-        if (!state.completedDialogues.Contains("base.intro.one"))
-        {
-            ShowIntroDialogue();
-            return;
-        }
-
-        if (!state.completedDialogues.Contains("base.arrival.one"))
-        {
-            ShowArrivalDialogue();
-            return;
-        }
-
-        if (!state.completedDialogues.Contains("base.letterman.one"))
-        {
-            ShowLettermanDialogue();
-            return;
-        }
+        if (!state.completedDialogues.Contains("base.intro.one")) ShowIntroDialogue();
+        else if (!state.completedDialogues.Contains("base.arrival.one")) ShowArrivalDialogue();
+        else if (!state.completedDialogues.Contains("base.letterman.five")) ShowLettermanDialogue("one");
 
     }
 
@@ -100,9 +87,10 @@ public class BaseController : SceneFlowController
         backgroundImage.SetActive(true);
         DialogueManager.Instance.ShowDialogue("base.arrival.one");
     }
-    
-        public void ShowLettermanDialogue()
+
+    public void ShowLettermanDialogue(string sequenceNum)
     {
-        DialogueManager.Instance.ShowDialogue("base.letterman.one");
+        DialogueManager.Instance.ShowDialogue($"base.letterman.{sequenceNum}");
     }
+
 }

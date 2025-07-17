@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 
 // handles input and validation for name prompt.
-public class NamePromptController : MonoBehaviour
+public class SettingsController : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private GameObject namePromptPanel;
@@ -25,7 +25,8 @@ public class NamePromptController : MonoBehaviour
         }
 
         // listen for continue button clicks.
-        if (continueButton) continueButton.onClick.AddListener(OnContinueClicked);
+        if (continueButton)
+            continueButton.onClick.AddListener(OnContinueClicked);
     }
 
     private void OnContinueClicked()

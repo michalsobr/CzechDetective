@@ -4,15 +4,17 @@ using TMPro;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Button), typeof(Image))]
-public class NamePromptButtonVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ButtonVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Sprites")]
     [SerializeField] private Sprite unpressedSprite;
     [SerializeField] private Sprite pressedSprite;
 
     [Header("References")]
-    [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private TextMeshProUGUI buttonText;
+
+    [Header("Only assign if Continue")]
+    [SerializeField] private TMP_InputField nameInputField;
 
     private Image image;
     private bool isHovering = false;
@@ -24,10 +26,11 @@ public class NamePromptButtonVisualizer : MonoBehaviour, IPointerEnterHandler, I
         if (nameInputField)
         {
             nameInputField.onValueChanged.AddListener(OnInputChanged);
+            // initial state.
+            UpdateContinueButtonVisual();
+            return;
         }
-
-        // initial state.
-        UpdateButtonVisual();
+        UpdateGeneralButtonVisual();
     }
 
     private void OnDestroy()
@@ -38,14 +41,14 @@ public class NamePromptButtonVisualizer : MonoBehaviour, IPointerEnterHandler, I
         }
     }
 
-    // gets called on any imput change.
+    // gets called on any input change.
     private void OnInputChanged(string text)
     {
-        UpdateButtonVisual();
+        UpdateContinueButtonVisual();
     }
 
-    // update the visual (sprite and text location) of the button based on input content and mouse location.
-    private void UpdateButtonVisual()
+    // update the visual (sprite and text location) of the button based on the input content and mouse location.
+    private void UpdateContinueButtonVisual()
     {
         string trimmed = nameInputField.text.Trim();
 
@@ -66,6 +69,19 @@ public class NamePromptButtonVisualizer : MonoBehaviour, IPointerEnterHandler, I
         }
     }
 
+    // update the visual (sprite and text location) of the button based on the mouse location.
+    private void UpdateGeneralButtonVisual()
+    {
+        if (isHovering)
+        {
+            ShowPressedButton();
+        }
+        else
+        {
+            ShowUnpressedButton();
+        }
+    }
+
     private void ShowPressedButton()
     {
         image.sprite = pressedSprite;
@@ -82,16 +98,15 @@ public class NamePromptButtonVisualizer : MonoBehaviour, IPointerEnterHandler, I
     {
         isHovering = true;
 
-        string trimmed = nameInputField.text.Trim();
-        if (!string.IsNullOrEmpty(trimmed)) ShowPressedButton();
-
+        if (nameInputField) UpdateContinueButtonVisual();
+        else UpdateGeneralButtonVisual();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovering = false;
 
-        string trimmed = nameInputField.text.Trim();
-        if (!string.IsNullOrEmpty(trimmed)) ShowUnpressedButton();
+        if (nameInputField) UpdateContinueButtonVisual();
+        else UpdateGeneralButtonVisual();
     }
 }

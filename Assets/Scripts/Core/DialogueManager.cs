@@ -4,9 +4,13 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
+using UnityEngine.UI;
+using System.IO;
 
 public class DialogueManager : MonoBehaviour
 {
+    // singleton.
     public static DialogueManager Instance { get; private set; }
 
     [Header("Dialogue Panel")]
@@ -16,24 +20,29 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private RectTransform textTransform;
 
     [Header("Dialogue Speakers")]
-    [SerializeField] private RectTransform leftAvatarTransform;
-    [SerializeField] private RectTransform leftSpeakerTextTransform;
-    [SerializeField] private RectTransform rightAvatarTransform;
-    [SerializeField] private RectTransform rightSpeakerTextTransform;
+    [SerializeField] private GameObject leftSpeaker;
+    [SerializeField] private GameObject rightSpeaker;
+    private RectTransform leftSpeakerTransform;
+    private RectTransform rightSpeakerTransform;
+    private Image leftSpeakerImage;
+    private Image rightSpeakerImage;
+    private TextMeshProUGUI leftSpeakerText;
+    private TextMeshProUGUI rightSpeakerText;
 
     [Header("Typewriter Settings")]
-    [SerializeField] private float typingSpeed = 0.02f;
+    [SerializeField] private float typingSpeed;
 
     private SceneFlowController controller;
     private DialogueEntry currentEntry;
     private List<string> currentLines;
+    private int currentLineCount;
+    private string currentSpeaker;
+    private string currentSpeakerSide;
     private int currentLineIndex = 0;
-
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     private bool isFullyTyped = false;
     private bool clickBlocked = false;
-
     private InputSystem_Actions inputActions;
 
     private void Awake()
@@ -50,12 +59,22 @@ public class DialogueManager : MonoBehaviour
 
         inputActions = new InputSystem_Actions();
 
+        leftSpeakerTransform = leftSpeaker.GetComponent<RectTransform>();
+        rightSpeakerTransform = rightSpeaker.GetComponent<RectTransform>();
+
+        leftSpeakerImage = leftSpeaker.GetComponent<Image>();
+        rightSpeakerImage = rightSpeaker.GetComponent<Image>();
+
+        leftSpeakerText = leftSpeaker.GetComponentInChildren<TextMeshProUGUI>();
+        rightSpeakerText = rightSpeaker.GetComponentInChildren<TextMeshProUGUI>();
+
         // default and if inactive - don't show dialogue canvas.
         if (dialogueCanvas) dialogueCanvas.SetActive(false);
     }
 
     private void Start()
     {
+        // get the scene-specific controller.
         if (SceneManager.GetActiveScene().name != "Init")
             controller = FindFirstObjectByType<SceneFlowController>();
     }
@@ -78,7 +97,7 @@ public class DialogueManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // get the new (current) scene's controller.
+    // update the scene-specific controller if a scene was changed.
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         controller = FindFirstObjectByType<SceneFlowController>();
@@ -88,15 +107,10 @@ public class DialogueManager : MonoBehaviour
     public void ShowDialogue(string dialogueId)
     {
         DialogueEntry entry = DialogueDatabase.Instance.Get(dialogueId);
-        if (entry != null)
-        {
-            Debug.LogWarning($"[DialogueManager] Dialogue with ID {dialogueId} will be shown.");
-            ShowDialogue(entry);
-        }
-        else
-        {
-            Debug.LogWarning($"[DialogueManager] Dialogue ID not found: {dialogueId}");
-        }
+
+        // if dialogue with that id exist.
+        if (entry != null) ShowDialogue(entry);
+        else Debug.LogWarning($"[DialogueManager] Dialogue ID not found: {dialogueId}");
     }
 
     // gets called when we have some dialogue to show.
@@ -113,19 +127,20 @@ public class DialogueManager : MonoBehaviour
 
         currentEntry = entry;
         currentLines = entry.lines;
+        currentSpeaker = entry.speaker;
+        currentSpeakerSide = entry.speakerSide;
         currentLineIndex = 0;
-
         isTyping = false;
         isFullyTyped = false;
 
         DisplayNextLine();
     }
 
-    // displays the next line.
+    // displays the current dialogue line.
     private void DisplayNextLine()
     {
-        int lineCount = GetLineCount(currentLines[currentLineIndex]);
-        AdjustDialogueUI(lineCount);
+        currentLineCount = GetLineCount(currentLines[currentLineIndex]);
+        AdjustDialogueUI();
 
         dialogueText.text = "";
         typingCoroutine = StartCoroutine(TypeLine(currentLines[currentLineIndex]));
@@ -140,37 +155,84 @@ public class DialogueManager : MonoBehaviour
     }
 
     // adjust the dialogue UI based on the number of lines that will be on the screen. 
-    private void AdjustDialogueUI(int lineCount)
+    private void AdjustDialogueUI()
     {
-        if (lineCount <= 0) return;
+        // safety check.
+        if (currentLineCount <= 0) return;
 
+        UpdateDialoguePanel();
+        UpdateDialogueSpeakers();
+    }
+
+    private void UpdateDialoguePanel()
+    {
         // base and new size for the dialogue UI panel.
         float UIBaseHeight = 72f;
-        float UInewHeight = UIBaseHeight * lineCount;
+        float UInewHeight = UIBaseHeight * currentLineCount;
         // update the size of dialogue UI panel.
         panelTransform.sizeDelta = new Vector2(panelTransform.sizeDelta.x, UInewHeight);
 
         // base and new padding values of the dialogue text that is showing inside the panel.
         float constPadding = 100f;
-        float newPadding = 18f + ((lineCount - 1) * 12f);
+        float newPadding = 18f + ((currentLineCount - 1) * 12f);
         // update the size and padding of the dialogue text.
         textTransform.sizeDelta = new Vector2(textTransform.sizeDelta.x, UInewHeight);
         dialogueText.margin = new Vector4(constPadding, newPadding, constPadding, newPadding);
+    }
 
-        // the (constant) X and Y (old and new) coordinates of the left and right avatar and speaker (text).
-        float constXAvatar = 175f;
-        float constXSpeaker = 375f;
+    private void UpdateDialogueSpeakers()
+    {
+        // hide both by default.
+        leftSpeaker.SetActive(false);
+        rightSpeaker.SetActive(false);
 
-        float baseYAvatarSpeaker = 85f;
-        float newYAvatarSpeaker = baseYAvatarSpeaker + ((lineCount - 1) * 68f);
+        if (currentSpeakerSide == "left")
+        {
+            leftSpeaker.SetActive(true);
+            leftSpeakerImage.sprite = LoadSpeakerSprite();
+            leftSpeakerText.text = UpdateSpeakerText();
+        }
+        if (currentSpeakerSide == "right")
+        {
+            rightSpeaker.SetActive(true);
+            rightSpeakerImage.sprite = LoadSpeakerSprite();
+            rightSpeakerText.text = UpdateSpeakerText();
+        }
+        UpdateSpeakerPosition();
+    }
 
-        // update the location of the avatars.
-        leftAvatarTransform.anchoredPosition = new Vector3(constXAvatar, newYAvatarSpeaker, 0f);
-        rightAvatarTransform.anchoredPosition = new Vector3(-constXAvatar, newYAvatarSpeaker, 0f);
+    private Sprite LoadSpeakerSprite()
+    {
+        Sprite sprite = Resources.Load<Sprite>($"Sprites/Characters/{currentSpeaker}");
 
-        // update the location of the speakers (texts).
-        leftSpeakerTextTransform.anchoredPosition = new Vector3(constXSpeaker, newYAvatarSpeaker, 0f);
-        rightSpeakerTextTransform.anchoredPosition = new Vector3(-constXSpeaker, newYAvatarSpeaker, 0f);
+        if (sprite == null) Debug.LogWarning($"[DialogueManager] Portrait not found for: {currentSpeaker}");
+
+        return sprite;
+    }
+
+    private string UpdateSpeakerText()
+    {
+        string speakerName = "";
+
+        // currentSpeaker could be detective_init, detective_happy, detective_angry, etc.
+        if (currentSpeaker.Contains("detective")) speakerName = "Tobiáš";
+        else if (currentSpeaker == "letterman") speakerName = "???";
+        else if (currentSpeaker == "aunt_unknown") speakerName = "Růžena Nováková";
+        else if (currentSpeaker == "aunt_known") speakerName = "teta Růžena";
+
+        return string.IsNullOrEmpty(speakerName) ? currentSpeaker : speakerName;
+    }
+
+    private void UpdateSpeakerPosition()
+    {
+        // the (constant) X and (old and new) Y coordinates of the speaker.
+        float constXSpeaker = 175f;
+        float baseYSpeaker = 85f;
+        float newYSpeaker = baseYSpeaker + ((currentLineCount - 1) * 68f);
+
+        // update the location of the speaker.
+        if (currentSpeakerSide == "left") leftSpeakerTransform.anchoredPosition = new Vector3(constXSpeaker, newYSpeaker, 0f);
+        if (currentSpeakerSide == "right") rightSpeakerTransform.anchoredPosition = new Vector3(-constXSpeaker, newYSpeaker, 0f);
     }
 
     // typing animation for the dialogue text.
@@ -199,8 +261,7 @@ public class DialogueManager : MonoBehaviour
         if (clickBlocked) return;
 
         // safety check.
-        if (currentLines == null || currentLines.Count == 0 || !dialogueCanvas.activeSelf)
-            return;
+        if (currentLines == null || currentLines.Count == 0 || !dialogueCanvas.activeSelf) return;
 
         // if the text is typing when we click.
         if (isTyping)
@@ -248,30 +309,22 @@ public class DialogueManager : MonoBehaviour
         clickBlocked = false;
     }
 
-    // gets called at the end of a dialogue.
+    // gets called at the end of a dialogue to reset values.
     private void EndDialogue()
     {
-        Debug.Log($"[DialogueManager] Ending dialogue: {currentEntry?.id}");
-
-        // disable dialogue panel.
         dialogueCanvas.SetActive(false);
 
         string id = currentEntry.id;
 
+        currentEntry = null;
+        currentLines = null;
+
         if (controller)
         {
-            currentEntry = null;
-            currentLines = null;
-
-            Debug.Log($"[DialogueManager] Calling controller.OnDialogueComplete({id})");
+            Debug.Log($"[DialogueManager] Calling {controller.name}.OnDialogueComplete({id})");
             controller.OnDialogueComplete(id);
         }
-        else
-        {
-            Debug.Log($"[DialogueManager] Controller is null.)");
-            currentEntry = null;
-            currentLines = null;
-        }
-
+        else Debug.Log($"[DialogueManager] Controller is null.)");
     }
+
 }

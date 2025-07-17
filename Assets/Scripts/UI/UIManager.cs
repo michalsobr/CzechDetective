@@ -4,16 +4,14 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    // singleton.
     public static UIManager Instance { get; private set; }
 
-    [Header("Panel Button Pairs")]
-    [SerializeField] private List<ButtonPanelPair> buttonPanelPairs = new();
+    [Header("Canvas Button Pairs")]
+    [SerializeField] private List<UIButtonGroup> buttonGroups = new();
 
     [Header("Highlight Button")]
     [SerializeField] private Button highlightButton;
-
-    [Header("All Panels (for exclusivity)")]
-    [SerializeField] private List<GameObject> allPanels = new();
 
     private bool isInteractable = false;
 
@@ -32,21 +30,39 @@ public class UIManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // TODO disable/don't show all UI button popup panels at the start.
-        foreach (var panel in allPanels)
+        /*
+        // TODO disable/don't show all UI button popup canvases at the start.
+        foreach (var canvas in allCanvases)
         {
-            if (panel != null)
-                panel.SetActive(false);
+            if (canvas != null)
+                canvas.SetActive(false);
         }
 
         // add click behavior to all UI buttons.
-        foreach (var pair in buttonPanelPairs)
+        foreach (var pair in buttonCanvasPairs)
         {
-            if (pair.button != null && pair.panel != null)
+            if (pair.button != null && pair.canvas != null)
             {
-                pair.button.onClick.AddListener(() => TogglePanel(pair.panel));
-                if (!allPanels.Contains(pair.panel))
-                    allPanels.Add(pair.panel);
+                pair.button.onClick.AddListener(() => ShowPopupCanvas(pair.canvas));
+                if (!allCanvases.Contains(pair.canvas))
+                    allCanvases.Add(pair.canvas);
+            }
+        }
+        */
+
+        foreach (var group in buttonGroups)
+        {
+            if (group.button != null && group.canvas != null)
+            {
+                group.canvas.SetActive(false);
+
+                group.button.onClick.AddListener(() => ShowPopupCanvas(group));
+
+                group.popupScript = group.canvas.GetComponent<PopupCanvas>();
+                if (group.popupScript == null)
+                {
+                    Debug.LogWarning($"{group.canvas.name} is missing a PopupCanvas script.");
+                }
             }
         }
 
@@ -55,20 +71,13 @@ public class UIManager : MonoBehaviour
         SetInteractable(isInteractable);
     }
 
-    // enables and disables UI button panels (exclusively).
-    private void TogglePanel(GameObject panel)
+    // enables and disables UI button canvas.
+    public void ShowPopupCanvas(UIButtonGroup target)
     {
-        if (!panel) return;
-        // else
-        foreach (var p in allPanels)
-        {
-            if (p != null)
-                // only toggle target panel.
-                p.SetActive(p == panel && !panel.activeSelf);
-        }
+        target.popupScript.Open();
+        // SetInteractable(false);
     }
 
-    // TODO
     private void HighlightInteractables()
     {
     }
@@ -78,9 +87,9 @@ public class UIManager : MonoBehaviour
     {
         isInteractable = state;
 
-        foreach (var pair in buttonPanelPairs)
+        foreach (var group in buttonGroups)
         {
-            if (pair.button != null) pair.button.interactable = state;
+            if (group.button != null) group.button.interactable = state;
         }
         if (highlightButton) highlightButton.interactable = state;
     }

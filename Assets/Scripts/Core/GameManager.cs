@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    // singleton.
     public static GameManager Instance { get; private set; }
     public GameState CurrentState { get; private set; } = null;
 
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
         CurrentState = loadedState;
     }
 
-    // saves the current game state, if given no paremeters defaults to "slot 0" - save at next available (or last) save slot OR if given a slot number - save in that slot.
+    // saves the current game state, if given no paremeters defaults to "slot 0" which saves at the next available (or last) save slot OR if given a slot number - save in that slot.
     public void SaveGameState(int slotNum = 0)
     {
         // safety check.
@@ -41,15 +42,11 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // update the current state's scene name and time before saving.
-        CurrentState.currentScene = SceneManager.GetActiveScene().name;
-        CurrentState.lastSavedTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
         if (slotNum == 0) SaveManager.Instance.Save(CurrentState);
         else SaveManager.Instance.Save(CurrentState, slotNum);
     }
 
-    // for future - returning to main menu.
+    // for future use - returning to main menu.
     public void ClearGame()
     {
         CurrentState = null;

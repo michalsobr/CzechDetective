@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class SaveManager : MonoBehaviour
 {
+    // singleton.
     public static SaveManager Instance { get; private set; }
 
     private void Awake()
     {
+        // safety check, if single instance already exists.
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -17,7 +19,7 @@ public class SaveManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // save in the next available slot OR in the last slot (8) if all are full.
+    // determine the next available saving slot OR default to saving in the last slot (8) if all the other slots are full.
     public void Save(GameState state)
     {
         int chosenSlot;
@@ -41,24 +43,26 @@ public class SaveManager : MonoBehaviour
     // save in a specific slot.
     public void Save(GameState state, int slotNum)
     {
-        // update last save time - current time and currect scene.
+        // update the last save time to current time, the current scene name and the current save slot.
         state.lastSavedTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         state.currentScene = SceneManager.GetActiveScene().name;
+        state.currentSaveSlot = slotNum;
 
         // converts GameState object into Json string.
         string json = JsonUtility.ToJson(state, true);
         // writes the contents of json string into file at the SavePath location.
         File.WriteAllText(GetSavePath(slotNum), json);
 
-        // for testing.
         Debug.Log($"[SaveManager] Game saved to {GetSavePath(slotNum)}");
     }
 
+    // get the save file data path given a slot number.
     private static string GetSavePath(int slotNum)
     {
         return Path.Combine(Application.persistentDataPath, $"save_slot{slotNum}.json");
     }
 
+    // reads the .json file at the given slot number and returns it as a GameState.
     public GameState Load(int slotNum)
     {
         if (!SaveExists(slotNum))
@@ -75,7 +79,7 @@ public class SaveManager : MonoBehaviour
         return loaded;
     }
 
-    // will be used in the future for deleting saves.
+    // for future use - deleting a save file at the given slot number.
     public void Clear(int slotNum)
     {
         if (SaveExists(slotNum))
@@ -86,6 +90,7 @@ public class SaveManager : MonoBehaviour
         }
     }
 
+    // checks if a path to a save file given a slot number exists.
     public bool SaveExists(int slotNum)
     {
         return File.Exists(GetSavePath(slotNum));

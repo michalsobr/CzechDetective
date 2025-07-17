@@ -27,6 +27,7 @@ public class InitController : MonoBehaviour
         StartCoroutine(LoadTargetScene());
     }
 
+    // changes scenes based on if a new game was started or a game was loaded.
     private IEnumerator LoadTargetScene()
     {
         // delay execution by one frame (to make sure everything from Awake() has been fully initialized).

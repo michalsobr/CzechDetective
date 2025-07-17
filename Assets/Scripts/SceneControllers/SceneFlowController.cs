@@ -19,11 +19,8 @@ public class SceneFlowController : MonoBehaviour
         DialogueDatabase.Instance.Reload();
 #endif
 
-        if (backgroundImage)
-            backgroundImage.SetActive(true);
-
-        if (interactableCanvas)
-            interactableCanvas.SetActive(false);
+        if (backgroundImage) backgroundImage.SetActive(true);
+        if (interactableCanvas) interactableCanvas.SetActive(false);
     }
 
     // called by DialogueManager when a dialogue with the given ID finishes.
