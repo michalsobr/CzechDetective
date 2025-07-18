@@ -9,38 +9,9 @@ public abstract class PopupCanvas : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        closeButtonman.onClick.RemoveAllListeners(); // clear just in case
-        closeButtonman.onClick.AddListener(() =>
-        {
-            Debug.Log($"[PopupCanvas] CloseButton clicked on {gameObject.name}");
-            Close();
-        });
-
-        Debug.Log($"[PopupCanvas] Listener added to {closeButtonman.name}");
-    
-
-
-
-        /*
-        Debug.Log($"[PopupCanvas] OnEnable called {gameObject.name}");
-        // find the close button by name among children (inactive too).
-        closeButton = GetComponentsInChildren<Button>(true).FirstOrDefault(b => b.name == "CloseButton");
-
-        if (closeButton != null)
-        {
-            Debug.Log($"[PopupCanvas] OnEnable, CloseButton is not null {gameObject.name}");
-            //closeButton.onClick.AddListener(() => Close());
-            closeButton.onClick.AddListener(() =>
-    {
-        Debug.Log($"[PopupCanvas] CloseButton clicked on {gameObject.name}");
-        Close();
-    });
-        }
-        else
-        {
-            Debug.LogWarning($"No 'Close button' found on {gameObject.name}");
-        }
-        */
+        // clear other listeners before adding the onClick listener, just in case.
+        closeButtonman.onClick.RemoveAllListeners();
+        closeButtonman.onClick.AddListener(() => Close());
     }
 
     public virtual void Open()
@@ -50,7 +21,9 @@ public abstract class PopupCanvas : MonoBehaviour
 
     public virtual void Close()
     {
-        // UIManager.Instance.SetInteractable(true);
+        UIManager.Instance.SetInteractable(true);
+        UIManager.Instance.ClosePopup();
+
         gameObject.SetActive(false);
     }
 }

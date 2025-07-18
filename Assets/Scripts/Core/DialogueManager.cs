@@ -42,7 +42,7 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     private bool isFullyTyped = false;
-    private bool clickBlocked = false;
+    private bool advanceBlocked = false;
     private InputSystem_Actions inputActions;
 
     private void Awake()
@@ -83,7 +83,9 @@ public class DialogueManager : MonoBehaviour
     private void OnEnable()
     {
         inputActions.UI.Enable();
+
         inputActions.UI.Click.performed += OnClickPerformed;
+        inputActions.UI.Navigate.performed += OnNavigatePerformed;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -92,6 +94,8 @@ public class DialogueManager : MonoBehaviour
     private void OnDisable()
     {
         inputActions.UI.Click.performed -= OnClickPerformed;
+        inputActions.UI.Navigate.performed -= OnNavigatePerformed;
+
         inputActions.UI.Disable();
 
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -257,13 +261,41 @@ public class DialogueManager : MonoBehaviour
     // depending on the state of the dialogue, clicks perform different actions.
     private void OnClickPerformed(InputAction.CallbackContext context)
     {
-        // if click still blocked - disregard the click.
-        if (clickBlocked) return;
+        // if advance attempt is blocked or it is not possible to currently advance dialogue.
+        if (advanceBlocked || !IsValidClick(context)) return;
+
+        AdvanceDialogue();
+    }
+
+    // same as OnClickPerformed but for spacebar.
+    private void OnNavigatePerformed(InputAction.CallbackContext context)
+    {
+        if (advanceBlocked || !CanAdvanceDialogue()) return;
+
+        AdvanceDialogue();
+    }
+
+    private bool IsValidClick(InputAction.CallbackContext context)
+    {
+        if (!CanAdvanceDialogue()) return false;
+
+        // only accept clicks inside the dialogue panel
+        Vector2 clickPos = Mouse.current.position.ReadValue();
+        return RectTransformUtility.RectangleContainsScreenPoint(panelTransform, clickPos);
+    }
+
+    private bool CanAdvanceDialogue()
+    {
+        // disable input if popup is open.
+        if (UIManager.Instance != null && UIManager.Instance.IsPopupOpen()) return false;
 
         // safety check.
-        if (currentLines == null || currentLines.Count == 0 || !dialogueCanvas.activeSelf) return;
+        return currentLines != null && currentLines.Count > 0 && dialogueCanvas.activeSelf;
+    }
 
-        // if the text is typing when we click.
+    private void AdvanceDialogue()
+    {
+        // if the text is typing when we try to advance.
         if (isTyping)
         {
             // stop the typing animation.
@@ -274,8 +306,8 @@ public class DialogueManager : MonoBehaviour
             isTyping = false;
             isFullyTyped = true;
 
-            // since we registered the click - block the possibly accidental next ones.
-            StartCoroutine(ClickCooldown());
+            // since we registered the advance attempt - block the next ones.
+            StartCoroutine(AdvanceDialogueCooldown());
             return;
         }
 
@@ -285,28 +317,21 @@ public class DialogueManager : MonoBehaviour
             currentLineIndex++;
 
             // if there are more lines to be shown -> show the next one.
-            if (currentLineIndex < currentLines.Count)
-            {
-                DisplayNextLine();
-            }
-            // else finish this dialogue.
-            else
-            {
-                EndDialogue();
-            }
+            if (currentLineIndex < currentLines.Count) DisplayNextLine();
+            else EndDialogue();
 
-            // click registered -> block next ones.
-            StartCoroutine(ClickCooldown());
+            // advance attempt registered -> block next ones.
+            StartCoroutine(AdvanceDialogueCooldown());
         }
     }
 
-    // prevention against accidental multi-clicks.
-    private IEnumerator ClickCooldown()
+    // prevention against accidental multi-clicks and fast dialogue skipping.
+    private IEnumerator AdvanceDialogueCooldown()
     {
-        clickBlocked = true;
+        advanceBlocked = true;
         // 0.3 second delay.
         yield return new WaitForSeconds(0.3f);
-        clickBlocked = false;
+        advanceBlocked = false;
     }
 
     // gets called at the end of a dialogue to reset values.

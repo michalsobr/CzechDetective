@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button highlightButton;
 
     private bool isInteractable = false;
+    private bool isPopupOpen = false;
 
     void Start() { }
 
@@ -29,26 +30,6 @@ public class UIManager : MonoBehaviour
         // persist across scenes.
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        /*
-        // TODO disable/don't show all UI button popup canvases at the start.
-        foreach (var canvas in allCanvases)
-        {
-            if (canvas != null)
-                canvas.SetActive(false);
-        }
-
-        // add click behavior to all UI buttons.
-        foreach (var pair in buttonCanvasPairs)
-        {
-            if (pair.button != null && pair.canvas != null)
-            {
-                pair.button.onClick.AddListener(() => ShowPopupCanvas(pair.canvas));
-                if (!allCanvases.Contains(pair.canvas))
-                    allCanvases.Add(pair.canvas);
-            }
-        }
-        */
 
         foreach (var group in buttonGroups)
         {
@@ -71,11 +52,12 @@ public class UIManager : MonoBehaviour
         SetInteractable(isInteractable);
     }
 
-    // enables and disables UI button canvas.
+    // shows a specific popup canvas base on which button was pressed.
     public void ShowPopupCanvas(UIButtonGroup target)
     {
         target.popupScript.Open();
-        // SetInteractable(false);
+        isPopupOpen = true;
+        SetInteractable(false);
     }
 
     private void HighlightInteractables()
@@ -98,5 +80,15 @@ public class UIManager : MonoBehaviour
     public bool IsInteractable()
     {
         return isInteractable;
+    }
+
+    public bool IsPopupOpen()
+    {
+        return isPopupOpen;
+    }
+
+    public void ClosePopup()
+    {
+        isPopupOpen = false;
     }
 }
