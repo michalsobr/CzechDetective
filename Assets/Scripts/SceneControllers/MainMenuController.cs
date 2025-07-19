@@ -7,6 +7,9 @@ public class MainMenuController : MonoBehaviour, IPointerEnterHandler, IPointerE
 {
     public enum ActionType { Start, Load, Exit }
     public ActionType action;
+    [HideInInspector] public bool interactable = true;
+    [SerializeField] private GameObject loadGameCanvas;
+    [SerializeField] private LoadGameCanvas loadGameCanvasScript;
 
     private TextMeshProUGUI text;
 
@@ -20,33 +23,39 @@ public class MainMenuController : MonoBehaviour, IPointerEnterHandler, IPointerE
     void Start() { }
     void Awake()
     {
+        loadGameCanvas.SetActive(false);
         text = GetComponent<TextMeshProUGUI>();
         text.color = normalColor;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!interactable) return;
         text.enableVertexGradient = true;
         text.colorGradient = new VertexGradient(topLeft, topRight, bottomLeft, bottomRight);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (!interactable) return;
         text.enableVertexGradient = false;
         text.color = normalColor;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!interactable) return;
         switch (action)
         {
             case ActionType.Start:
                 Debug.Log("Start Game clicked");
                 SceneManager.LoadScene("Init");
                 break;
-            // TODO Load popup.
             case ActionType.Load:
                 Debug.Log("Load Game clicked");
+                if (loadGameCanvasScript) loadGameCanvasScript.ShowLoadGamePopup();
+                text.enableVertexGradient = false;
+                text.color = normalColor;
                 break;
             case ActionType.Exit:
                 Debug.Log("Exit clicked");
