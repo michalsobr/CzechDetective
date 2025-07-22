@@ -2,22 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class InitController : MonoBehaviour
+public class InitializationController : MonoBehaviour
 {
     // default scene used for both new or loaded games.
     public static string SceneToLoad = "Base";
-    // stays null if it is a new game.
-    public static GameState GameStateToLoad = null;
 
-    void Awake()
+    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+    private void Awake()
     {
-        // checks to not create duplicates instances.
-        if (FindFirstObjectByType<GameManager>() == null)
-            Instantiate(Resources.Load("Prefabs/GameManager"));
-
-        if (FindFirstObjectByType<SaveManager>() == null)
-            Instantiate(Resources.Load("Prefabs/SaveManager"));
-
         if (FindFirstObjectByType<UIManager>() == null)
             Instantiate(Resources.Load("Prefabs/UIManager"));
 
@@ -34,13 +26,9 @@ public class InitController : MonoBehaviour
         yield return null;
 
         // if the game was loaded.
-        if (GameStateToLoad != null)
-        {
-            // load game using the save file's GameState.
-            GameManager.Instance.LoadGameState(GameStateToLoad);
-            SceneToLoad = GameManager.Instance.CurrentState.currentScene;
-        }
-        // else - leave GameState null (it will be initialized after the name entry in the Base scene, and load the correct scene.
+        if (GameManager.Instance.CurrentState != null) SceneToLoad = GameManager.Instance.CurrentState.currentScene;
+
+        // SceneToLoad will remain default "Base" if "New Game" was chose OR will be replaced with the value from the loaded save file.
         SceneManager.LoadScene(SceneToLoad);
     }
 }

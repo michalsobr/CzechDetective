@@ -10,6 +10,7 @@ public class DialogueDatabase : MonoBehaviour
 
     private Dictionary<string, DialogueEntry> dialogueDict = new();
 
+    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
     private void Awake()
     {
         // safety check, if single instance already exists.
@@ -36,8 +37,8 @@ public class DialogueDatabase : MonoBehaviour
     // gets triggered when scenes get change - load the database with scene-specific dialogue.
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // skip if in the Init scene.
-        if (scene.name == "Init") return;
+        // skip if in the Initialization scene.
+        if (scene.name == "Initialization") return;
 
         LoadCurrentSceneDialogue();
     }
@@ -79,7 +80,7 @@ public class DialogueDatabase : MonoBehaviour
 
         Debug.Log($"[DialogueDatabase] Loaded {dialogueDict.Count} dialogues for scene '{sceneName}'.");
     }
-    
+
     // JsonUtility requires a wrapper class.
     [Serializable]
     private class DialogueListWrapper

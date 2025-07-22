@@ -4,6 +4,7 @@ public class BaseController : SceneFlowController
 {
     [SerializeField] private GameObject namePromptCanvas;
 
+    // runs only once - the first time the script is enabled and active in the scene.
     public override void Start()
     {
         base.Start();
@@ -32,8 +33,8 @@ public class BaseController : SceneFlowController
             UIManager.Instance.SetInteractable(false);
             namePromptCanvas.SetActive(true);
 
-            // pass a reference to the callback to NamePromptController
-            var controller = namePromptCanvas.GetComponent<NamePromptController>();
+            // pass a reference to the callback to NamePromptCanvas
+            var controller = namePromptCanvas.GetComponent<NamePromptCanvas>();
             controller.OnNameChosenCallback = OnNameChosenContinue;
         }
     }
@@ -64,7 +65,7 @@ public class BaseController : SceneFlowController
         else if (id == "base.letterman.two") ShowLettermanDialogue("three");
         else if (id == "base.letterman.three") ShowLettermanDialogue("four");
         else if (id == "base.letterman.four") ShowLettermanDialogue("five");
-        
+
     }
     public override void ShowSceneEntryDialogue(GameState state)
     {

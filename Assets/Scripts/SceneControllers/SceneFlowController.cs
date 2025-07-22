@@ -7,9 +7,10 @@ public class SceneFlowController : MonoBehaviour
     [SerializeField] protected GameObject backgroundImage;
     [SerializeField] protected GameObject interactableCanvas;
 
-    // override in subclasses to trigger dialogue when the scene starts.
+    // runs only once - the first time the script is enabled and active in the scene.
     public virtual void Start()
     {
+        // Instantiate instances if run from the Unity Editor - as Initialization scene could have been skipped.
 #if UNITY_EDITOR
         InstantiateIfMissing<GameManager>("Prefabs/GameManager");
         InstantiateIfMissing<SaveManager>("Prefabs/SaveManager");

@@ -2,11 +2,14 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// runs before other scripts by deafault.
+[DefaultExecutionOrder(-100)]
 public class SaveManager : MonoBehaviour
 {
     // singleton.
     public static SaveManager Instance { get; private set; }
 
+    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
     private void Awake()
     {
         // safety check, if single instance already exists.
@@ -44,7 +47,7 @@ public class SaveManager : MonoBehaviour
     public void Save(GameState state, int slotNum)
     {
         // update the last save time to current time, the current scene name and the current save slot.
-        state.lastSavedTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        state.lastSavedTime = System.DateTime.Now.ToString("d/M/yy HH:mm");
         state.currentScene = SceneManager.GetActiveScene().name;
         state.currentSaveSlot = slotNum;
 

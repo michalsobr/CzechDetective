@@ -45,6 +45,7 @@ public class DialogueManager : MonoBehaviour
     private bool advanceBlocked = false;
     private InputSystem_Actions inputActions;
 
+    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
     private void Awake()
     {
         // safety check, if single instance already exists.
@@ -72,10 +73,11 @@ public class DialogueManager : MonoBehaviour
         if (dialogueCanvas) dialogueCanvas.SetActive(false);
     }
 
+    // runs only once - the first time the script is enabled and active in the scene.
     private void Start()
     {
         // get the scene-specific controller.
-        if (SceneManager.GetActiveScene().name != "Init")
+        if (SceneManager.GetActiveScene().name != "Initialization")
             controller = FindFirstObjectByType<SceneFlowController>();
     }
 

@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System;
 
 public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [HideInInspector] public bool hasSave = false;
+    [HideInInspector] public GameState gameStateCopy = null;
 
     [Header("Visual Targets")]
     [SerializeField] private Image slotBackground;
@@ -34,7 +36,51 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (hasSave) sceneImage.color = defaultSceneImageColor;
     }
 
-    // This method will be called when assigning save data to this slot
+    public void SetSlotData(int slotNumber, GameState state)
+    {
+        gameStateCopy = state;
+        if (state == null)
+        {
+            hasSave = false;
+            SetEmptySlot(slotNumber);
+        }
+        else
+        {
+            hasSave = true;
+            SetFilledSlot(slotNumber);
+        }
+    }
+
+    public void SetEmptySlot(int saveSlot)
+    {
+        if (sceneImage)
+        {
+            sceneImage.sprite = null;
+            sceneImage.color = emptySceneImageColor;
+        }
+
+        if (playerText) playerText.text = "<EMPTY>";
+        if (slotText) slotText.text = saveSlot.ToString();
+        if (timeText) timeText.text = "-/-/- -:-";
+    }
+
+    public void SetFilledSlot(int saveSlot)
+    {
+        if (sceneImage)
+        {
+            Sprite sceneSprite = Resources.Load<Sprite>($"Sprites/Enviroments/{gameStateCopy.currentScene}");
+            sceneImage.sprite = sceneSprite;
+            sceneImage.color = defaultSceneImageColor;
+        }
+
+        if (playerText) playerText.text = gameStateCopy.playerName;
+        if (slotText) slotText.text = saveSlot.ToString();
+        if (timeText) timeText.text = gameStateCopy.lastSavedTime;
+    }
+
+    /*
+
+        // This method will be called when assigning save data to this slot
     public void SetSlotData(int saveSlot, string playerName, string timestamp, Sprite sceneSprite)
     {
         hasSave = true;
@@ -63,4 +109,5 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (slotText) slotText.text = saveSlot.ToString();
         if (timeText) timeText.text = "-/-/- -:-";
     }
+    */
 }

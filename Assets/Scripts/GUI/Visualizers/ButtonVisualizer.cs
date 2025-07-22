@@ -19,6 +19,7 @@ public class ButtonVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private Image image;
     private bool isHovering = false;
 
+    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
     private void Awake()
     {
         image = GetComponent<Image>();
@@ -31,6 +32,11 @@ public class ButtonVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExi
             return;
         }
         UpdateGeneralButtonVisual();
+    }
+
+    private void OnDisable()
+    {
+        ShowUnpressedButton();
     }
 
     private void OnDestroy()

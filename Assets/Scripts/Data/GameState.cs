@@ -22,7 +22,7 @@ public class GameState
         {
             playerName = playerName,
             currentScene = startScene,
-            lastSavedTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            lastSavedTime = DateTime.Now.ToString("d/M/yy HH:mm")
         };
     }
 

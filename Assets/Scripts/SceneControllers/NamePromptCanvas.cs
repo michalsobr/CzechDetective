@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 
 // handles input and validation for name prompt.
-public class NamePromptController : MonoBehaviour
+public class NamePromptCanvas : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private GameObject namePromptPanel;
@@ -14,6 +14,7 @@ public class NamePromptController : MonoBehaviour
 
     public Action<string> OnNameChosenCallback;
 
+    // runs only once - the first time the script is enabled and active in the scene.
     private void Start()
     {
         // show the name prompt window.

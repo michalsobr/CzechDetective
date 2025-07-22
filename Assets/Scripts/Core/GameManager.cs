@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public GameState CurrentState { get; private set; } = null;
 
-    void Awake()
+    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+    private void Awake()
     {
         // safety check, if single instance already exists.
         if (Instance != null)

@@ -16,9 +16,11 @@ public class UIManager : MonoBehaviour
     private bool isInteractable = false;
     private bool isPopupOpen = false;
 
-    void Start() { }
+    // runs only once - the first time the script is enabled and active in the scene.
+    private void Start() { }
 
-    void Awake()
+    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+    private void Awake()
     {
         // safety check, if single instance already exists.
         if (Instance != null)
@@ -33,7 +35,7 @@ public class UIManager : MonoBehaviour
 
         foreach (var group in buttonGroups)
         {
-            if (group.button != null && group.canvas != null)
+            if (group.button && group.canvas)
             {
                 group.canvas.SetActive(false);
 
