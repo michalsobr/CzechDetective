@@ -23,6 +23,9 @@ public class MainMenuController : MonoBehaviour, IPointerEnterHandler, IPointerE
     private void Start() { }
 
     // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+        /// <summary>
+    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// </summary>
     private void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();

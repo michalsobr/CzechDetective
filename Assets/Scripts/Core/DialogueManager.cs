@@ -10,7 +10,7 @@ using System.IO;
 
 public class DialogueManager : MonoBehaviour
 {
-    // singleton.
+    // singleton instance..
     public static DialogueManager Instance { get; private set; }
 
     [Header("Dialogue Panel")]
@@ -46,6 +46,9 @@ public class DialogueManager : MonoBehaviour
     private InputSystem_Actions inputActions;
 
     // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+        /// <summary>
+    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// </summary>
     private void Awake()
     {
         // safety check, if single instance already exists.

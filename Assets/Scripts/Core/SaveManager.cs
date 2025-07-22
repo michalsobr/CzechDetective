@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 [DefaultExecutionOrder(-100)]
 public class SaveManager : MonoBehaviour
 {
-    // singleton.
+    // singleton instance..
     public static SaveManager Instance { get; private set; }
 
     // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+        /// <summary>
+    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// </summary>
     private void Awake()
     {
         // safety check, if single instance already exists.

@@ -15,6 +15,9 @@ public class NoticePanel : MonoBehaviour
     private int saveSlot = 0;
 
     // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+        /// <summary>
+    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// </summary>
     private void Awake()
     {
         gameObject.SetActive(false);

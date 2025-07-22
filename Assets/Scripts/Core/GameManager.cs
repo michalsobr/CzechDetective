@@ -3,11 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    // singleton.
+    // singleton instance..
     public static GameManager Instance { get; private set; }
     public GameState CurrentState { get; private set; } = null;
 
     // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+        /// <summary>
+    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// </summary>
     private void Awake()
     {
         // safety check, if single instance already exists.

@@ -30,7 +30,7 @@ public class DialogueDatabase : MonoBehaviour
     }
 
     /// <summary>
-    /// gets triggered every time this object is enabled -  listens for scene changes.
+    /// gets triggered every time this object is enabled - listens for scene changes.
     /// </summary>
     private void OnEnable()
     {
@@ -38,7 +38,7 @@ public class DialogueDatabase : MonoBehaviour
     }
 
     /// <summary>
-    /// gets triggered every time this object is disabled -  stops listening for scene changes.
+    /// gets triggered every time this object is disabled - stops listening for scene changes.
     /// </summary>
     private void OnDisable()
     {

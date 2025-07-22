@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    // singleton.
+    // singleton instance..
     public static UIManager Instance { get; private set; }
 
     [Header("Canvas Button Pairs")]
@@ -20,6 +20,9 @@ public class UIManager : MonoBehaviour
     private void Start() { }
 
     // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+        /// <summary>
+    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// </summary>
     private void Awake()
     {
         // safety check, if single instance already exists.

@@ -8,6 +8,9 @@ public class InitializationController : MonoBehaviour
     public static string SceneToLoad = "Base";
 
     // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
+        /// <summary>
+    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// </summary>
     private void Awake()
     {
         if (FindFirstObjectByType<UIManager>() == null)
