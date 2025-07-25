@@ -6,6 +6,11 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// Manages the display and progression of dialogue sequences in the game.
+/// Handles loading and showing dialogue lines, controlling speaker portraits and names, and processing input to advance or skip dialogue using a typewriter effect.
+/// Implements a singleton pattern and persists across scenes.
+/// </summary>
 public class DialogueManager : MonoBehaviour
 {
     #region Fields
