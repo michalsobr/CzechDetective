@@ -32,6 +32,7 @@ public class DialogueDatabase : MonoBehaviour
             return;
         }
         Instance = this;
+        
         // This object persists across scenes as part of the Dialogue Manager.
     }
 
