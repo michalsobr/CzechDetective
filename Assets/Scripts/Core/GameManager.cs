@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// Called when the script instance is loaded (even if the GameObject is inactive).
-    /// Ensures a single instance of this object exists (singleton pattern)..
+    /// Ensures a single instance and sets up persistent state across scenes.
     /// </summary>
     private void Awake()
     {

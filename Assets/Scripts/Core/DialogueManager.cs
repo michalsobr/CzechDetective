@@ -60,7 +60,7 @@ public class DialogueManager : MonoBehaviour
 
     /// <summary>
     /// Called when the script instance is loaded (even if the GameObject is inactive).
-    /// Ensures a single instance and sets up persistent state across scenes.
+    /// Ensures a single instance, sets up persistent state across scenes, initializes input actions, and configures the dialogue canvas to be hidden by default.
     /// </summary>
     private void Awake()
     {
