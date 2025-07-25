@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Centralized manager for loading and storing dialogue entries for the current scene.
+/// Uses a singleton pattern and loads scene-specific dialogue data from JSON files in the Resources folder.
+/// </summary>
 public class DialogueDatabase : MonoBehaviour
 {
     #region Fields
 
-    // singleton instance.
+    // Singleton instance.
     public static DialogueDatabase Instance { get; private set; }
 
     private Dictionary<string, DialogueEntry> dialogueDictionary = new();
@@ -16,21 +20,24 @@ public class DialogueDatabase : MonoBehaviour
     #region Unity Lifecycle Methods
 
     /// <summary>
-    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// Called when the script instance is loaded (even if the GameObject is inactive).
+    /// Ensures a single instance of this object exists (singleton pattern).
     /// </summary>
     private void Awake()
     {
-        // safety check, if single instance already exists.
+        // If another instance already exists, destroy this one.
         if (Instance != null)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
+        // This object persists across scenes as part of the Dialogue Manager.
     }
 
     /// <summary>
-    /// gets triggered every time this object is enabled - listens for scene changes.
+    /// Called each time the object becomes enabled.
+    /// Registers a listener for scene load events.
     /// </summary>
     private void OnEnable()
     {
@@ -38,7 +45,8 @@ public class DialogueDatabase : MonoBehaviour
     }
 
     /// <summary>
-    /// gets triggered every time this object is disabled - stops listening for scene changes.
+    /// Called each time the object becomes disabled.
+    /// Unregisters the scene load event listener.
     /// </summary>
     private void OnDisable()
     {
@@ -49,21 +57,21 @@ public class DialogueDatabase : MonoBehaviour
     #region Public Methods
 
     /// <summary>
-    /// get dialogue entry with this ID.
+    /// Retrieves a dialogue entry by its unique ID.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns> dialogue entry with that ID / NULL if not found.</returns>
+    /// <param name="id">The unique identifier of the dialogue entry.</param>
+    /// <returns>The matching <see cref="DialogueEntry"/>, or <c>null</c> if not found.</returns>
     public DialogueEntry Get(string id)
     {
         if (dialogueDictionary.TryGetValue(id, out var entry)) return entry;
 
-        // else.
+        // If not found, log a warning and return null.
         Debug.LogWarning($"[DialogueDatabase] Dialogue ID not found: {id}");
         return null;
     }
 
     /// <summary>
-    /// method for forced manual database reload.
+    /// Forces a manual reload of the dialogue database for the current scene.
     /// </summary>
     public void Reload()
     {
@@ -74,34 +82,35 @@ public class DialogueDatabase : MonoBehaviour
     #region Private Methods
 
     /// <summary>
-    /// gets the scene-specific .json dialogue file based on the current scene and loads it into the database / dialogue dictionary.
+    /// Loads the scene-specific JSON dialogue file from the Resources folder and populates the dialogue dictionary with its entries.
     /// </summary>
     private void LoadCurrentSceneDialogue()
     {
+        // Get the current scene name and construct the dialogue resource path.
         string sceneName = SceneManager.GetActiveScene().name;
         string resourcePath = $"Dialogues/{sceneName}";
 
-        // loads the .json file from the generated resource path.
+        // Load the JSON file from the Resources folder.
         TextAsset jsonFile = Resources.Load<TextAsset>(resourcePath);
 
-        // if there was no file at that path and the text asset is therefore empty - output a warning in the log and return.
+        // If the file was not found, log a warning and exit early.
         if (!jsonFile)
         {
             Debug.LogWarning($"[DialogueDatabase] No dialogue file found at Resources/{resourcePath}.json");
             return;
         }
 
-        // wrap the file in a wrapper so that we can convert it from .json to an object.
+        // Deserialize the JSON file into a wrapper object.
         DialogueListWrapper wrapper = JsonUtility.FromJson<DialogueListWrapper>(jsonFile.text);
 
-        // clear the previous scene's dialogue (if there was one).
+        // Clear any previously loaded dialogue entries.
         dialogueDictionary.Clear();
 
-        // load seperate entries into the dialogue dictionary (for quicker lookup).
+        // Add each valid entry to the dialogue dictionary for quick lookup.
         foreach (DialogueEntry entry in wrapper.entries)
             if (!string.IsNullOrEmpty(entry.id)) dialogueDictionary[entry.id] = entry;
 
-        // testing debug.
+        // Log how many entries were successfully loaded (for debugging).
         Debug.Log($"[DialogueDatabase] Loaded {dialogueDictionary.Count} dialogues for scene '{sceneName}'.");
     }
 
@@ -109,11 +118,11 @@ public class DialogueDatabase : MonoBehaviour
     #region Event Handlers / Callbacks
 
     /// <summary>
-    /// gets triggered when scene changed - loads the current scene's specific-scene dialogue.
+    /// Called when a new scene is loaded. Loads the dialogue data for the current scene.
     /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // skip if in the Initialization scene.
+        // Skip dialogue loading for the Initialization scene.
         if (scene.name == "Initialization") return;
 
         LoadCurrentSceneDialogue();
@@ -123,7 +132,7 @@ public class DialogueDatabase : MonoBehaviour
     #region Nested Classes
 
     /// <summary>
-    /// wrapper class for all dialogue entries (used to convert from .json file to object).
+    /// Wrapper class used to deserialize a list of dialogue entries from a JSON file.
     /// </summary>
     [Serializable]
     private class DialogueListWrapper
