@@ -4,13 +4,13 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
 using UnityEngine.UI;
-using System.IO;
 
 public class DialogueManager : MonoBehaviour
 {
-    // singleton instance..
+    #region Fields
+
+    // Singleton instance.
     public static DialogueManager Instance { get; private set; }
 
     [Header("Dialogue Panel")]
@@ -22,118 +22,135 @@ public class DialogueManager : MonoBehaviour
     [Header("Dialogue Speakers")]
     [SerializeField] private GameObject leftSpeaker;
     [SerializeField] private GameObject rightSpeaker;
-    private RectTransform leftSpeakerTransform;
-    private RectTransform rightSpeakerTransform;
-    private Image leftSpeakerImage;
-    private Image rightSpeakerImage;
-    private TextMeshProUGUI leftSpeakerText;
-    private TextMeshProUGUI rightSpeakerText;
+    [SerializeField] private RectTransform leftSpeakerTransform;
+    [SerializeField] private RectTransform rightSpeakerTransform;
+    [SerializeField] private Image leftSpeakerImage;
+    [SerializeField] private Image rightSpeakerImage;
+    [SerializeField] private TextMeshProUGUI leftSpeakerText;
+    [SerializeField] private TextMeshProUGUI rightSpeakerText;
 
     [Header("Typewriter Settings")]
+    // Characters per second.
     [SerializeField] private float typingSpeed;
 
     private SceneFlowController controller;
+
     private DialogueEntry currentEntry;
     private List<string> currentLines;
-    private int currentLineCount;
+    private int currentLineIndex = 0;
     private string currentSpeaker;
     private string currentSpeakerSide;
-    private int currentLineIndex = 0;
+    private int currentLineCount;
+
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     private bool isFullyTyped = false;
-    private bool advanceBlocked = false;
-    private InputSystem_Actions inputActions;
 
-    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
-        /// <summary>
-    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    private InputSystem_Actions inputActions;
+    // prevents input if the line is animating/skipped
+    private bool advanceBlocked = false;
+
+    #endregion
+    #region Unity Lifecycle Methods
+
+    /// <summary>
+    /// Called when the script instance is loaded (even if the GameObject is inactive).
+    /// Ensures a single instance and sets up persistent state across scenes.
     /// </summary>
     private void Awake()
     {
-        // safety check, if single instance already exists.
+        // If another instance already exists, destroy this one.
         if (Instance != null)
         {
             Destroy(gameObject);
             return;
         }
-        // persist across scenes.
         Instance = this;
+
+        // Prevent this object from being destroyed when loading new scenes.
         DontDestroyOnLoad(gameObject);
 
+        // Initialize input actions.
         inputActions = new InputSystem_Actions();
 
-        leftSpeakerTransform = leftSpeaker.GetComponent<RectTransform>();
-        rightSpeakerTransform = rightSpeaker.GetComponent<RectTransform>();
-
-        leftSpeakerImage = leftSpeaker.GetComponent<Image>();
-        rightSpeakerImage = rightSpeaker.GetComponent<Image>();
-
-        leftSpeakerText = leftSpeaker.GetComponentInChildren<TextMeshProUGUI>();
-        rightSpeakerText = rightSpeaker.GetComponentInChildren<TextMeshProUGUI>();
-
-        // default and if inactive - don't show dialogue canvas.
+        // Hide the dialogue canvas by default.
         if (dialogueCanvas) dialogueCanvas.SetActive(false);
     }
 
-    // runs only once - the first time the script is enabled and active in the scene.
-    private void Start()
-    {
-        // get the scene-specific controller.
-        if (SceneManager.GetActiveScene().name != "Initialization")
-            controller = FindFirstObjectByType<SceneFlowController>();
-    }
-
-    // if enabled - listen for clicks and changing of scenes.
+    /// <summary>
+    /// Called each time the object becomes enabled.
+    /// Enables input actions and registers listeners for UI input and scene load events.
+    /// </summary>
     private void OnEnable()
     {
+        // Enable UI input actions.
         inputActions.UI.Enable();
 
+        // Register input listeners.
         inputActions.UI.Click.performed += OnClickPerformed;
         inputActions.UI.Navigate.performed += OnNavigatePerformed;
 
+        // Register scene load listener.
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // If the scene was already loaded (and the controller is still null), assign it immediately.
+        if (!controller) controller = FindFirstObjectByType<SceneFlowController>();
     }
 
-    // if disabled - stop listening for clicks and changing of scenes.
+    /// <summary>
+    /// Called each time the object becomes disabled.
+    /// Unregisters input and scene load event listeners and disables input actions.
+    /// </summary>
     private void OnDisable()
     {
+        // Unregister input listeners.
         inputActions.UI.Click.performed -= OnClickPerformed;
         inputActions.UI.Navigate.performed -= OnNavigatePerformed;
 
+        // Disable UI input actions.
         inputActions.UI.Disable();
 
+        // Unregister scene load listener.
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // update the scene-specific controller if a scene was changed.
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        controller = FindFirstObjectByType<SceneFlowController>();
-    }
+    #endregion
+    #region Public Methods
 
-    // show dialogue by ID.
-    public void ShowDialogue(string dialogueId)
+    /// <summary>
+    /// Starts the dialogue sequence using the dialogue entry with the specified ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the dialogue entry to show.</param>
+    public void ShowDialogue(string id)
     {
-        DialogueEntry entry = DialogueDatabase.Instance.Get(dialogueId);
+        DialogueEntry entry = DialogueDatabase.Instance.Get(id);
 
-        // if dialogue with that id exist.
+        // If a dialogue entry with the given ID exists, show it.
+        // *If not, DialogueDatabase will log a warning.
         if (entry != null) ShowDialogue(entry);
-        else Debug.LogWarning($"[DialogueManager] Dialogue ID not found: {dialogueId}");
     }
 
-    // gets called when we have some dialogue to show.
+    #endregion
+    #region Private Methods (Core Logic)
+
+    /// <summary>
+    /// Begins displaying dialogue using the specified dialogue entry.
+    /// </summary>
+    /// <param name="entry">The dialogue entry containing the speaker, side, and lines of dialogue.</param>
     private void ShowDialogue(DialogueEntry entry)
     {
-        // safety check
+        // Safety check: ensure the entry and its lines are valid.
         if (entry == null || entry.lines == null || entry.lines.Count == 0)
         {
             Debug.LogWarning("[DialogueManager] Received null or empty DialogueEntry.");
             return;
         }
 
+
+        // Show the dialogue canvas if it exists.
         if (dialogueCanvas) dialogueCanvas.SetActive(true);
 
+        // Set up dialogue state.
         currentEntry = entry;
         currentLines = entry.lines;
         currentSpeaker = entry.speaker;
@@ -142,74 +159,120 @@ public class DialogueManager : MonoBehaviour
         isTyping = false;
         isFullyTyped = false;
 
-        DisplayNextLine();
+        /// Update the speaker's image and name based on the current dialogue entry.
+        UpdateDialogueSpeakers();
+
+        // Begin displaying the first dialogue line.
+        DisplayLine();
     }
 
-    // displays the current dialogue line.
-    private void DisplayNextLine()
+    /// <summary>
+    /// Displays the current dialogue line by starting the typewriter animation.
+    /// Also adjusts the dialogue UI based on the number of lines the text will occupy as well as speaker name, and speaker side.
+    /// </summary>
+    private void DisplayLine()
     {
+        // Calculate how many lines the current dialogue line will occupy and adjust the UI accordingly.
         currentLineCount = GetLineCount(currentLines[currentLineIndex]);
         AdjustDialogueUI();
 
-        dialogueText.text = "";
+        // Start the typewriter animation for the current line.
         typingCoroutine = StartCoroutine(TypeLine(currentLines[currentLineIndex]));
     }
 
-    // get how many lines on screen will the currentline need.
-    private int GetLineCount(string line)
+    /// <summary>
+    /// Handles advancing the dialogue. 
+    /// If the line is still typing, it instantly completes it. 
+    /// If the line is fully typed, it proceeds to the next line of dialgoue or ends the dialogue.
+    /// </summary>
+    private void AdvanceDialogue()
     {
-        dialogueText.text = line;
-        dialogueText.ForceMeshUpdate();
-        return dialogueText.textInfo.lineCount;
+        // If the current line is still typing, finish it instantly.
+        if (isTyping)
+        {
+            StopCoroutine(typingCoroutine);
+            dialogueText.text = currentLines[currentLineIndex];
+
+            isTyping = false;
+            isFullyTyped = true;
+
+            // Prevent rapid multiple advances.
+            StartCoroutine(AdvanceDialogueCooldown());
+            return;
+        }
+
+        // If the current line is fully displayed, move to the next one or end the dialogue.
+        if (isFullyTyped)
+        {
+            currentLineIndex++;
+
+            // If there are more lines to be shown.
+            if (currentLineIndex < currentLines.Count)
+                DisplayLine(); // Show the next line
+            else
+                EndDialogue(); // End the dialogue
+
+            // Prevent rapid multiple advances.
+            StartCoroutine(AdvanceDialogueCooldown());
+        }
     }
 
-    // adjust the dialogue UI based on the number of lines that will be on the screen. 
-    private void AdjustDialogueUI()
+    /// <summary>
+    /// Finalizes the dialogue sequence by hiding the dialogue UI, resetting the dialogue state, and notifying the current scene's controller that the dialogue has ended.
+    /// </summary>
+    private void EndDialogue()
     {
-        // safety check.
-        if (currentLineCount <= 0) return;
+        // Hide the dialogue UI.
+        dialogueCanvas.SetActive(false);
 
-        UpdateDialoguePanel();
-        UpdateDialogueSpeakers();
+        string id = currentEntry.id;
+
+        // Reset dialogue state.
+        currentEntry = null;
+        currentLines = null;
+
+        // Notify the scene controller that the dialogue has finished.
+        if (controller)
+        {
+            Debug.Log($"[DialogueManager] Calling {controller.name}.OnDialogueComplete({id})");
+            controller.OnDialogueComplete(id);
+        }
+        else Debug.Log($"[DialogueManager] Controller is null.)");
     }
 
-    private void UpdateDialoguePanel()
-    {
-        // base and new size for the dialogue UI panel.
-        float UIBaseHeight = 72f;
-        float UInewHeight = UIBaseHeight * currentLineCount;
-        // update the size of dialogue UI panel.
-        panelTransform.sizeDelta = new Vector2(panelTransform.sizeDelta.x, UInewHeight);
+    #endregion
+    #region Private Methods (UI Updates)
 
-        // base and new padding values of the dialogue text that is showing inside the panel.
-        float constPadding = 100f;
-        float newPadding = 18f + ((currentLineCount - 1) * 12f);
-        // update the size and padding of the dialogue text.
-        textTransform.sizeDelta = new Vector2(textTransform.sizeDelta.x, UInewHeight);
-        dialogueText.margin = new Vector4(constPadding, newPadding, constPadding, newPadding);
-    }
-
+    /// <summary>
+    /// Updates speaker visibility, image, name, side, and position based on the entry data,
+    /// </summary>
     private void UpdateDialogueSpeakers()
     {
-        // hide both by default.
+        // Hide both speakers by default.
         leftSpeaker.SetActive(false);
         rightSpeaker.SetActive(false);
 
+        // Show and update the left speaker if active.
         if (currentSpeakerSide == "left")
         {
             leftSpeaker.SetActive(true);
             leftSpeakerImage.sprite = LoadSpeakerSprite();
             leftSpeakerText.text = UpdateSpeakerText();
         }
+
+        // Show and update the right speaker if active.
         if (currentSpeakerSide == "right")
         {
             rightSpeaker.SetActive(true);
             rightSpeakerImage.sprite = LoadSpeakerSprite();
             rightSpeakerText.text = UpdateSpeakerText();
         }
-        UpdateSpeakerPosition();
     }
 
+    /// <summary>
+    /// Loads the speaker's portrait sprite from the Resources folder based on the current speaker's name.
+    /// </summary>
+    /// <returns>The speaker's portrait sprite, or <c>null</c> if not found.</returns>
     private Sprite LoadSpeakerSprite()
     {
         Sprite sprite = Resources.Load<Sprite>($"Sprites/Characters/{currentSpeaker}");
@@ -219,11 +282,16 @@ public class DialogueManager : MonoBehaviour
         return sprite;
     }
 
+    /// <summary>
+    /// Determines the display name of the current speaker based on the speaker's ID.
+    /// </summary>
+    /// <returns> A more user-friendly name if a match is found; otherwise - the raw speaker ID.</returns>
     private string UpdateSpeakerText()
     {
         string speakerName = "";
 
-        // currentSpeaker could be detective_init, detective_happy, detective_angry, etc.
+        // Map specific speaker IDs to display names.
+        // Example: currentSpeaker could be "detective_init", "detective_happy", "detective_angry", etc.
         if (currentSpeaker.Contains("detective")) speakerName = "Tobiáš";
         else if (currentSpeaker == "letterman") speakerName = "???";
         else if (currentSpeaker == "aunt_unknown") speakerName = "Růžena Nováková";
@@ -232,19 +300,77 @@ public class DialogueManager : MonoBehaviour
         return string.IsNullOrEmpty(speakerName) ? currentSpeaker : speakerName;
     }
 
+    /// <summary>
+    /// Adjusts the dialogue UI layout based on the number of visible lines.
+    /// </summary>
+    private void AdjustDialogueUI()
+    {
+        // Safety check: do nothing if there are no lines to display.
+        if (currentLineCount <= 0) return;
+
+        UpdateDialoguePanel();
+        UpdateSpeakerPosition();
+    }
+
+    /// <summary>
+    /// Updates the dialogue panel's size and text padding based on the current line count.
+    /// </summary>
+    private void UpdateDialoguePanel()
+    {
+        // Calculate the new height of the dialogue panel based on line count.
+        float baseHeight = 72f;
+        float newHeight = baseHeight * currentLineCount;
+
+        // Apply the new size to the panel.
+        panelTransform.sizeDelta = new Vector2(panelTransform.sizeDelta.x, newHeight);
+
+        // Calculate text padding based on line count.
+        float constPadding = 100f;
+        float newPadding = 18f + ((currentLineCount - 1) * 12f);
+
+        // Apply the new size and padding to the text container.
+        textTransform.sizeDelta = new Vector2(textTransform.sizeDelta.x, newHeight);
+        dialogueText.margin = new Vector4(constPadding, newPadding, constPadding, newPadding);
+    }
+
+    /// <summary>
+    /// Updates the position of the active speaker based on their side and adjusts the vertical Y position according to the current dialogue line count.
+    /// </summary>
     private void UpdateSpeakerPosition()
     {
-        // the (constant) X and (old and new) Y coordinates of the speaker.
+        // Define the constant X and base Y positions and calculate the adjusted Y position.
         float constXSpeaker = 175f;
         float baseYSpeaker = 85f;
         float newYSpeaker = baseYSpeaker + ((currentLineCount - 1) * 68f);
 
-        // update the location of the speaker.
+        // Update the position of the active speaker based on their side.
         if (currentSpeakerSide == "left") leftSpeakerTransform.anchoredPosition = new Vector3(constXSpeaker, newYSpeaker, 0f);
         if (currentSpeakerSide == "right") rightSpeakerTransform.anchoredPosition = new Vector3(-constXSpeaker, newYSpeaker, 0f);
     }
 
-    // typing animation for the dialogue text.
+    /// <summary>
+    /// Calculates how many lines the given dialogue text will occupy on screen.
+    /// </summary>
+    /// <param name="line">The dialogue text to measure.</param>
+    /// <returns>The number of visible lines it will occupy.</returns>
+    private int GetLineCount(string line)
+    {
+        dialogueText.text = line;
+
+        // Force a mesh update to get an accurate line count info.
+        dialogueText.ForceMeshUpdate();
+
+        return dialogueText.textInfo.lineCount;
+    }
+
+    #endregion
+    #region Coroutines
+
+    /// <summary>
+    /// Coroutine that simulates a typewriter effect by displaying the dialogue text character by character.
+    /// </summary>
+    /// <param name="line">The dialogue line to display with the typing animation.</param>
+    /// <returns>An enumerator for the coroutine execution.</returns>
     private IEnumerator TypeLine(string line)
     {
         isTyping = true;
@@ -252,7 +378,7 @@ public class DialogueManager : MonoBehaviour
 
         dialogueText.text = "";
 
-        // simulate the "animation" by showing each character one after another with a "delay".
+        // Display each character one by one with a short delay to create a typewriter effect.
         foreach (char c in line)
         {
             dialogueText.text += c;
@@ -263,98 +389,91 @@ public class DialogueManager : MonoBehaviour
         isFullyTyped = true;
     }
 
-    // depending on the state of the dialogue, clicks perform different actions.
+    /// <summary>
+    /// Coroutine that temporarily blocks dialogue advancement to prevent accidental multi-clicks or fast skipping.
+    /// </summary>
+    /// <returns>An enumerator for the coroutine execution.</returns>
+    private IEnumerator AdvanceDialogueCooldown()
+    {
+        advanceBlocked = true;
+        // Wait for 0.3 seconds before allowing dialogue advancement again.
+        yield return new WaitForSeconds(0.3f);
+        advanceBlocked = false;
+    }
+
+    #endregion
+    #region Event Handlers / Callbacks
+
+    /// <summary>
+    /// Handles click input during dialogue. 
+    /// Depending on the current state, either finishes typing the current line or advances the dialogue.
+    /// </summary>
+    /// <param name="context">The input action context for the click event.</param>
+
     private void OnClickPerformed(InputAction.CallbackContext context)
     {
-        // if advance attempt is blocked or it is not possible to currently advance dialogue.
+        // Block input if advancement is currently disabled or the click is not valid.
         if (advanceBlocked || !IsValidClick(context)) return;
 
         AdvanceDialogue();
     }
 
-    // same as OnClickPerformed but for spacebar.
+    /// <summary>
+    /// Handles spacebar (navigate) input during dialogue. 
+    /// Functions the same as <see cref="OnClickPerformed"/> but is triggered by the navigate action.
+    /// </summary>
+    /// <param name="context">The input action context for the navigate event.</param>
+
     private void OnNavigatePerformed(InputAction.CallbackContext context)
     {
+        // Block input if advancement is currently disabled or dialogue cannot be advanced.
         if (advanceBlocked || !CanAdvanceDialogue()) return;
 
         AdvanceDialogue();
     }
 
+    /// <summary>
+    /// Called when a new scene is loaded. Updates the reference to the scene-specific <see cref="SceneFlowController"/>.
+    /// </summary>
+    /// <param name="scene">The scene that was loaded.</param>
+    /// <param name="mode">The scene loading mode.</param>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Find and update the reference to the scene's controller.
+        controller = FindFirstObjectByType<SceneFlowController>();
+    }
+
+    #endregion
+    #region Helper Methods (Validation / Checks)
+
+    /// <summary>
+    /// Determines whether a click input is valid for advancing the dialogue.
+    /// A click is valid only if dialogue can be advanced and the click occurred inside the dialogue panel.
+    /// </summary>
+    /// <param name="context">The input action context for the click event.</param>
+    /// <returns><c>true</c> if the click is valid for advancing the dialogue; otherwise, <c>false</c>.</returns>
     private bool IsValidClick(InputAction.CallbackContext context)
     {
         if (!CanAdvanceDialogue()) return false;
 
-        // only accept clicks inside the dialogue panel
+        // Only accept clicks that occur inside the dialogue panel.
         Vector2 clickPos = Mouse.current.position.ReadValue();
         return RectTransformUtility.RectangleContainsScreenPoint(panelTransform, clickPos);
     }
 
+    /// <summary>
+    /// Determines whether the dialogue can currently be advanced.
+    /// Checks if there is an active dialogue, lines remaining, and that no popup is blocking the input.
+    /// </summary>
+    /// <returns><c>true</c> if the dialogue can be advanced; otherwise, <c>false</c>.</returns>
     private bool CanAdvanceDialogue()
     {
-        // disable input if popup is open.
+        // Block input if any popup is currently open.
         if (UIManager.Instance != null && UIManager.Instance.IsPopupOpen()) return false;
 
-        // safety check.
+        // Safety check: allow advancing only if there are lines remaining and the dialogue UI is active.
         return currentLines != null && currentLines.Count > 0 && dialogueCanvas.activeSelf;
     }
 
-    private void AdvanceDialogue()
-    {
-        // if the text is typing when we try to advance.
-        if (isTyping)
-        {
-            // stop the typing animation.
-            StopCoroutine(typingCoroutine);
-            // show the full text.
-            dialogueText.text = currentLines[currentLineIndex];
-
-            isTyping = false;
-            isFullyTyped = true;
-
-            // since we registered the advance attempt - block the next ones.
-            StartCoroutine(AdvanceDialogueCooldown());
-            return;
-        }
-
-        // if the text is shown fully.
-        if (isFullyTyped)
-        {
-            currentLineIndex++;
-
-            // if there are more lines to be shown -> show the next one.
-            if (currentLineIndex < currentLines.Count) DisplayNextLine();
-            else EndDialogue();
-
-            // advance attempt registered -> block next ones.
-            StartCoroutine(AdvanceDialogueCooldown());
-        }
-    }
-
-    // prevention against accidental multi-clicks and fast dialogue skipping.
-    private IEnumerator AdvanceDialogueCooldown()
-    {
-        advanceBlocked = true;
-        // 0.3 second delay.
-        yield return new WaitForSeconds(0.3f);
-        advanceBlocked = false;
-    }
-
-    // gets called at the end of a dialogue to reset values.
-    private void EndDialogue()
-    {
-        dialogueCanvas.SetActive(false);
-
-        string id = currentEntry.id;
-
-        currentEntry = null;
-        currentLines = null;
-
-        if (controller)
-        {
-            Debug.Log($"[DialogueManager] Calling {controller.name}.OnDialogueComplete({id})");
-            controller.OnDialogueComplete(id);
-        }
-        else Debug.Log($"[DialogueManager] Controller is null.)");
-    }
-
+    #endregion
 }
