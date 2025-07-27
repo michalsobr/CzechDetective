@@ -36,16 +36,8 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         gameStateCopy = state;
 
-        if (state == null)
-        {
-            hasSave = false;
-            SetEmptySlot(slotNumber);
-        }
-        else
-        {
-            hasSave = true;
-            SetFilledSlot(slotNumber);
-        }
+        if (state == null) SetEmptySlot(slotNumber);
+        else SetFilledSlot(slotNumber);
     }
 
     /// <summary>
@@ -54,6 +46,8 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
     /// <param name="saveSlot">The slot number to display.</param>
     public void SetEmptySlot(int saveSlot)
     {
+        hasSave = false;
+
         if (sceneImage)
         {
             sceneImage.sprite = null;
@@ -72,6 +66,8 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
     /// <param name="saveSlot">The slot number to display.</param>
     public void SetFilledSlot(int saveSlot)
     {
+        hasSave = true;
+
         if (sceneImage)
         {
             Sprite sceneSprite = Resources.Load<Sprite>($"Sprites/Enviroments/{gameStateCopy.currentScene}");
