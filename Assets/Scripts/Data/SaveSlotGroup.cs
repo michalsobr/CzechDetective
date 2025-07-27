@@ -32,10 +32,4 @@ public class SaveSlotGroup
     /// The button component for the delete button.
     /// </summary>
     public Button deleteButton;
-
-    /// <summary>
-    /// Indicates whether the slot button has been clicked.
-    /// Used to track user interaction state at runtime.
-    /// </summary>
-    [HideInInspector] public bool isButtonClicked;
 }
