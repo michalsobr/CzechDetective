@@ -2,36 +2,52 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Handles the transition from the Initialization scene to the appropriate gameplay scene.
+/// Ensures that required managers are present and loads the correct scene based on the current game state.
+/// </summary>
 public class InitializationController : MonoBehaviour
 {
-    // default scene used for both new or loaded games.
-    public static string SceneToLoad = "Base";
+    #region Unity Lifecycle Methods
 
-    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
-        /// <summary>
-    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// <summary>
+    /// Called when the script instance is loaded (even if the GameObject is inactive).
+    /// Ensures that required managers exist and starts loading the target scene.
     /// </summary>
     private void Awake()
     {
+        // Instantiate managers, if they are not already present in the scene.
+        if (FindFirstObjectByType<GameManager>() == null)
+            Instantiate(Resources.Load("Prefabs/GameManager"));
+
+        if (FindFirstObjectByType<SaveManager>() == null)
+            Instantiate(Resources.Load("Prefabs/SaveManager"));
+
         if (FindFirstObjectByType<UIManager>() == null)
             Instantiate(Resources.Load("Prefabs/UIManager"));
 
         if (FindFirstObjectByType<DialogueManager>() == null)
             Instantiate(Resources.Load("Prefabs/DialogueManager"));
 
+        // Begin scene loading.
         StartCoroutine(LoadTargetScene());
     }
 
-    // changes scenes based on if a new game was started or a game was loaded.
+    #endregion
+    #region Coroutines
+
+    /// <summary>
+    /// Loads the appropriate scene based on the current game state.
+    /// </summary>
     private IEnumerator LoadTargetScene()
     {
-        // delay execution by one frame (to make sure everything from Awake() has been fully initialized).
+        // Wait one frame to ensure managers created in Awake() are fully initialized.
         yield return null;
 
-        // if the game was loaded.
-        if (GameManager.Instance.CurrentState != null) SceneToLoad = GameManager.Instance.CurrentState.currentScene;
+        Debug.Log($"[InitializationController] Loading scene: {GameManager.Instance.CurrentState.currentScene}");
 
-        // SceneToLoad will remain default "Base" if "New Game" was chose OR will be replaced with the value from the loaded save file.
-        SceneManager.LoadScene(SceneToLoad);
+        SceneManager.LoadScene(GameManager.Instance.CurrentState.currentScene);
     }
+
+    #endregion
 }
