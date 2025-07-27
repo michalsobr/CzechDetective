@@ -92,7 +92,7 @@ public class ButtonVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExi
     }
 
     #endregion
-    #region Event Handlers
+    #region Event Handlers / Callbacks
 
     /// <summary>
     /// Called when the pointer enters the button area. Marks the button as hovered and updates its visual state.
@@ -101,6 +101,7 @@ public class ButtonVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerEnter(PointerEventData eventData)
     {
         isHovering = true;
+
         if (nameInputField) UpdateNamePromptButtonVisual();
         else ShowPressedButton();
     }
@@ -112,6 +113,7 @@ public class ButtonVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovering = false;
+        
         if (nameInputField) UpdateNamePromptButtonVisual();
         else ShowUnpressedButton();
     }
