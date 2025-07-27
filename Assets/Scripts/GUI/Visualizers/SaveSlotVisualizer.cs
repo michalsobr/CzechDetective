@@ -30,21 +30,21 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
     /// <summary>
     /// Sets the visual data for this slot based on whether a game state exists.
     /// </summary>
-    /// <param name="slotNumber">The slot number to display.</param>
+    /// <param name="saveSlotNumber">The save slot index to display.</param>
     /// <param name="state">The game state to associate with this slot, or <c>null</c> if empty.</param>
-    public void SetSlotData(int slotNumber, GameState state)
+    public void SetSlotData(int saveSlotNumber, GameState state)
     {
         gameStateCopy = state;
 
-        if (state == null) SetEmptySlot(slotNumber);
-        else SetFilledSlot(slotNumber);
+        if (state == null) SetEmptySlot(saveSlotNumber);
+        else SetFilledSlot(saveSlotNumber);
     }
 
     /// <summary>
     /// Updates the slot visuals to represent an empty save slot.
     /// </summary>
-    /// <param name="saveSlot">The slot number to display.</param>
-    public void SetEmptySlot(int saveSlot)
+    /// <param name="saveSlotNumber">The save slot number to display.</param>
+    public void SetEmptySlot(int saveSlotNumber)
     {
         hasSave = false;
 
@@ -55,7 +55,7 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
 
         if (playerText) playerText.text = "<EMPTY>";
-        if (slotText) slotText.text = saveSlot.ToString();
+        if (slotText) slotText.text = saveSlotNumber.ToString();
         if (timeText) timeText.text = "-/-/- -:-";
     }
 
@@ -63,8 +63,8 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
     /// Updates the slot visuals to represent a filled save slot.
     /// Loads the appropriate scene sprite and displays player name, slot number, and save time.
     /// </summary>
-    /// <param name="saveSlot">The slot number to display.</param>
-    public void SetFilledSlot(int saveSlot)
+    /// <param name="saveSlotNumber">The save slot index to display.</param>
+    public void SetFilledSlot(int saveSlotNumber)
     {
         hasSave = true;
 
@@ -76,7 +76,7 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
 
         if (playerText) playerText.text = gameStateCopy.playerName;
-        if (slotText) slotText.text = saveSlot.ToString();
+        if (slotText) slotText.text = saveSlotNumber.ToString();
         if (timeText) timeText.text = gameStateCopy.lastSavedTime;
     }
 

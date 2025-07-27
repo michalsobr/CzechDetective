@@ -28,7 +28,7 @@ public class LoadGameCanvas : MonoBehaviour
     [SerializeField] private List<SaveSlotGroup> saveSlotGroups = new();
 
     /// <summary>
-    /// The currently active page index (0 = slots 1–4, 1 = slots 5–8).
+    /// The currently active page index (0 = save slots 1–4, 1 = save slots 5–8).
     /// </summary>
     private int currentPage = 0;
 
@@ -48,12 +48,12 @@ public class LoadGameCanvas : MonoBehaviour
 
         foreach (var group in saveSlotGroups)
         {
-            int saveSlotNumber = slotNumber;
+            int uiSlotNumber = slotNumber;
 
             group.slotButton.onClick.AddListener(() =>
-                OnNoticePanelOpen(true, saveSlotNumber, group.slotVisualizer.gameStateCopy));
+                OnNoticePanelOpen(true, uiSlotNumber, group.slotVisualizer.gameStateCopy));
             group.deleteButton.onClick.AddListener(() =>
-                OnNoticePanelOpen(false, saveSlotNumber, group.slotVisualizer.gameStateCopy));
+                OnNoticePanelOpen(false, uiSlotNumber, group.slotVisualizer.gameStateCopy));
 
             // Hide delete button by default.
             group.deleteSlotButton.SetActive(false);
@@ -90,7 +90,7 @@ public class LoadGameCanvas : MonoBehaviour
     }
 
     /// <summary>
-    /// Shows the Load Game panel, resets to the first page, and refreshes all save slots.
+    /// Shows the Load Game panel, resets to the first page, and refreshes all slots.
     /// </summary>
     public void ShowLoadGamePanel()
     {
@@ -110,27 +110,27 @@ public class LoadGameCanvas : MonoBehaviour
     }
 
     /// <summary>
-    /// Refreshes all visible save slots for the current page.
+    /// Refreshes all visible slots for the current page.
     /// </summary>
     public void RefreshAllSlots()
     {
-        int slotNumber = (currentPage * 4) + 1;
+        int saveSlotNumber = (currentPage * 4) + 1;
 
         foreach (var group in saveSlotGroups)
         {
-            // Load the GameState for the current slot.
-            GameState state = SaveManager.Instance.Load(slotNumber);
+            // Load the GameState for the current save slot.
+            GameState state = SaveManager.Instance.Load(saveSlotNumber);
 
-            // Update the visual data for the slot based on the loaded state.
-            group.slotVisualizer.SetSlotData(slotNumber, state);
+            // Update the visual data for the save slot based on the loaded state.
+            group.slotVisualizer.SetSlotData(saveSlotNumber, state);
 
             bool hasSave = group.slotVisualizer.hasSave;
 
-            // Enable or disable interaction based on if a save exists in this slot.
+            // Enable or disable interaction based on if a save exists in this save slot.
             group.slotButton.interactable = hasSave;
             group.deleteSlotButton.SetActive(hasSave);
 
-            slotNumber++;
+            saveSlotNumber++;
         }
     }
 
@@ -173,12 +173,12 @@ public class LoadGameCanvas : MonoBehaviour
     /// Opens the confirmation panel for loading or deleting a save file.
     /// </summary>
     /// <param name="isLoadAttempted"><c>true</c> if loading is attempted; <c>false</c> if deleting is attempted.</param>
-    /// <param name="saveSlot">The save slot index.</param>
-    /// <param name="state">The associated <see cref="GameState"/> for this slot.</param>
-    private void OnNoticePanelOpen(bool isLoadAttempted, int saveSlot, GameState state)
+    /// <param name="uiSlotNumber">The UI slot index.</param>
+    /// <param name="state">The associated <see cref="GameState"/> for this save slot.</param>
+    private void OnNoticePanelOpen(bool isLoadAttempted, int uiSlotNumber, GameState state)
     {
         HideLoadGamePanel();
-        noticePanel.ShowNoticePopup(isLoadAttempted, (currentPage * 4) + saveSlot, state);
+        noticePanel.ShowNoticePopup(isLoadAttempted, (currentPage * 4) + uiSlotNumber, state);
     }
 
     /// <summary>
