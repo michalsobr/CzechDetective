@@ -51,14 +51,13 @@ public class GameState
     /// Creates a new <see cref="GameState"/> instance for a new game, initializing it with the player name, starting scene, and current timestamp.
     /// </summary>
     /// <param name="playerName">The name of the player starting a new game.</param>
-    /// <param name="startScene">The starting scene of the game.</param>
     /// <returns>A new initialized <see cref="GameState"/>.</returns>
-    public static GameState NewGame(string playerName, string startScene)
+    public static GameState NewGame(string playerName)
     {
         return new GameState
         {
             playerName = playerName,
-            currentScene = startScene,
+            currentScene = "Base",
             lastSavedTime = DateTime.Now.ToString("d/M/yy HH:mm")
         };
     }

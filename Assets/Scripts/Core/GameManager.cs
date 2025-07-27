@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public void CreateNewGame(string playerName)
     {
         ClearGame();
-        CurrentState = GameState.NewGame(playerName, SceneManager.GetActiveScene().name);
+        CurrentState = GameState.NewGame(playerName);
     }
 
     /// <summary>
