@@ -39,7 +39,7 @@ public class LoadGameCanvas : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        if (closeButton) closeButton.onClick.AddListener(HideLoadGame);
+        if (closeButton) closeButton.onClick.AddListener(HideCanvas);
         if (navigationButton) navigationButton.onClick.AddListener(TogglePage);
 
         int slotNumber = 1;
@@ -77,16 +77,16 @@ public class LoadGameCanvas : MonoBehaviour
     /// <summary>
     /// Shows the Load Game canvas (and the Load Game panel, if disabled).
     /// </summary>
-    public void ShowLoadGame()
+    public void ShowCanvas()
     {
         gameObject.SetActive(true);
-        ShowLoadGamePanel();
+        Show();
     }
 
     /// <summary>
     /// Hides the Load Game canvas and re-enables the main menu buttons.
     /// </summary>
-    public void HideLoadGame()
+    public void HideCanvas()
     {
         gameObject.SetActive(false);
         mainMenuController.SetButtonInteractability(true);
@@ -95,7 +95,7 @@ public class LoadGameCanvas : MonoBehaviour
     /// <summary>
     /// Shows the Load Game panel, resets to the first page, and refreshes all slots.
     /// </summary>
-    public void ShowLoadGamePanel()
+    public void Show()
     {
         loadGamePanel.SetActive(true);
 
@@ -107,7 +107,7 @@ public class LoadGameCanvas : MonoBehaviour
     /// <summary>
     /// Hides the Load Game panel.
     /// </summary>
-    public void HideLoadGamePanel()
+    public void Hide()
     {
         loadGamePanel.SetActive(false);
     }
@@ -169,7 +169,7 @@ public class LoadGameCanvas : MonoBehaviour
     /// <param name="state">The associated <see cref="GameState"/> for this save slot.</param>
     private void OnNoticePanelOpen(bool isLoadAttempted, int uiSlotNumber, GameState state)
     {
-        HideLoadGamePanel();
+        Hide();
         noticePanel.ShowNoticePopup(isLoadAttempted, (currentPage * 4) + uiSlotNumber, state);
     }
 
@@ -178,7 +178,7 @@ public class LoadGameCanvas : MonoBehaviour
     /// </summary>
     public void OnNoticePanelClosed()
     {
-        ShowLoadGamePanel();
+        Show();
     }
 
     #endregion
