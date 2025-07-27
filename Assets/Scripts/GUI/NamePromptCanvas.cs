@@ -43,7 +43,6 @@ public class NamePromptCanvas : MonoBehaviour
     #endregion
     #region Public Methods
 
-
     /// <summary>
     /// Displays the name prompt panel and focuses the input field for typing.
     /// </summary>
@@ -68,7 +67,6 @@ public class NamePromptCanvas : MonoBehaviour
 
     #endregion
     #region Coroutines
-
 
     /// <summary>
     /// Plays a shake animation on the input field to indicate invalid input.
