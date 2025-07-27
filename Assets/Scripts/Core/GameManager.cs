@@ -4,7 +4,9 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Manages the overall game state and provides a centralized interface for creating, loading, saving, and clearing game data. 
 /// Implements a singleton pattern and persists across scenes.
-/// /// </summary>
+/// Runs before other scripts by default.
+/// </summary>
+[DefaultExecutionOrder(-100)]
 public class GameManager : MonoBehaviour
 {
     #region Fields

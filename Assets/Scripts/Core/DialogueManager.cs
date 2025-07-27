@@ -10,7 +10,9 @@ using UnityEngine.UI;
 /// Manages the display and progression of dialogue sequences in the game.
 /// Handles loading and showing dialogue lines, controlling speaker portraits and names, and processing input to advance or skip dialogue using a typewriter effect.
 /// Implements a singleton pattern and persists across scenes.
+/// Runs before other scripts by default.
 /// </summary>
+[DefaultExecutionOrder(-100)]
 public class DialogueManager : MonoBehaviour
 {
     #region Fields

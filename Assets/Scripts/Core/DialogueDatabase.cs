@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Centralized manager for loading and storing dialogue entries for the current scene.
 /// Uses a singleton pattern and loads scene-specific dialogue data from JSON files in the Resources folder.
+/// Runs before other scripts by default.
 /// </summary>
+[DefaultExecutionOrder(-100)]
 public class DialogueDatabase : MonoBehaviour
 {
     #region Fields
