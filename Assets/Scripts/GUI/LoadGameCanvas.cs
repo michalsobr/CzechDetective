@@ -10,10 +10,8 @@ public class LoadGameCanvas : MonoBehaviour
 {
     #region Fields
 
-    [Header("Main Menu Buttons")]
-    [SerializeField] private MainMenuController startText;
-    [SerializeField] private MainMenuController loadText;
-    [SerializeField] private MainMenuController exitText;
+    [Header("UI References")]
+    [SerializeField] private MainMenuController mainMenuController;
 
     [Header("Popup Elements")]
     [SerializeField] private GameObject loadGamePanel;
@@ -48,6 +46,14 @@ public class LoadGameCanvas : MonoBehaviour
 
         foreach (var group in saveSlotGroups)
         {
+            // Safety check: validate that all required references for this SaveSlotGroup are assigned.
+            // If any reference is missing, log a warning and abort the entire setup to avoid null reference errors.
+            if (group == null || group.slotButton == null || group.deleteButton == null || group.deleteSlotButton == null || group.slotVisualizer == null)
+            {
+                Debug.LogWarning("[LoadGameCanvas] One or more SaveSlotGroup references are missing. Aborting setup.");
+                return; // Abort setup.
+            }
+
             int uiSlotNumber = slotNumber;
 
             group.slotButton.onClick.AddListener(() =>
@@ -69,12 +75,10 @@ public class LoadGameCanvas : MonoBehaviour
     #region Public Methods
 
     /// <summary>
-    /// Shows the Load Game canvas (and the Load Game panel, if disabled) and disables the main menu buttons.
+    /// Shows the Load Game canvas (and the Load Game panel, if disabled).
     /// </summary>
     public void ShowLoadGame()
     {
-        SetMainMenuInteractable(false);
-
         gameObject.SetActive(true);
         ShowLoadGamePanel();
     }
@@ -85,8 +89,7 @@ public class LoadGameCanvas : MonoBehaviour
     public void HideLoadGame()
     {
         gameObject.SetActive(false);
-
-        SetMainMenuInteractable(true);
+        mainMenuController.SetButtonInteractability(true);
     }
 
     /// <summary>
@@ -153,17 +156,6 @@ public class LoadGameCanvas : MonoBehaviour
     private void UpdateNavigation()
     {
         if (navigationButtonImage) navigationButtonImage.sprite = currentPage == 0 ? downIcon : upIcon;
-    }
-
-    /// <summary>
-    /// Sets the interactability of the main menu buttons.
-    /// </summary>
-    /// <param name="state"><c>true</c> to enable buttons; <c>false</c> to disable them.</param>
-    private void SetMainMenuInteractable(bool state)
-    {
-        if (startText) startText.interactable = state;
-        if (loadText) loadText.interactable = state;
-        if (exitText) exitText.interactable = state;
     }
 
     #endregion

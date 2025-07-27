@@ -49,16 +49,22 @@ public class UIManager : MonoBehaviour
         // Hide all popup canvases by default and register button click listeners.
         foreach (var group in buttonGroups)
         {
-            if (group.button && group.canvas && group.popupScript)
+            // Safety check: validate that all required references for this UIButtonGroup are assigned.
+            // If any reference is missing, log a warning and abort the entire setup to avoid null reference errors.
+            if (group == null || group.button == null || group.canvas == null || group.popupScript == null)
             {
-                group.canvas.SetActive(false); // Ensure canvases start hidden.
-
-                group.button.onClick.AddListener(() => ShowPopupCanvas(group));
+                Debug.LogWarning("[UIManager] One or more UIButtonGroup references are missing. Aborting setup.");
+                return; // Abort setup.
             }
+
+            group.canvas.SetActive(false); // Ensure canvases start hidden.
+
+            group.button.onClick.AddListener(() => ShowPopupCanvas(group));
+
         }
 
         // Register highlight button listener, if assigned.
-        highlightButton?.onClick.AddListener(HighlightInteractables);
+        if (highlightButton) highlightButton.onClick.AddListener(HighlightInteractables);
 
         // Apply the initial interactability state to all UI buttons.
         SetInteractable(isInteractable);
