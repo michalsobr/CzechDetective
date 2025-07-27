@@ -89,7 +89,7 @@ public class LoadGameCanvas : MonoBehaviour
     public void HideCanvas()
     {
         gameObject.SetActive(false);
-        mainMenuController.SetButtonInteractability(true);
+        if (mainMenuController) mainMenuController.SetButtonInteractability(true);
     }
 
     /// <summary>
