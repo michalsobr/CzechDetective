@@ -23,6 +23,7 @@ public class SceneFlowController : MonoBehaviour
     {
         // Instantiate required core managers if the Initialization scene was skipped.
 #if UNITY_EDITOR
+        InstantiateIfMissing<EventSystemDDOL>("Prefabs/EventSystemDDOL");
         InstantiateIfMissing<GameManager>("Prefabs/GameManager");
         InstantiateIfMissing<SaveManager>("Prefabs/SaveManager");
         InstantiateIfMissing<UIManager>("Prefabs/UIManager");

@@ -17,6 +17,9 @@ public class InitializationController : MonoBehaviour
     private void Awake()
     {
         // Instantiate managers, if they are not already present in the scene.
+        if (FindFirstObjectByType<EventSystemDDOL>() == null)
+            Instantiate(Resources.Load("Prefabs/EventSystemDDOL"));
+
         if (FindFirstObjectByType<GameManager>() == null)
             Instantiate(Resources.Load("Prefabs/GameManager"));
 

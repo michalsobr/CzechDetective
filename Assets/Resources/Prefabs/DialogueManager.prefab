@@ -441,7 +441,13 @@ MonoBehaviour:
   dialogueText: {fileID: 5629438446680576015}
   textTransform: {fileID: 5424001785398057357}
   leftSpeaker: {fileID: 2696928969097778696}
+  leftSpeakerTransform: {fileID: 7947932150919475389}
+  leftSpeakerImage: {fileID: 2893596946159640951}
+  leftSpeakerText: {fileID: 125815232463663848}
   rightSpeaker: {fileID: 2265894827957802918}
+  rightSpeakerTransform: {fileID: 2350048813255845422}
+  rightSpeakerImage: {fileID: 4177334000039042596}
+  rightSpeakerText: {fileID: 978782148817841315}
   typingSpeed: 0.01
 --- !u!1 &7571120008846711607
 GameObject:
