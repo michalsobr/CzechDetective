@@ -28,18 +28,20 @@ public class ButtonVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     /// <summary>
     /// Called when the script instance is loaded (even if the GameObject is inactive).
-    /// Registers listeners for the input field, if assigned, and updates the button's default visual state.
+    /// Registers listeners for the input field, if assigned.
     /// </summary>
     private void Awake()
     {
-        // Register a listener if the input field is assigned.
-        // Apply the default visual state for the button.
-        if (nameInputField)
-        {
-            nameInputField.onValueChanged.AddListener(OnInputChanged);
+        if (nameInputField) nameInputField.onValueChanged.AddListener(OnInputChanged);
+    }
 
-            ShowPressedButton();
-        }
+    /// <summary>
+    /// Called each time the object becomes enabled. 
+    /// Sets the initial button state based on whether an input field is assigned.
+    /// </summary>
+    private void OnEnable()
+    {
+        if (nameInputField) ShowPressedButton();
         else ShowUnpressedButton();
     }
 
@@ -113,7 +115,7 @@ public class ButtonVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovering = false;
-        
+
         if (nameInputField) UpdateNamePromptButtonVisual();
         else ShowUnpressedButton();
     }

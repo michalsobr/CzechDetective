@@ -53,13 +53,15 @@ public class MainMenuController : MonoBehaviour
 
     /// <summary>
     /// Handles the "New Game" button click.
-    /// Disables all main menu buttons, shows the name prompt panel, and subscribes to the callback that will create and load the new game once the player confirms their name.
+    /// Disables all main menu buttons, shows the name prompt panel, resets the start button visual to its default state, and subscribes to the callback that will create and load the new game once the player confirms their name.
     /// </summary>
     private void OnStartClicked()
     {
         if (namePromptCanvas)
         {
             SetButtonInteractability(false);
+            if (startVisualizer) startVisualizer.DisableGradient();
+
             namePromptCanvas.Show();
 
             // Clear any previous callbacks to prevent duplicate subscriptions
@@ -69,14 +71,14 @@ public class MainMenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Disables all menu buttons, shows the load game popup, and resets the load button visual to its default state.
+    /// Disables all main menu buttons, shows the load game popup, and resets the load button visual to its default state.
     /// </summary>
     private void OnLoadClicked()
     {
         SetButtonInteractability(false);
+        if (loadVisualizer) loadVisualizer.DisableGradient();
 
         if (loadGameCanvas) loadGameCanvas.ShowCanvas();
-        if (loadVisualizer) loadVisualizer.DisableGradient();
     }
 
     /// <summary>

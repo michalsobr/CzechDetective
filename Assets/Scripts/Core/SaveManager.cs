@@ -74,8 +74,11 @@ public class SaveManager : MonoBehaviour
     {
         // Update the last save time, current scene, and save slot.
         state.lastSavedTime = System.DateTime.Now.ToString("d/M/yy HH:mm");
-        state.currentScene = SceneManager.GetActiveScene().name;
         state.currentSaveSlot = slotNum;
+
+        // Only update the current scene if this is not the initial save from the main menu.
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+            state.currentScene = SceneManager.GetActiveScene().name;
 
         // Convert the GameState object to a JSON string.
         string json = JsonUtility.ToJson(state, true);

@@ -28,12 +28,12 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Dialogue Speakers")]
     [SerializeField] private GameObject leftSpeaker;
-    [SerializeField] private GameObject rightSpeaker;
     [SerializeField] private RectTransform leftSpeakerTransform;
-    [SerializeField] private RectTransform rightSpeakerTransform;
     [SerializeField] private Image leftSpeakerImage;
-    [SerializeField] private Image rightSpeakerImage;
     [SerializeField] private TextMeshProUGUI leftSpeakerText;
+    [SerializeField] private GameObject rightSpeaker;
+    [SerializeField] private RectTransform rightSpeakerTransform;
+    [SerializeField] private Image rightSpeakerImage;
     [SerializeField] private TextMeshProUGUI rightSpeakerText;
 
     [Header("Typewriter Settings")]
@@ -95,7 +95,7 @@ public class DialogueManager : MonoBehaviour
 
         // Register input listeners.
         inputActions.UI.Click.performed += OnClickPerformed;
-        inputActions.UI.Navigate.performed += OnNavigatePerformed;
+        inputActions.UI.Advance.performed += OnAdvancePerformed;
 
         // Register scene load listener.
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -112,7 +112,7 @@ public class DialogueManager : MonoBehaviour
     {
         // Unregister input listeners.
         inputActions.UI.Click.performed -= OnClickPerformed;
-        inputActions.UI.Navigate.performed -= OnNavigatePerformed;
+        inputActions.UI.Advance.performed -= OnAdvancePerformed;
 
         // Disable UI input actions.
         inputActions.UI.Disable();
@@ -426,12 +426,12 @@ public class DialogueManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Handles spacebar (navigate) input during dialogue. 
-    /// Functions the same as <see cref="OnClickPerformed"/> but is triggered by the navigate action.
+    /// Handles spacebar (advance) input during dialogue. 
+    /// Functions the same as <see cref="OnClickPerformed"/> but is triggered by the advance action.
     /// </summary>
-    /// <param name="context">The input action context for the navigate event.</param>
+    /// <param name="context">The input action context for the advance event.</param>
 
-    private void OnNavigatePerformed(InputAction.CallbackContext context)
+    private void OnAdvancePerformed(InputAction.CallbackContext context)
     {
         // Block input if advancement is currently disabled or dialogue cannot be advanced.
         if (advanceBlocked || !CanAdvanceDialogue()) return;

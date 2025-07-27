@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary>
 /// Controls the hover visual effect for main menu buttons by applying a color gradient to the text.
@@ -13,6 +14,7 @@ public class MainMenuVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
     /// The TextMeshProUGUI component whose color will be changed on hover.
     /// </summary>
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private Button button;
 
     private readonly Color normalColor = Color.white;
     private readonly Color32 topLeft = new Color32(0x00, 0x5B, 0xBF, 255);
@@ -62,7 +64,7 @@ public class MainMenuVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
     /// <param name="eventData">The pointer event data.</param>
     public void OnPointerEnter(PointerEventData eventData)
     {
-        EnableGradient();
+        if (button && button.interactable) EnableGradient();
     }
 
     /// <summary>
@@ -71,7 +73,7 @@ public class MainMenuVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
     /// <param name="eventData">The pointer event data.</param>
     public void OnPointerExit(PointerEventData eventData)
     {
-        DisableGradient();
+        if (button && button.interactable) DisableGradient();
     }
 
     #endregion
