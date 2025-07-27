@@ -2,43 +2,40 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
-using System;
 
+/// <summary>
+/// Controls the visual representation of a save slot in the UI. 
+/// Displays player name, slot number, save time, and scene image, and updates the image color on hover when a save exists.
+/// </summary>
 public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    #region Fields
+
     [HideInInspector] public bool hasSave = false;
     [HideInInspector] public GameState gameStateCopy = null;
 
     [Header("Visual Targets")]
-    [SerializeField] private Image slotBackground;
     [SerializeField] private Image sceneImage;
     [SerializeField] private TextMeshProUGUI playerText;
     [SerializeField] private TextMeshProUGUI slotText;
     [SerializeField] private TextMeshProUGUI timeText;
 
-    private Color defaultColor = Color.white;
-    private Color slotHoverColor = new Color32(200, 200, 200, 255);
-    private Color emptySceneImageColor = new Color32(255, 255, 255, 0);
-    private Color defaultSceneImageColor = new Color32(255, 255, 255, 155);
-    private Color hoverSceneImageColor = new Color32(255, 255, 255, 255);
+    private readonly Color emptySceneImageColor = new Color32(255, 255, 255, 0);
+    private readonly Color defaultSceneImageColor = new Color32(255, 255, 255, 155);
+    private readonly Color hoverSceneImageColor = new Color32(255, 255, 255, 255);
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        slotBackground.color = slotHoverColor;
+    #endregion
+    #region Public Methods
 
-        if (hasSave) sceneImage.color = hoverSceneImageColor;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        slotBackground.color = defaultColor;
-
-        if (hasSave) sceneImage.color = defaultSceneImageColor;
-    }
-
+    /// <summary>
+    /// Sets the visual data for this slot based on whether a game state exists.
+    /// </summary>
+    /// <param name="slotNumber">The slot number to display.</param>
+    /// <param name="state">The game state to associate with this slot, or <c>null</c> if empty.</param>
     public void SetSlotData(int slotNumber, GameState state)
     {
         gameStateCopy = state;
+
         if (state == null)
         {
             hasSave = false;
@@ -51,6 +48,10 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
     }
 
+    /// <summary>
+    /// Updates the slot visuals to represent an empty save slot.
+    /// </summary>
+    /// <param name="saveSlot">The slot number to display.</param>
     public void SetEmptySlot(int saveSlot)
     {
         if (sceneImage)
@@ -64,6 +65,11 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (timeText) timeText.text = "-/-/- -:-";
     }
 
+    /// <summary>
+    /// Updates the slot visuals to represent a filled save slot.
+    /// Loads the appropriate scene sprite and displays player name, slot number, and save time.
+    /// </summary>
+    /// <param name="saveSlot">The slot number to display.</param>
     public void SetFilledSlot(int saveSlot)
     {
         if (sceneImage)
@@ -78,36 +84,28 @@ public class SaveSlotVisualizer : MonoBehaviour, IPointerEnterHandler, IPointerE
         if (timeText) timeText.text = gameStateCopy.lastSavedTime;
     }
 
-    /*
+    #endregion
+    #region Event Handlers / Callbacks
 
-        // This method will be called when assigning save data to this slot
-    public void SetSlotData(int saveSlot, string playerName, string timestamp, Sprite sceneSprite)
+    /// <summary>
+    /// Called when the pointer enters the slot area. 
+    /// Changes the scene image color to the hover color if a save exists.
+    /// </summary>
+    /// <param name="eventData">The pointer event data.</param>
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        hasSave = true;
-
-        if (sceneImage)
-        {
-            sceneImage.sprite = sceneSprite;
-            sceneImage.color = defaultSceneImageColor;
-        }
-        if (playerText) playerText.text = playerName;
-        if (slotText) slotText.text = saveSlot.ToString();
-        if (timeText) timeText.text = timestamp;
+        if (hasSave) sceneImage.color = hoverSceneImageColor;
     }
 
-    public void SetEmptySlot(int saveSlot)
+    /// <summary>
+    /// Called when the pointer exits the slot area. 
+    /// Resets the scene image color to the default color if a save exists.
+    /// </summary>
+    /// <param name="eventData">The pointer event data.</param>
+    public void OnPointerExit(PointerEventData eventData)
     {
-        hasSave = false;
-
-        if (sceneImage)
-        {
-            sceneImage.sprite = null;
-            sceneImage.color = emptySceneImageColor;
-        }
-
-        if (playerText) playerText.text = "<EMPTY>";
-        if (slotText) slotText.text = saveSlot.ToString();
-        if (timeText) timeText.text = "-/-/- -:-";
+        if (hasSave) sceneImage.color = defaultSceneImageColor;
     }
-    */
+
+    #endregion
 }
