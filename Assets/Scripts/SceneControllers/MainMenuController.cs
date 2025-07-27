@@ -52,7 +52,8 @@ public class MainMenuController : MonoBehaviour
     #region Event Handlers / Callbacks
 
     /// <summary>
-    /// Loads the Initialization scene to start a new game.
+    /// Handles the "New Game" button click.
+    /// Disables all main menu buttons, shows the name prompt panel, and subscribes to the callback that will create and load the new game once the player confirms their name.
     /// </summary>
     private void OnStartClicked()
     {
@@ -61,7 +62,7 @@ public class MainMenuController : MonoBehaviour
             SetButtonInteractability(false);
             namePromptCanvas.Show();
 
-            // Subscribe to the callback (fires when the player confirms their name)
+            // Clear any previous callbacks to prevent duplicate subscriptions
             namePromptCanvas.OnNameChosenCallback = null;
             namePromptCanvas.OnNameChosenCallback += OnNameChosen;
         }
