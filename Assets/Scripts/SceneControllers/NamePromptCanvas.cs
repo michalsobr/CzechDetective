@@ -4,48 +4,78 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 
-// handles input and validation for name prompt.
+/// <summary>
+/// Controls the name prompt popup in the main menu.
+/// Handles input validation and invokes a callback when the player confirms their name.
+/// </summary>
 public class NamePromptCanvas : MonoBehaviour
 {
+    #region Fields
+
+    /// <summary>
+    /// Callback invoked when the player has confirmed their name.
+    /// </summary>
+    public Action<string> OnNameChosenCallback;
+
     [Header("UI References")]
+    [SerializeField] private MainMenuController mainMenuController;
     [SerializeField] private GameObject namePromptPanel;
+    [SerializeField] private Button closeButton;
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private Button continueButton;
 
-    public Action<string> OnNameChosenCallback;
+    #endregion
+    #region Unity Lifecycle Methods 
 
-    // runs only once - the first time the script is enabled and active in the scene.
-    private void Start()
+    /// <summary>
+    /// Called when the script instance is loaded (even if the GameObject is inactive).
+    /// Registers the continue button click listener and hides the panel by default.
+    /// </summary>
+    private void Awake()
     {
-        // show the name prompt window.
-        if (namePromptPanel)
-        {
-            namePromptPanel.SetActive(true);
-            nameInputField.Select();
-            nameInputField.ActivateInputField();
-        }
-
-        // listen for continue button clicks.
         if (continueButton) continueButton.onClick.AddListener(OnContinueClicked);
+        if (closeButton) closeButton.onClick.AddListener(Hide);
+
+        // Hides the panel by default.
+        if (namePromptPanel) namePromptPanel.SetActive(false);
     }
 
-    private void OnContinueClicked()
+    #endregion
+    #region Public Methods
+
+
+    /// <summary>
+    /// Displays the name prompt panel and focuses the input field for typing.
+    /// </summary>
+    public void Show()
     {
-        // get rid off leading or trailing whitespace.
-        string playerName = nameInputField.text.Trim();
+        if (!namePromptPanel) return;
 
-        // if the chosen name remained empty, trigger the shake animation.
-        if (string.IsNullOrEmpty(playerName))
-        {
-            StartCoroutine(Shake(nameInputField.transform));
-            return;
-        }
-
-        // call back to BaseController.
-        OnNameChosenCallback?.Invoke(playerName);
+        namePromptPanel.SetActive(true);
+        nameInputField.text = string.Empty;
+        nameInputField.Select();
+        nameInputField.ActivateInputField();
     }
 
-    // shake animation used on the input field if it remains empty (to signal something is wrong).
+    /// <summary>
+    /// Hides the name prompt panel.
+    /// </summary>
+    public void Hide()
+    {
+        if (namePromptPanel) namePromptPanel.SetActive(false);
+        if (mainMenuController) mainMenuController.SetButtonInteractability(true);
+    }
+
+    #endregion
+    #region Coroutines
+
+
+    /// <summary>
+    /// Plays a shake animation on the input field to indicate invalid input.
+    /// </summary>
+    /// <param name="target">The transform of the input field to shake.</param>
+    /// <param name="duration">How long the shake lasts.</param>
+    /// <param name="magnitude">How strong the shake effect is.</param>
     private IEnumerator Shake(Transform target, float duration = 0.4f, float magnitude = 10f)
     {
         Vector3 originalPos = target.localPosition;
@@ -61,4 +91,27 @@ public class NamePromptCanvas : MonoBehaviour
 
         target.localPosition = originalPos;
     }
+
+    #endregion
+    #region Event Handlers / Callbacks
+
+    /// <summary>
+    /// Called when the continue button is clicked.
+    /// Validates the input and invokes the callback if a valid name is provided.
+    /// </summary>
+    private void OnContinueClicked()
+    {
+        string playerName = nameInputField.text.Trim();
+
+        if (string.IsNullOrEmpty(playerName))
+        {
+            StartCoroutine(Shake(nameInputField.transform));
+            return;
+        }
+
+        Hide();
+        OnNameChosenCallback?.Invoke(playerName);
+    }
+
+    #endregion
 }

@@ -9,8 +9,13 @@ public class MainMenuController : MonoBehaviour
 {
     #region Fields
 
+    [Header("UI References")]
+    [SerializeField] private NamePromptCanvas namePromptCanvas;
     [SerializeField] private LoadGameCanvas loadGameCanvas;
+
+    [Header("Main Menu Elements")]
     [SerializeField] private Button startButton;
+    [SerializeField] private MainMenuVisualizer startVisualizer;
     [SerializeField] private Button loadButton;
     [SerializeField] private MainMenuVisualizer loadVisualizer;
     [SerializeField] private Button exitButton;
@@ -49,7 +54,18 @@ public class MainMenuController : MonoBehaviour
     /// <summary>
     /// Loads the Initialization scene to start a new game.
     /// </summary>
-    private void OnStartClicked() => SceneManager.LoadScene("Initialization");
+    private void OnStartClicked()
+    {
+        if (namePromptCanvas)
+        {
+            SetButtonInteractability(false);
+            namePromptCanvas.Show();
+
+            // Subscribe to the callback (fires when the player confirms their name)
+            namePromptCanvas.OnNameChosenCallback = null;
+            namePromptCanvas.OnNameChosenCallback += OnNameChosen;
+        }
+    }
 
     /// <summary>
     /// Disables all menu buttons, shows the load game popup, and resets the load button visual to its default state.
@@ -58,7 +74,7 @@ public class MainMenuController : MonoBehaviour
     {
         SetButtonInteractability(false);
 
-        if (loadGameCanvas) loadGameCanvas.ShowLoadGame();
+        if (loadGameCanvas) loadGameCanvas.ShowCanvas();
         if (loadVisualizer) loadVisualizer.DisableGradient();
     }
 
@@ -69,6 +85,20 @@ public class MainMenuController : MonoBehaviour
     {
         Debug.Log("Exit clicked");
         Application.Quit();
+    }
+
+    /// <summary>
+    /// Called when the player has chosen a valid name.
+    /// Creates a new game state, saves it, and loads the Initialization scene.
+    /// </summary>
+    private void OnNameChosen(string playerName)
+    {
+        // Create and save a new game state
+        GameManager.Instance.CreateNewGame(playerName);
+        GameManager.Instance.SaveGameState();
+
+        // Load the initialization scene
+        SceneManager.LoadScene("Initialization");
     }
 
     #endregion
