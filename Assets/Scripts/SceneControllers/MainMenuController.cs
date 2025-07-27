@@ -1,71 +1,75 @@
 using UnityEngine;
-using TMPro;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class MainMenuController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+/// <summary>
+/// Handles main menu button logic for starting a new game, loading a saved game, and exiting the application.
+/// </summary>
+public class MainMenuController : MonoBehaviour
 {
-    public enum ActionType { Start, Load, Exit }
-    public ActionType action;
-    [HideInInspector] public bool interactable = true;
+    #region Fields
+
     [SerializeField] private LoadGameCanvas loadGameCanvas;
+    [SerializeField] private Button startButton;
+    [SerializeField] private Button loadButton;
+    [SerializeField] private MainMenuVisualizer loadVisualizer;
+    [SerializeField] private Button exitButton;
 
-    private TextMeshProUGUI text;
+    #endregion
+    #region Unity Lifecycle Methods
 
-    private Color normalColor = Color.white;
-    // Czech gradient hover colors.
-    private Color32 topLeft = new Color32(0x00, 0x5B, 0xBF, 255);
-    private Color32 topRight = new Color32(0x00, 0x45, 0xA5, 255);
-    private Color32 bottomLeft = new Color32(0xFF, 0xFF, 0xFF, 255);
-    private Color32 bottomRight = new Color32(0xEF, 0x33, 0x40, 255);
-
-    // runs only once - the first time the script is enabled and active in the scene.
-    private void Start() { }
-
-    // runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled.
-        /// <summary>
-    /// runs immediately when the script is loaded (before the first frame) - even if the GameObject is disabled - makes sure only a single instance of this object exists.
+    /// <summary>
+    /// Called when the script instance is loaded (even if the GameObject is inactive).
+    /// Registers button click listeners for the main menu buttons.
     /// </summary>
     private void Awake()
     {
-        text = GetComponent<TextMeshProUGUI>();
-        text.color = normalColor;
+        if (startButton) startButton.onClick.AddListener(OnStartClicked);
+        if (loadButton) loadButton.onClick.AddListener(OnLoadClicked);
+        if (exitButton) exitButton.onClick.AddListener(OnExitClicked);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    #endregion
+    #region Public Methods
+
+    /// <summary>
+    /// Sets the interactability of all main menu buttons.
+    /// </summary>
+    /// <param name="state"><c>true</c> to enable buttons; <c>false</c> to disable them.</param>
+    public void SetButtonInteractability(bool state)
     {
-        if (!interactable) return;
-        text.enableVertexGradient = true;
-        text.colorGradient = new VertexGradient(topLeft, topRight, bottomLeft, bottomRight);
+        if (startButton) startButton.interactable = state;
+        if (loadButton) loadButton.interactable = state;
+        if (exitButton) exitButton.interactable = state;
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    #endregion
+    #region Event Handlers / Callbacks
+
+    /// <summary>
+    /// Loads the Initialization scene to start a new game.
+    /// </summary>
+    private void OnStartClicked() => SceneManager.LoadScene("Initialization");
+
+    /// <summary>
+    /// Disables all menu buttons, shows the load game popup, and resets the load button visual to its default state.
+    /// </summary>
+    private void OnLoadClicked()
     {
-        if (!interactable) return;
-        text.enableVertexGradient = false;
-        text.color = normalColor;
+        SetButtonInteractability(false);
+
+        if (loadGameCanvas) loadGameCanvas.ShowLoadGame();
+        if (loadVisualizer) loadVisualizer.DisableGradient();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    /// <summary>
+    /// Quits the application. Logs a message when running in the editor.
+    /// </summary>
+    private void OnExitClicked()
     {
-        if (!interactable) return;
-        switch (action)
-        {
-            case ActionType.Start:
-                Debug.Log("Start Game clicked");
-                SceneManager.LoadScene("Initialization");
-                break;
-            case ActionType.Load:
-                Debug.Log("Load Game clicked");
-                if (loadGameCanvas) loadGameCanvas.ShowLoadGamePopup();
-                // reset the load text back to default after the click.
-                text.enableVertexGradient = false;
-                text.color = normalColor;
-                break;
-            case ActionType.Exit:
-                Debug.Log("Exit clicked");
-                Application.Quit();
-                break;
-        }
+        Debug.Log("Exit clicked");
+        Application.Quit();
     }
+
+    #endregion
 }
