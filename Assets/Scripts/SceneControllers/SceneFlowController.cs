@@ -1,8 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Serves as the base class for all scene-specific controllers.
-/// Provides virtual methods for scene-specific logic, such as triggering dialogue and reacting to completed dialogue events.
+/// Base class for all scene-specific controllers, providing virtual methods for scene logic such as triggering dialogue and handling completed dialogue events.
 /// </summary>
 public class SceneFlowController : MonoBehaviour
 {
@@ -16,11 +15,14 @@ public class SceneFlowController : MonoBehaviour
     #region Unity Lifecycle Methods
 
     /// <summary>
-    /// Called only once, on the first frame when the script is enabled and active.
-    /// Initializes core managers (in the Unity Editor), if missing, and sets the default state of common scene elements.
+    /// Invoked on the first frame when the script is enabled and active.
+    /// Sets up the default state of common scene elements and, in the Unity Editor, instantiates core managers if missing and reloads the dialogue database.
     /// </summary>
     public virtual void Start()
     {
+        if (backgroundImage) backgroundImage.SetActive(true);
+        if (interactableCanvas) interactableCanvas.SetActive(false);
+
         // Instantiate required core managers if the Initialization scene was skipped.
 #if UNITY_EDITOR
         InstantiateIfMissing<EventSystemDDOL>("Prefabs/EventSystemDDOL");
@@ -29,20 +31,20 @@ public class SceneFlowController : MonoBehaviour
         InstantiateIfMissing<UIManager>("Prefabs/UIManager");
         InstantiateIfMissing<DialogueManager>("Prefabs/DialogueManager");
 
+        // Create and assign a fresh GameState to the Game Manager.
+        GameManager.Instance.CreateNewGame("Editor");
+
         // Force a manual reload of the dialogue database for the current scene.
         DialogueDatabase.Instance.Reload();
 #endif
-
-        if (backgroundImage) backgroundImage.SetActive(true);
-        if (interactableCanvas) interactableCanvas.SetActive(false);
     }
 
     #endregion
     #region Public Methods
 
     /// <summary>
-    /// Called by the <see cref="DialogueManager"/> when a dialogue with the given ID finishes.
-    /// Updates the current <see cref="GameState"/> by marking the dialogue as completed.
+    /// Invoked by the <see cref="DialogueManager"/> when a dialogue with the given ID finishes.
+    /// Marks the dialogue as completed in the current <see cref="GameState"/>.
     /// </summary>
     /// <param name="id">The ID of the completed dialogue.</param>
     public virtual void OnDialogueComplete(string id)
@@ -63,10 +65,10 @@ public class SceneFlowController : MonoBehaviour
 #if UNITY_EDITOR
 
     /// <summary>
-    /// Instantiates the specified prefab from the Resources folder if the object is missing in the scene.
-    /// Used in the Unity Editor when the Initialization scene is skipped.
+    /// Instantiates a prefab from the Resources folder if an object of the specified type is not found in the scene.
+    /// Used in the Unity Editor when the initialization step in Main Menu scene is skipped.
     /// </summary>
-    /// <typeparam name="T">The type of the component to find or instantiate.</typeparam>
+    /// <typeparam name="T">The type of component to find or instantiate.</typeparam>
     /// <param name="prefabPath">The path to the prefab inside the Resources folder.</param>
     private void InstantiateIfMissing<T>(string prefabPath) where T : MonoBehaviour
     {

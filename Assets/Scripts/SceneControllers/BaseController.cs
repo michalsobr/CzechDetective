@@ -1,16 +1,16 @@
 using UnityEngine;
 
 /// <summary>
-/// Controls the logic for the Base scene, including scene entry behavior, dialogue progression, and new game initialization.
-/// Inherits from <see cref="SceneFlowController"/> to use common scene flow functionality.
+/// Controls the logic for the Base scene, including entry behavior, dialogue progression, and new game initialization.
+/// Inherits from <see cref="SceneFlowController"/> to reuse common scene flow functionality.
 /// </summary>
 public class BaseController : SceneFlowController
 {
     #region Unity Lifecycle Methods
 
     /// <summary>
-    /// Called only once, on the first frame when the script is enabled and active.
-    /// Triggers the appropriate entry dialogue for the current scene state.
+    /// Invoked on the first frame when the script is enabled and active.
+    /// Calls the base setup and triggers the entry dialogue for the current scene state.
     /// </summary>
     public override void Start()
     {
@@ -22,8 +22,8 @@ public class BaseController : SceneFlowController
     #region Overrides
 
     /// <summary>
-    /// Called by the <see cref="DialogueManager"/> when a dialogue is completed.
-    /// Advances the story by triggering the next relevant dialogue.
+    /// Invoked by the <see cref="DialogueManager"/> when a dialogue is completed.
+    /// Updates the game state and triggers the next relevant dialogue in the story flow.
     /// </summary>
     /// <param name="id">The ID of the completed dialogue.</param>
     public override void OnDialogueComplete(string id)
@@ -40,7 +40,7 @@ public class BaseController : SceneFlowController
     }
 
     /// <summary>
-    /// Displays the appropriate entry dialogue for the current scene state based on which dialogues have already been completed.
+    /// Displays the correct entry dialogue for the current scene based on which dialogues have already been completed.
     /// </summary>
     /// <param name="state">The current <see cref="GameState"/>.</param>
     public override void ShowSceneEntryDialogue(GameState state)

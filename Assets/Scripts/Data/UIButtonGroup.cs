@@ -8,18 +8,12 @@ using UnityEngine.UI;
 [Serializable]
 public class UIButtonGroup
 {
-    /// <summary>
-    /// The UI button that will toggle the associated popup canvas.
-    /// </summary>
+    /// <summary> The UI button that will toggle the associated popup canvas. </summary>
     public Button button;
 
-    /// <summary>
-    /// The GameObject representing the popup canvas associated with the button.
-    /// </summary>
+    /// <summary> The GameObject representing the popup canvas associated with the button. </summary>
     public GameObject canvas;
 
-    /// <summary>
-    /// The script component attached to the popup canvas that manages its behavior.
-    /// </summary>
-    public PopupCanvas popupScript;
+    /// <summary> The script component attached to the popup canvas that manages its behavior. </summary>
+    public PopupWindow popupScript;
 }

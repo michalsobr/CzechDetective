@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Centralized manager for loading and storing dialogue entries for the current scene.
-/// Uses a singleton pattern and loads scene-specific dialogue data from JSON files in the Resources folder.
+/// Manages loading and storing dialogue entries for the active scene.
+/// Loads scene-specific dialogue data from JSON files in the Resources folder.
+/// Implements a singleton pattern.
 /// Runs before other scripts by default.
 /// </summary>
 [DefaultExecutionOrder(-100)]
@@ -22,8 +23,8 @@ public class DialogueDatabase : MonoBehaviour
     #region Unity Lifecycle Methods
 
     /// <summary>
-    /// Called when the script instance is loaded (even if the GameObject is inactive).
-    /// Ensures a single instance of this object exists (singleton pattern).
+    /// Invoked when the script instance is loaded, even if the GameObject is inactive.
+    /// Ensures only one instance exists and assigns it as the singleton instance.
     /// </summary>
     private void Awake()
     {
@@ -34,13 +35,13 @@ public class DialogueDatabase : MonoBehaviour
             return;
         }
         Instance = this;
-        
+
         // This object persists across scenes as part of the Dialogue Manager.
     }
 
     /// <summary>
-    /// Called each time the object becomes enabled.
-    /// Registers a listener for scene load events.
+    /// Invoked when the object becomes enabled.
+    /// Subscribes to the scene loaded event.
     /// </summary>
     private void OnEnable()
     {
@@ -48,8 +49,8 @@ public class DialogueDatabase : MonoBehaviour
     }
 
     /// <summary>
-    /// Called each time the object becomes disabled.
-    /// Unregisters the scene load event listener.
+    /// Invoked when the object becomes disabled.
+    /// Unsubscribes from the scene loaded event.
     /// </summary>
     private void OnDisable()
     {
@@ -85,7 +86,7 @@ public class DialogueDatabase : MonoBehaviour
     #region Private Methods
 
     /// <summary>
-    /// Loads the scene-specific JSON dialogue file from the Resources folder and populates the dialogue dictionary with its entries.
+    /// Loads the JSON dialogue file for the active scene from the Resources folder and populates the dialogue dictionary with its entries.
     /// </summary>
     private void LoadCurrentSceneDialogue()
     {
@@ -121,12 +122,13 @@ public class DialogueDatabase : MonoBehaviour
     #region Event Handlers / Callbacks
 
     /// <summary>
-    /// Called when a new scene is loaded. Loads the dialogue data for the current scene.
+    /// Invoked when a new scene is loaded.
+    /// Loads dialogue data for the scene unless the scene is the Main Menu.
     /// </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Skip dialogue loading for the Initialization scene.
-        if (scene.name == "Initialization") return;
+        // Skip dialogue loading for the Main Menu scene.
+        if (scene.name == "MainMenu") return;
 
         LoadCurrentSceneDialogue();
     }
@@ -135,7 +137,7 @@ public class DialogueDatabase : MonoBehaviour
     #region Nested Classes
 
     /// <summary>
-    /// Wrapper class used to deserialize a list of dialogue entries from a JSON file.
+    /// Helper class for deserializing a list of dialogue entries from a JSON file.
     /// </summary>
     [Serializable]
     private class DialogueListWrapper

@@ -8,8 +8,8 @@ public class EventSystemDDOL : MonoBehaviour
     public static EventSystemDDOL Instance { get; private set; }
 
     /// <summary>
-    /// Called when the script instance is loaded (even if the GameObject is inactive).
-    /// Ensures a single instance and sets up persistent state across scenes.
+    /// Invoked when the script instance is loaded, even if the GameObject is inactive.
+    /// Ensures only one instance exists and assigns it as the singleton instance.
     /// </summary>
     private void Awake()
     {

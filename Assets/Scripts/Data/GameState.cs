@@ -8,34 +8,22 @@ using System.Collections.Generic;
 public class GameState
 {
     #region Fields
-    /// <summary>
-    /// The name of the player associated with this game state.
-    /// </summary>
+    /// <summary> The name of the player associated with this game state. </summary>
     public string playerName;
 
-    /// <summary>
-    /// The name of the currently active scene.
-    /// </summary>
+    /// <summary> The name of the currently active scene. </summary>
     public string currentScene;
 
-    /// <summary>
-    /// The timestamp of when this game state was last saved.
-    /// </summary>
+    /// <summary> The timestamp of when this game state was last saved. </summary>
     public string lastSavedTime;
 
-    /// <summary>
-    /// The slot number in which this game state is stored.
-    /// </summary>
+    /// <summary> The slot number in which this game state is stored. </summary>
     public int currentSaveSlot;
 
-    /// <summary>
-    /// A list of IDs representing interactable objects the player has fully interacted with.
-    /// </summary>
+    /// <summary> A list of IDs representing interactable objects the player has fully interacted with. </summary>
     public List<string> completedInteractables = new();
 
-    /// <summary>
-    /// A list of IDs representing dialogue entries the player has completed.
-    /// </summary>
+    /// <summary> A list of IDs representing dialogue entries the player has completed. </summary>
     public List<string> completedDialogues = new();
 
     /// <summary>
@@ -48,7 +36,7 @@ public class GameState
     #region Public Methods
 
     /// <summary>
-    /// Creates a new <see cref="GameState"/> instance for a new game, initializing it with the player name, starting scene, and current timestamp.
+    /// Creates and returns a new <see cref="GameState"/> for a new game, initializing it with the player name, starting scene, and current timestamp.
     /// </summary>
     /// <param name="playerName">The name of the player starting a new game.</param>
     /// <returns>A new initialized <see cref="GameState"/>.</returns>
@@ -63,7 +51,7 @@ public class GameState
     }
 
     /// <summary>
-    /// Marks a dialogue entry as completed by adding its ID to the list, if it has not already been added.
+    /// Marks a dialogue entry as completed by adding its ID to <see cref="completedDialogues"/> if it has not already been added.
     /// </summary>
     /// <param name="id">The unique ID of the dialogue entry.</param>
     public void MarkDialogueComplete(string id)
@@ -72,7 +60,7 @@ public class GameState
     }
 
     /// <summary>
-    /// Marks an interactable object as completed by adding its ID to the list, if it has not already been added.
+    /// Marks an interactable object as completed by adding its ID to <see cref="completedInteractables"/> if it has not already been added.
     /// </summary>
     /// <param name="id">The unique ID of the interactable object.</param>
     public void MarkInteractableComplete(string id)
@@ -81,10 +69,11 @@ public class GameState
     }
 
     /// <summary>
-    /// Records a puzzle attempt for the specified puzzle ID, ensuring each attempt is stored only once per puzzle.
+    /// Records a puzzle attempt for the specified puzzle ID in the <see cref="puzzleAttempts"/>.
+    /// Creates a new list for the puzzle if it does not exist, and ensures duplicate attempts are not stored.
     /// </summary>
     /// <param name="id">The unique ID of the puzzle or quiz.</param>
-    /// <param name="attempt">The attempt to record.</param>
+    /// <param name="attempt">The attempt value to record.</param>
     public void MarkPuzzleComplete(string id, string attempt)
     {
         if (!puzzleAttempts.ContainsKey(id)) puzzleAttempts[id] = new List<string>();

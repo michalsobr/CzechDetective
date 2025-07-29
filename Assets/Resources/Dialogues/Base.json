@@ -5,7 +5,9 @@
       "speaker": "detective_init",
       "speakerSide": "left",
       "lines": [
-        "For the longest time, it was just me and my mom.",
+        "(press <b>spacebar</b> to skip dialogue while it's typing.)\n(press <b>spacebar</b> or the <b>next</b> button on the right to get to the next dialogue.)",
+        "(press the <b>settings</b> icon to save or exit game.)",
+        "For the <link=\"longest\">longest</link> time, it <link=\"was\">was</link> just me and my mom.",
         "I was born and raised in the UK. It’s all I know. But before that, my mom lived in a small Czech town with the rest of her family.",
         "I tried asking her about it a few times, but she always dodged the subject. She hardly ever spoke of it.",
         "That only made me more curious about her past, and about where I come from.",
@@ -44,25 +46,41 @@
       "id": "base.letterman.two",
       "speaker": "letterman",
       "speakerSide": "right",
-      "lines": ["“Pan Novák?”"]
+      "lines": [
+        "“Pan Novák?”"
+      ]
     },
     {
       "id": "base.letterman.three",
       "speaker": "detective_init",
       "speakerSide": "left",
-      "lines": ["You nod, slightly confused."]
+      "lines": [
+        "You nod, slightly confused."
+      ]
     },
     {
       "id": "base.letterman.four",
       "speaker": "letterman",
       "speakerSide": "right",
-      "lines": ["“Tady. Tento dopis je pro Vás.”"]
+      "lines": [
+        "“Tady. Tento dopis je pro Vás.”"
+      ]
     },
     {
       "id": "base.letterman.five",
       "speaker": "detective_init",
       "speakerSide": "left",
-      "lines": ["Hmm… I’m pretty sure tady means here. And dopis… something to do with paper.\n\n<b>What did he just say?</b>"]
+      "lines": [
+        "Hmm… I’m pretty sure <link=\"tady\">tady</link> means here. And <link=\"dopisguess\">dopis</link>… something to do with paper.\n<b>(hover over underlined text to get a hint)</b>\n\n<b>What do you think he just said?</b>"
+      ]
+    },
+    {
+      "id": "base.letterman.quiz",
+      "speaker": "none",
+      "speakerSide": "none",
+      "lines": [
+        "<b>(hover over underlined text throughout the game for hints)</b>\n\n<b>What do you think he just said?</b>"
+      ]
     },
     {
       "id": "base.placeholder.one",

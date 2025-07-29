@@ -8,28 +8,18 @@ using UnityEngine.UI;
 [Serializable]
 public class SaveSlotGroup
 {
-    /// <summary>
-    /// The root GameObject representing the save slot in the UI.
-    /// </summary>
+    /// <summary> The root GameObject representing the save slot in the UI. </summary>
     public GameObject saveSlot;
 
-    /// <summary>
-    /// The main button component for the save slot.
-    /// </summary>
+    /// <summary> The main button component for the save slot. </summary>
     public Button slotButton;
 
-    /// <summary>
-    /// The visualizer component that displays save slot data (player name, scene, timestamp).
-    /// </summary>
+    /// <summary> The visualizer component that displays save slot data (player name, scene, timestamp). </summary>
     public SaveSlotVisualizer slotVisualizer;
 
-    /// <summary>
-    /// The GameObject representing the delete button for the save slot.
-    /// </summary>
+    /// <summary> The GameObject representing the delete button for the save slot. </summary>
     public GameObject deleteSlotButton;
 
-    /// <summary>
-    /// The button component for the delete button.
-    /// </summary>
+    /// <summary> The button component for the delete button. </summary>
     public Button deleteButton;
 }

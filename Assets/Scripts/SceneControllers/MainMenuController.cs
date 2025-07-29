@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Handles main menu button logic for starting a new game, loading a saved game, and exiting the application.
+/// Handles the main menu logic, including starting a new game, loading a saved game, and exiting the application.
 /// </summary>
 public class MainMenuController : MonoBehaviour
 {
@@ -24,8 +24,8 @@ public class MainMenuController : MonoBehaviour
     #region Unity Lifecycle Methods
 
     /// <summary>
-    /// Called when the script instance is loaded (even if the GameObject is inactive).
-    /// Registers button click listeners for the main menu buttons.
+    /// Invoked when the script instance is loaded, even if the GameObject is inactive.
+    /// Registers click listeners for all main menu buttons.
     /// </summary>
     private void Awake()
     {
@@ -38,9 +38,12 @@ public class MainMenuController : MonoBehaviour
     #region Public Methods
 
     /// <summary>
-    /// Sets the interactability of all main menu buttons.
+    /// Enables or disables interaction for all main menu buttons.
     /// </summary>
-    /// <param name="state"><c>true</c> to enable buttons; <c>false</c> to disable them.</param>
+    /// <param name="state">
+    /// <c>true</c> to enable buttons; 
+    /// <c>false</c> to disable them.
+    /// </param>
     public void SetButtonInteractability(bool state)
     {
         if (startButton) startButton.interactable = state;
@@ -52,14 +55,13 @@ public class MainMenuController : MonoBehaviour
     #region Event Handlers / Callbacks
 
     /// <summary>
-    /// Handles the "New Game" button click.
-    /// Disables all main menu buttons, shows the name prompt panel, resets the start button visual to its default state, and subscribes to the callback that will create and load the new game once the player confirms their name.
+    /// Invoked when the "New Game" button is clicked.
+    /// Disables main menu buttons, shows the name prompt panel, resets the start button visual, and subscribes to the callback that will create and load a new game when the player confirms their name.
     /// </summary>
     private void OnStartClicked()
     {
         if (namePromptCanvas)
         {
-            SetButtonInteractability(false);
             if (startVisualizer) startVisualizer.DisableGradient();
 
             namePromptCanvas.Show();
@@ -71,7 +73,8 @@ public class MainMenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Disables all main menu buttons, shows the load game popup, and resets the load button visual to its default state.
+    /// Invoked when the "Load Game" button is clicked.
+    /// Disables main menu buttons, resets the load button visual, and displays the load game popup.
     /// </summary>
     private void OnLoadClicked()
     {
@@ -82,7 +85,8 @@ public class MainMenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Quits the application. Logs a message when running in the editor.
+    /// Invoked when the "Exit" button is clicked.
+    /// Quits the application.
     /// </summary>
     private void OnExitClicked()
     {
@@ -91,8 +95,8 @@ public class MainMenuController : MonoBehaviour
     }
 
     /// <summary>
-    /// Called when the player has chosen a valid name.
-    /// Creates a new game state, saves it, and loads the Initialization scene.
+    /// Invoked after the player chooses a valid name.
+    /// Creates a new game state, saves it, initializes required managers, and loads the Base scene.
     /// </summary>
     private void OnNameChosen(string playerName)
     {
@@ -100,8 +104,10 @@ public class MainMenuController : MonoBehaviour
         GameManager.Instance.CreateNewGame(playerName);
         GameManager.Instance.SaveGameState();
 
-        // Load the initialization scene
-        SceneManager.LoadScene("Initialization");
+        GameManager.Instance.InitializeManagers();
+
+        // Load the Base scene directly
+        SceneManager.LoadScene("Base");
     }
 
     #endregion
