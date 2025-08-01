@@ -63,6 +63,8 @@ public class TranslationPopup : MonoBehaviour
             2 * translationText.preferredHeight
         );
 
+        translationRT.sizeDelta = preferredSize;
+
         UpdatePosition(screenPos);
     }
 
@@ -101,16 +103,10 @@ public class TranslationPopup : MonoBehaviour
     /// </summary>
     /// <param name="word">The word to translate.</param>
     /// <returns>The translated word, if available; otherwise, a placeholder text.</returns>
-    private string GetTranslation(string word)
+    private string GetTranslation(string id)
     {
-        return word switch
-        {
-            "longest" => "testing",
-            "was" => "much much longer testing",
-            "tady" => "here",
-            "dopisguess" => "paper?",
-            _ => "(no translation)"
-        };
+        // Load full JSON once in TranslationManager
+        return TranslationManager.Instance.GetTranslationById(id);
     }
 
     #endregion

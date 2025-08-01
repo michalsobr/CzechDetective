@@ -34,10 +34,13 @@ public class TMPLinkHandler : MonoBehaviour, IPointerExitHandler
         // Determine the index of the link under the mouse, or -1 if none.
         int linkIndex = TMP_TextUtilities.FindIntersectingLink(dialogueText, mousePos, null);
 
-        if (linkIndex != -1) // If mouse is over a link
+        if (linkIndex != -1) // If mouse is over a link.
         {
             TMP_LinkInfo linkInfo = dialogueText.textInfo.linkInfo[linkIndex];
             string hoveredWord = linkInfo.GetLinkID();
+
+            // Skip translation for quiz answers.
+            if (hoveredWord.StartsWith("Answer_")) return; // Don't show translation popup.
 
             if (linkIndex != lastLinkIndex)
             {

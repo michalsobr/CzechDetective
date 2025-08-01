@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -31,12 +32,37 @@ public class BaseController : SceneFlowController
         base.OnDialogueComplete(id);
         Debug.Log($"[BaseController] Dialogue completed: {id}");
 
-        if (id == "base.intro.one") ShowArrivalDialogue();
-        else if (id == "base.arrival.one") ShowLettermanDialogue("one");
-        else if (id == "base.letterman.one") ShowLettermanDialogue("two");
-        else if (id == "base.letterman.two") ShowLettermanDialogue("three");
-        else if (id == "base.letterman.three") ShowLettermanDialogue("four");
-        else if (id == "base.letterman.four") ShowLettermanDialogue("five");
+        string dialogueIDToLoad = null;
+
+        if (id == "base.intro.one") dialogueIDToLoad = "base.arrival.one";
+
+        else if (id == "base.arrival.one") dialogueIDToLoad = "base.letterman.one";
+        else if (id == "base.letterman.one") dialogueIDToLoad = "base.letterman.two";
+        else if (id == "base.letterman.two") dialogueIDToLoad = "base.letterman.three";
+        else if (id == "base.letterman.three") dialogueIDToLoad = "base.letterman.four";
+        else if (id == "base.letterman.four") dialogueIDToLoad = "base.letterman.five";
+
+        else if (id == "base.letterman.five") ShowLettermanQuiz();
+        else if (id == "base.letterman.q_wrong1") ShowLettermanQuiz();
+        else if (id == "base.letterman.q_correct1")
+        {
+            TranslationManager.Instance.UnlockLettermanQuiz();
+            dialogueIDToLoad = "base.letterman.q_correct2";
+        }
+
+        else if (id == "base.letterman.q_correct2") dialogueIDToLoad = "base.journal.one";
+
+        else if (id == "base.journal.one") dialogueIDToLoad = "base.letter.one";
+        else if (id == "base.letter.one") dialogueIDToLoad = "base.letter.two";
+        else if (id == "base.letter.two") dialogueIDToLoad = "base.letter.three";
+        else if (id == "base.letter.three") dialogueIDToLoad = "base.letter.four";
+        else if (id == "base.letter.four") dialogueIDToLoad = "base.letter.five";
+        else if (id == "base.letter.five") dialogueIDToLoad = "base.letter.six";
+        else if (id == "base.letter.six") dialogueIDToLoad = "base.letter.seven";
+
+        else if (id == "base.letter.seven") dialogueIDToLoad = "base.location_change.one";
+
+        if (dialogueIDToLoad != null) DialogueManager.Instance.ShowDialogue(dialogueIDToLoad);
     }
 
     /// <summary>
@@ -47,9 +73,18 @@ public class BaseController : SceneFlowController
     {
         base.ShowSceneEntryDialogue(state);
 
-        if (!state.completedDialogues.Contains("base.intro.one")) ShowIntroDialogue();
+        string dialogueIDToLoad = null;
+
+        if (!state.completedDialogues.Contains("base.intro.one")) dialogueIDToLoad = "base.intro.one";
+        
+        // TODO rewrite!
+        /*
         else if (!state.completedDialogues.Contains("base.arrival.one")) ShowArrivalDialogue();
         else if (!state.completedDialogues.Contains("base.letterman.five")) ShowLettermanDialogue("one");
+        else if (!state.completedDialogues.Contains("base.letterman.q_correct")) ShowLettermanQuiz();
+        */
+
+        if (dialogueIDToLoad != null) DialogueManager.Instance.ShowDialogue(dialogueIDToLoad);
     }
 
     #endregion
@@ -63,22 +98,21 @@ public class BaseController : SceneFlowController
         DialogueManager.Instance.ShowDialogue("base.intro.one");
     }
 
-    /// <summary>
-    /// Triggers the arrival dialogue and ensures the background image is visible.
-    /// </summary>
-    public void ShowArrivalDialogue()
-    {
-        backgroundImage.SetActive(true);
-        DialogueManager.Instance.ShowDialogue("base.arrival.one");
-    }
+    #endregion
+    #region Private Methods (Quizes)
 
-    /// <summary>
-    /// Triggers one of the letterman dialogues based on the provided sequence number.
-    /// </summary>
-    /// <param name="sequenceNum">The sequence number for the letterman dialogue.</param>
-    public void ShowLettermanDialogue(string sequenceNum)
+    private void ShowLettermanQuiz()
     {
-        DialogueManager.Instance.ShowDialogue($"base.letterman.{sequenceNum}");
+        string[] answers =
+        {
+        "Sorry. That's not your letter.",
+        "Here. This letter is for you.",
+        "Please. This note says you need help.",
+        "There. The post office is right over there."
+        };
+
+        // Show base.letterman.quiz with answers
+        DialogueManager.Instance.ShowDialogue("base.letterman.quiz", answers);
     }
 
     #endregion

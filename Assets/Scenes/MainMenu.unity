@@ -961,7 +961,27 @@ MonoBehaviour:
   navigationButtonImage: {fileID: 1560686632}
   upIcon: {fileID: -613323380299625216, guid: 4461c7903ebd142ca83090a96cf84206, type: 3}
   downIcon: {fileID: -1406754867091468244, guid: b2fe8de813f134725a93c4dbc4d079c6, type: 3}
-  saveSlotGroups: []
+  saveSlotGroups:
+  - saveSlot: {fileID: 1574124100}
+    slotButton: {fileID: 1574124102}
+    slotVisualizer: {fileID: 1574124105}
+    deleteSlotButton: {fileID: 2004412962}
+    deleteButton: {fileID: 2004412964}
+  - saveSlot: {fileID: 144156205}
+    slotButton: {fileID: 144156207}
+    slotVisualizer: {fileID: 144156210}
+    deleteSlotButton: {fileID: 1775481259}
+    deleteButton: {fileID: 1775481261}
+  - saveSlot: {fileID: 1062757400}
+    slotButton: {fileID: 1062757402}
+    slotVisualizer: {fileID: 1062757405}
+    deleteSlotButton: {fileID: 267168037}
+    deleteButton: {fileID: 267168039}
+  - saveSlot: {fileID: 770684717}
+    slotButton: {fileID: 770684719}
+    slotVisualizer: {fileID: 770684722}
+    deleteSlotButton: {fileID: 1785523502}
+    deleteButton: {fileID: 1785523504}
 --- !u!1 &300581168
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,97 +2,201 @@
   "entries": [
     {
       "id": "base.intro.one",
-      "speaker": "detective_init",
-      "speakerSide": "left",
+      "speakerLeft": "detective_init",
+      "speakerRight": "none",
       "lines": [
-        "(press <b>spacebar</b> to skip dialogue while it's typing.)\n(press <b>spacebar</b> or the <b>next</b> button on the right to get to the next dialogue.)",
-        "(press the <b>settings</b> icon to save or exit game.)",
-        "For the <link=\"longest\">longest</link> time, it <link=\"was\">was</link> just me and my mom.",
-        "I was born and raised in the UK. It’s all I know. But before that, my mom lived in a small Czech town with the rest of her family.",
+        "(press <b>spacebar</b> to skip dialogue while it's typing.)\n(press <b>spacebar</b> or click on the <b>Next</b> button on the right of the dialogue to get to the next dialogue.)",
+        "(click on the the <b>Settings</b> icon <i>(the icon with the gear)</i> to save or exit the game.)",
+        "For the longest time, it was just me and my mom.",
+        "I was born and raised in the UK. It's all I know. But before that, my mom lived in a small Czech town with the rest of her family.",
         "I tried asking her about it a few times, but she always dodged the subject. She hardly ever spoke of it.",
         "That only made me more curious about her past, and about where I come from.",
-        "I’ve always been inquisitive. Maybe that’s why I became a private investigator back in the UK.",
-        "It hasn’t been long since my mom passed and I don’t really have any other family in the UK.",
-        "So, I’ve decided... It’s time!",
-        "It’s time to visit her hometown… and finally uncover my family’s past and my own heritage.",
+        "I've always been inquisitive. Maybe that's why I became a private investigator back in the UK.",
+        "It hasn't been long since my mom passed and I don't really have any other family in the UK.",
+        "So, I've decided... It's time!",
+        "It's time to visit her hometown… and finally uncover my family's past and my own heritage.",
         "Oh-",
-        "I almost forgot - she never taught me much Czech…",
-        "But I’m up for the challenge!"
+        "I almost forgot - she never taught me much Czech...",
+        "But I'm definitely up for the challenge!"
       ]
     },
     {
       "id": "base.arrival.one",
-      "speaker": "detective_init",
-      "speakerSide": "left",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
       "lines": [
-        "Well, here I am… standing at the town square of a small Czech town called Tichovice.",
+        "Well, here I am... standing at the town square of a small Czech town called Tichovice.",
         "Wow -",
         "It looks so peaceful here...",
-        "I can’t believe this is really the town my mom grew up in.",
-        "This is definitely going to be a trip full of nostalgia… and maybe a little bit of touristy exploration while I’m here.",
-        "You glance around, taking it all in. You’ve wanted to visit this place for the longest time."
+        "I can't believe this is really the town my mom grew up in.",
+        "This is definitely going to be a trip full of nostalgia... and maybe a little bit of touristy exploration while I'm here.",
+        "You glance around, taking it all in. You've wanted to visit this place for the longest time."
       ]
     },
     {
       "id": "base.letterman.one",
-      "speaker": "detective_init",
-      "speakerSide": "left",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
       "lines": [
-        ". . .",
-        "You notice an older man standing near the fountain, staring directly at you. He’s holding an envelope."
+        "...",
+        "You notice an older man standing near the fountain, staring directly at you. He's holding an envelope."
       ]
     },
     {
       "id": "base.letterman.two",
-      "speaker": "letterman",
-      "speakerSide": "right",
+      "speakerLeft": "none",
+      "speakerRight": "letterman",
       "lines": [
-        "“Pan Novák?”"
+        "\"Pan Novák?\""
       ]
     },
     {
       "id": "base.letterman.three",
-      "speaker": "detective_init",
-      "speakerSide": "left",
+      "speakerLeft": "detective_surprised",
+      "speakerRight": "none",
       "lines": [
         "You nod, slightly confused."
       ]
     },
     {
       "id": "base.letterman.four",
-      "speaker": "letterman",
-      "speakerSide": "right",
+      "speakerLeft": "none",
+      "speakerRight": "letterman",
       "lines": [
-        "“Tady. Tento dopis je pro Vás.”"
+        "\"Tady. Tento dopis je pro Vás.\"\n<b>(hover over underlined text to get a hint)</b>"
       ]
     },
     {
       "id": "base.letterman.five",
-      "speaker": "detective_init",
-      "speakerSide": "left",
+      "speakerLeft": "detective_surprised",
+      "speakerRight": "none",
       "lines": [
-        "Hmm… I’m pretty sure <link=\"tady\">tady</link> means here. And <link=\"dopisguess\">dopis</link>… something to do with paper.\n<b>(hover over underlined text to get a hint)</b>\n\n<b>What do you think he just said?</b>"
+        "Hmm… I'm pretty sure tady means here. And dopis... something to do with paper.\n\n<b>What do you think he just said?</b>"
       ]
     },
     {
       "id": "base.letterman.quiz",
-      "speaker": "none",
-      "speakerSide": "none",
+      "speakerLeft": "none",
+      "speakerRight": "none",
       "lines": [
-        "<b>(hover over underlined text throughout the game for hints)</b>\n\n<b>What do you think he just said?</b>"
+        "What do you think he just said?\n<b>(hover over underlined text throughout the game for hints)</b>\n\n<b>\"Tady. Tento dopis je pro Vás.\"</b>"
       ]
     },
     {
-      "id": "base.placeholder.one",
-      "speaker": "detective_init",
-      "speakerSide": "left",
-      "lines": []
+      "id": "base.letterman.q_wrong1",
+      "speakerLeft": "detective_sad",
+      "speakerRight": "none",
+      "lines": [
+        "Hmm... no, I don't think that's quite right.\nWhat else could it be...?"
+      ]
     },
     {
-      "id": "base.placeholder.two",
-      "speaker": "detective_init",
-      "speakerSide": "left",
-      "lines": []
+      "id": "base.letterman.q_correct1",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "Oh, yes!"
+      ]
+    },
+    {
+      "id": "base.letterman.q_correct2",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "I think he said <b>\"Here. This letter is for you.\"</b>! (\"Tady. Tento dopis je pro Vás.\")"
+      ]
+    },
+    {
+      "id": "base.journal.one",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "You just learned some new words!\n(click the icon above <b>Settings</b> <i>(the icon with the book)</i> to open your <b>Journal</b>. All your learned words will be there if you need to revisit them.)"
+      ]
+    },
+    {
+      "id": "base.letter.one",
+      "speakerLeft": "none",
+      "speakerRight": "letterman",
+      "lines": [
+        "He hands you the envelope he was holding."
+      ]
+    },
+    {
+      "id": "base.letter.two",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "none",
+      "lines": [
+        "You look down at your hands and turn over the envelope. You notice your full name handwritten in cursive on it.",
+        "<i>\"Tobiáš Novák\"</i>",
+        "It also has a return address on it and the name \"Růžena Nováková\".",
+        "You vaguely remember hearing this name once or twice in your childhood. Was it your mother's... cousin? Or maybe her mom?",
+        "You can't quite remember..."
+      ]
+    },
+    {
+      "id": "base.letter.three",
+      "speakerLeft": "detective_surprised",
+      "speakerRight": "none",
+      "lines": [
+        "You realize you've been staring at the envelope for some time and so you look up to talk with the man who handed it to you just to see he's gone, nowhere to be seen.",
+        "Oh?"
+      ]
+    },
+    {
+      "id": "base.letter.four",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "none",
+      "lines": [
+        "You look back down and open the envelope.",
+        "Inside is a handwritten letter -"
+      ]
+    },
+    {
+      "id": "base.letter.five",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "aunt_unknown",
+      "lines": [
+        "Well, let's see how much I can decipher...",
+        "<b>Milý Tobiáši,</b>\n...\nDear, Tobiáš - duh",
+        "<b>Pokud čteš tento dopis, pak jsi skutečně přijel.</b>\n...\nSomething about me reading this letter...",
+        "<b>Já a tvoje máma jsme si byly vždycky velmi blízké. Lituji toho, že tajemnství a spousta let co jsme byly od sebe nás rozdělily a nezůstali jsme jedna rodina.</b>\n...\n Oh, something about my mom. I think - secrets and... years? Years of secrets?! And the last word definitely means family!",
+        "<b>Musím ti říct něco důležitého. Z našeho domu zmizel náhrdelník. Je to rodinný klenot, který nám předala tvoje babička.</b>\n...\nShe want to tell me something about... somehting to do with family. Oh and I'm pretty sure the last word means grandmother?",
+        "<b>Ostatní tvrdí, že se jen ztratil, ale já tomu nevěřím.\n\nUž jsem příliš stará a unavená na rodinné hádky. Ale ty, člověk zvenčí, ale zároveň z rodiny, bys mi možná mohl pomoci zjistit pravdu.</b>\n...\nAll I can tell from these lines is family, human? and the truth?",
+        "<b>Nikomu jsem o tomto dopise neřekla. Doufám, že za mnou přijdeš co nejdřív.\nNajdeš mě v rodinné vile Novákových.</b>\n...\nSomething about the letter again and I think she's telling me to visit her at the Novák's villa?"
+      ]
+    },
+    {
+      "id": "base.letter.six",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "aunt_known",
+      "lines": [
+        "<b>S láskou, Teta Růžena</b>\n...\nWith love... <b>Oh!</b> - <b>aunt</b> Růžena!"
+      ]
+    },
+    {
+      "id": "base.letter.seven",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "Well, I wanted to look around this town square some more <b>(I still could, just a bit)</b> but I think my next stop is obvious - the Novák's villa!"
+      ]
+    },
+    {
+      "id": "base.location_change.one",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "(You can take a look around the square and <b>interact</b> with some objects OR you can go straight to your next location.)\n(To change your location click on the <b>Location</b> icon above <b>Journal</b>.)>"
+      ]
+    },
+    {
+      "id": "scene.placeholder.one",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        ""
+      ]
     }
   ]
 }

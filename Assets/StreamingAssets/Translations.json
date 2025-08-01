@@ -1,0 +1,22 @@
+{
+  "verbs": {
+    "spacebar": { "word": "spacebar", "translation": "testing" },
+    "skip": { "word": "skip", "translation": "much longer <b>testing</b>, just to see" },
+    "tady": { "word": "tady", "translation": "<b>tady</b>" },
+    "pro": { "word": "pro", "translation": "<b>for</b>" },
+    "vás": { "word": "vás", "translation": "<b>you (formally)</b>" },
+    "čteš": { "word": "čteš", "translation": "<b>read</b> | you read" },
+    "je": { "word": "je", "translation": "<b>to be</b> | he/she/it is" },
+    "říct": { "word": "říct", "translation": "<b>to say/tell</b>" }
+  },
+  "nouns": {
+    "dopis_guess": { "word": "dopis", "translation": "paper?" },
+    "dopis": { "word": "dopis", "translation": "<b>letter</b>" },
+    "máma": { "word": "máma", "translation": "<b>mom</b>" },
+    "náhrdelník": { "word": "náhrdelník", "translation": "<b>necklace</b>" }
+  },
+  "adjectives": {
+    "milý": { "word": "milý", "translation": "<b>dear</b>" },
+    "důležitý": { "word": "důležitého", "translation": "<b>important</b>" }
+  }
+}
