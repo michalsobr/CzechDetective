@@ -440,29 +440,6 @@ public class DialogueManager : MonoBehaviour
         isFullyTyped = false;
         dialogueText.text = "";
 
-        /*
-        if (isQuizActive)
-        {
-            // Instantly show the text
-            dialogueText.text = formattedLine;
-
-            // Show the force pressed "Off" advance button and disable its interaction.
-            UpdateAdvanceButton(false, "Off", true);
-
-            // Show answers
-            QuizManager.Instance.ShowAnswers(currentAnswers);
-
-            // Mark as finished typing
-            isTyping = false;
-            isFullyTyped = true;
-            yield break;
-        }
-
-        // else for normal lines -
-        // Show the force pressed "Skip" advance button and disable its interaction while typing.
-        UpdateAdvanceButton(false, "Skip", true);
-        */
-
         int i = 0;
         while (i < line.Length)
         {

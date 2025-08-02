@@ -44,11 +44,8 @@ public class BaseController : SceneFlowController
 
         else if (id == "base.letterman.five") ShowLettermanQuiz();
         else if (id == "base.letterman.q_wrong1") ShowLettermanQuiz();
-        else if (id == "base.letterman.q_correct1")
-        {
-            TranslationManager.Instance.UnlockLettermanQuiz();
-            dialogueIDToLoad = "base.letterman.q_correct2";
-        }
+
+        else if (id == "base.letterman.q_correct1") dialogueIDToLoad = "base.letterman.q_correct2";
 
         else if (id == "base.letterman.q_correct2") dialogueIDToLoad = "base.journal.one";
 
@@ -76,6 +73,7 @@ public class BaseController : SceneFlowController
         string dialogueIDToLoad = null;
 
         if (!state.completedDialogues.Contains("base.intro.one")) dialogueIDToLoad = "base.intro.one";
+        else if (!state.completedDialogues.Contains("base.location_change.one")) dialogueIDToLoad = "base.letterman.q_correct1";
         
         // TODO rewrite!
         /*

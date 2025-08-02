@@ -23,20 +23,8 @@ public class SceneFlowController : MonoBehaviour
         if (backgroundImage) backgroundImage.SetActive(true);
         if (interactableCanvas) interactableCanvas.SetActive(false);
 
-        // Instantiate required core managers if the Initialization scene was skipped.
-#if UNITY_EDITOR
-        InstantiateIfMissing<EventSystemDDOL>("Prefabs/EventSystemDDOL");
-        InstantiateIfMissing<GameManager>("Prefabs/GameManager");
-        InstantiateIfMissing<SaveManager>("Prefabs/SaveManager");
-        InstantiateIfMissing<UIManager>("Prefabs/UIManager");
-        InstantiateIfMissing<DialogueManager>("Prefabs/DialogueManager");
-
-        // Create and assign a fresh GameState to the Game Manager.
-        GameManager.Instance.CreateNewGame("Editor");
-
         // Force a manual reload of the dialogue database for the current scene.
         DialogueDatabase.Instance.Reload();
-#endif
     }
 
     #endregion
@@ -50,6 +38,7 @@ public class SceneFlowController : MonoBehaviour
     public virtual void OnDialogueComplete(string id)
     {
         GameManager.Instance.CurrentState.MarkDialogueComplete(id);
+        TranslationManager.Instance.UnlockTranslations();
     }
 
     /// <summary>
@@ -58,36 +47,6 @@ public class SceneFlowController : MonoBehaviour
     /// </summary>
     /// <param name="state">The current <see cref="GameState"/>.</param>
     public virtual void ShowSceneEntryDialogue(GameState state) { }
-
-    #endregion
-    #region Private Methods (Editor Only)
-
-#if UNITY_EDITOR
-
-    /// <summary>
-    /// Instantiates a prefab from the Resources folder if an object of the specified type is not found in the scene.
-    /// Used in the Unity Editor when the initialization step in Main Menu scene is skipped.
-    /// </summary>
-    /// <typeparam name="T">The type of component to find or instantiate.</typeparam>
-    /// <param name="prefabPath">The path to the prefab inside the Resources folder.</param>
-    private void InstantiateIfMissing<T>(string prefabPath) where T : MonoBehaviour
-    {
-        if (FindFirstObjectByType<T>() == null)
-        {
-            GameObject prefab = Resources.Load<GameObject>(prefabPath);
-            if (prefab != null)
-            {
-                Instantiate(prefab);
-                Debug.Log($"[SceneFlowController] Auto-spawned {typeof(T).Name} from {prefabPath}");
-            }
-            else
-            {
-                Debug.LogWarning($"[SceneFlowController] Could not find prefab at Resources/{prefabPath}");
-            }
-        }
-    }
-
-#endif
 
     #endregion
 }

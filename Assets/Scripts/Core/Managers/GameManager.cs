@@ -92,6 +92,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void InitializeManagers()
     {
+        if (FindFirstObjectByType<UIManager>() != null)
+            DestroyImmediate(FindFirstObjectByType<UIManager>().gameObject);
+
+        if (FindFirstObjectByType<DialogueManager>() != null)
+            DestroyImmediate(FindFirstObjectByType<DialogueManager>().gameObject);
+
         if (FindFirstObjectByType<EventSystemDDOL>() == null)
             Instantiate(Resources.Load("Prefabs/EventSystemDDOL"));
 

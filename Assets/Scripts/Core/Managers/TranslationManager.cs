@@ -16,11 +16,17 @@ public class TranslationManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        // If another instance already exists, destroy this one.
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+
         LoadTranslations();
-        UnlockIntro();
+        UnlockTranslations();
     }
 
     private void LoadTranslations()
@@ -87,20 +93,19 @@ public class TranslationManager : MonoBehaviour
             unlockedWords.Add(id);
     }
 
-    public void UnlockIntro()
+    public void UnlockTranslations()
     {
-        // TODO add Mr - Pan
+        // TODO Always unlock + add Mr - Pan
         UnlockWord("skip");
-    }
 
-    public void UnlockLettermanQuiz()
-    {
-        // TODO add Mr - Pan
-        UnlockWord("tady");
-        UnlockWord("dopis");
-        UnlockWord("tento");
-        UnlockWord("je");
-        UnlockWord("pro");
-        UnlockWord("vás");
+        if (GameManager.Instance.CurrentState.completedDialogues.Contains("base.letterman.q_correct1"))
+        {
+            UnlockWord("tady");
+            UnlockWord("dopis");
+            UnlockWord("tento");
+            UnlockWord("je");
+            UnlockWord("pro");
+            UnlockWord("vás");
+        }
     }
 }
