@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
 
     /// <summary>
     /// Invoked when the script instance is loaded, even if the GameObject is inactive.
-    /// Ensures a single instance, sets up persistent state across scenes, sets up all button listeners, and configures the popup canvases to be hidden by default.
+    /// Ensures a single instance, sets up all button listeners, and configures the popup canvases to be hidden by default.
     /// </summary>
     private void Awake()
     {
@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
 
         // Prevent this object from being destroyed when loading new scenes.
@@ -71,6 +72,16 @@ public class UIManager : MonoBehaviour
         SetInteractable(isInteractable);
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     #endregion
     #region Public Methods
 
@@ -80,6 +91,8 @@ public class UIManager : MonoBehaviour
     /// <param name="target">The UI button group whose popup should be opened.</param>
     public void ShowPopupCanvas(UIButtonGroup target)
     {
+        InteractableManager.Instance.SetAllInteractablesActive(false);
+
         target.popupScript.Open();
         isPopupOpen = true;
         SetInteractable(false);
@@ -124,6 +137,8 @@ public class UIManager : MonoBehaviour
     public void ClosePopup()
     {
         isPopupOpen = false;
+
+        InteractableManager.Instance.SetAllInteractablesActive(true);
     }
 
     #endregion
@@ -137,4 +152,25 @@ public class UIManager : MonoBehaviour
     }
 
     #endregion
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Hide all popup canvases by default and register button click listeners.
+        foreach (var group in buttonGroups)
+        {
+            // Safety check: validate that all required references for this UIButtonGroup are assigned.
+            // If any reference is missing, log a warning and abort the entire setup to avoid null reference errors.
+            if (group == null || group.button == null || group.canvas == null || group.popupScript == null)
+            {
+                Debug.LogWarning("[UIManager] One or more UIButtonGroup references are missing. Aborting setup.");
+                return; // Abort setup.
+            }
+
+            group.canvas.SetActive(false); // Ensure canvases are hidden.
+        }
+
+        SetInteractable(true);
+        ClosePopup();
+
+    }
 }

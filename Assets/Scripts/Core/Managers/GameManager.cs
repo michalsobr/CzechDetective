@@ -92,17 +92,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void InitializeManagers()
     {
-        if (FindFirstObjectByType<UIManager>() != null)
-            DestroyImmediate(FindFirstObjectByType<UIManager>().gameObject);
-
-        if (FindFirstObjectByType<DialogueManager>() != null)
-            DestroyImmediate(FindFirstObjectByType<DialogueManager>().gameObject);
-
         if (FindFirstObjectByType<EventSystemDDOL>() == null)
             Instantiate(Resources.Load("Prefabs/EventSystemDDOL"));
-
-        if (FindFirstObjectByType<GameManager>() == null)
-            Instantiate(Resources.Load("Prefabs/GameManager"));
 
         if (FindFirstObjectByType<SaveManager>() == null)
             Instantiate(Resources.Load("Prefabs/SaveManager"));
@@ -112,6 +103,9 @@ public class GameManager : MonoBehaviour
 
         if (FindFirstObjectByType<DialogueManager>() == null)
             Instantiate(Resources.Load("Prefabs/DialogueManager"));
+
+        if (FindFirstObjectByType<InteractableManager>() == null)
+            Instantiate(Resources.Load("Prefabs/InteractableManager"));
     }
 
     #endregion

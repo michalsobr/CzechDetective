@@ -66,13 +66,15 @@ public class DialogueManager : MonoBehaviour
     private bool isQuizActive = false; // Tracks whether a quiz is currently active
     private string[] currentAnswers = null; // Stores answers for the current quiz
 
+    /// <summary> The interactable image that triggered the current dialogue, if any. </summary>
+    private InteractableImage currentInteractableImage;
 
     #endregion
     #region Unity Lifecycle Methods
 
     /// <summary>
     /// Invoked when the script instance is loaded, even if the GameObject is inactive.
-    /// Ensures a single instance, makes the GameObject persistent across scenes, initializes input actions, and hides the dialogue canvas by default.
+    /// Ensures a single instance, initializes input actions, and hides the dialogue canvas by default.
     /// </summary>
     private void Awake()
     {
@@ -82,6 +84,7 @@ public class DialogueManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
 
         // Prevent this object from being destroyed when loading new scenes.
@@ -134,9 +137,15 @@ public class DialogueManager : MonoBehaviour
     /// Starts the dialogue sequence using the dialogue entry with the specified ID.
     /// </summary>
     /// <param name="id">The unique identifier of the dialogue entry to show.</param>
-    public void ShowDialogue(string id, string[] answers = null)
+    public void ShowDialogue(string id, InteractableImage interactableImage = null, string[] answers = null)
     {
+        InteractableManager.Instance.SetAllInteractablesActive(false);
+
         DialogueEntry entry = DialogueDatabase.Instance.Get(id);
+
+        // If this dialogue was triggered through an interactable image
+        if (interactableImage != null) currentInteractableImage = interactableImage;
+        else currentInteractableImage = null;
 
         // Determine if this is a quiz
         currentAnswers = answers;
@@ -216,24 +225,6 @@ public class DialogueManager : MonoBehaviour
             UpdateAdvanceButton(false, "Off", true);
         }
         else typingCoroutine = StartCoroutine(TypeLine(textToShow));
-
-        /*
-        string combinedText = currentLines[currentLineIndex];
-
-        // If quiz, append answers just for calculating height
-        if (isQuizActive && currentAnswers != null)
-        {
-            foreach (string answer in currentAnswers)
-                combinedText += "\n" + answer;
-        }
-
-        // Calculate how many lines the current dialogue line will occupy and adjust the UI accordingly.
-        currentLineCount = GetLineCount(combinedText);
-        AdjustDialogueUI();
-
-        // Start the typewriter animation for the current line (or only the question if quiz).
-        typingCoroutine = StartCoroutine(TypeLine(currentLines[currentLineIndex]));
-        */
     }
 
     /// <summary>
@@ -285,6 +276,8 @@ public class DialogueManager : MonoBehaviour
         // Hide the dialogue UI.
         dialogueCanvas.SetActive(false);
 
+        InteractableManager.Instance.SetAllInteractablesActive(true);
+
         string id = currentEntry.id;
 
         // Reset dialogue state.
@@ -293,6 +286,9 @@ public class DialogueManager : MonoBehaviour
 
         // Notify the scene controller that the dialogue has finished.
         if (controller) controller.OnDialogueComplete(id);
+
+        // If this was a dialogue triggered by an interactable image and it is the final one, mark it as completed.
+        if (currentInteractableImage != null && id.Contains("final")) currentInteractableImage.OnInteractionComplete();
     }
 
     #endregion
@@ -508,8 +504,7 @@ public class DialogueManager : MonoBehaviour
         advanceButton.interactable = interactable;
 
         // Update text
-        if (advanceText)
-            advanceText.text = label;
+        if (advanceText) advanceText.text = label;
 
         // Force pressed or unpressed state
         if (advanceVisualizer) advanceVisualizer.ForcePressed(forcePressed);
@@ -559,6 +554,20 @@ public class DialogueManager : MonoBehaviour
     /// <param name="mode">The scene loading mode.</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        controller = null;
+        currentEntry = null;
+        currentLines = null;
+        currentLineIndex = 0;
+        currentSpeakerLeft = null;
+        currentSpeakerRight = null;
+        currentLineCount = 0;
+        isTyping = false;
+        isFullyTyped = false;
+        advanceBlocked = false;
+        isQuizActive = false;
+        currentAnswers = null;
+        currentInteractableImage = null;
+
         // Find and update the reference to the scene's controller.
         controller = FindFirstObjectByType<SceneFlowController>();
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Base class for all scene-specific controllers, providing virtual methods for scene logic such as triggering dialogue and handling completed dialogue events.
@@ -7,9 +8,8 @@ public class SceneFlowController : MonoBehaviour
 {
     #region Fields
 
-    [Header("Common Scene Elements")]
+    [Header("UI References")]
     [SerializeField] protected GameObject backgroundImage;
-    [SerializeField] protected GameObject interactableCanvas;
 
     #endregion
     #region Unity Lifecycle Methods
@@ -18,10 +18,9 @@ public class SceneFlowController : MonoBehaviour
     /// Invoked on the first frame when the script is enabled and active.
     /// Sets up the default state of common scene elements and, in the Unity Editor, instantiates core managers if missing and reloads the dialogue database.
     /// </summary>
-    public virtual void Start()
+    protected virtual void Start()
     {
         if (backgroundImage) backgroundImage.SetActive(true);
-        if (interactableCanvas) interactableCanvas.SetActive(false);
 
         // Force a manual reload of the dialogue database for the current scene.
         DialogueDatabase.Instance.Reload();
@@ -49,4 +48,5 @@ public class SceneFlowController : MonoBehaviour
     public virtual void ShowSceneEntryDialogue(GameState state) { }
 
     #endregion
+    
 }

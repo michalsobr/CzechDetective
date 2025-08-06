@@ -3,17 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - InteractableImage
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
-  - Popup
-  - test
-  - 
+  - Interaction Popups
+  - Popup Windows
+  - Notice Windows
   - 
   - 
   - 
@@ -40,6 +41,21 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1576892913
+    locked: 0
+  - name: UI
+    uniqueID: 295837331
+    locked: 0
+  - name: Interaction Popups
+    uniqueID: 119241035
+    locked: 0
+  - name: Popup Windows
+    uniqueID: 497164243
+    locked: 0
+  - name: Notice Windows
+    uniqueID: 3794133539
     locked: 0
   m_RenderingLayers:
   - Default

@@ -1,5 +1,7 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Controls the logic for the Base scene, including entry behavior, dialogue progression, and new game initialization.
@@ -13,7 +15,7 @@ public class BaseController : SceneFlowController
     /// Invoked on the first frame when the script is enabled and active.
     /// Calls the base setup and triggers the entry dialogue for the current scene state.
     /// </summary>
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
         ShowSceneEntryDialogue(GameManager.Instance.CurrentState);
@@ -34,21 +36,30 @@ public class BaseController : SceneFlowController
 
         string dialogueIDToLoad = null;
 
-        if (id == "base.intro.one") dialogueIDToLoad = "base.arrival.one";
+        // Intro.
+        if (id == "base.intro.one")
+        {
+            backgroundImage.SetActive(true);
+            dialogueIDToLoad = "base.arrival.one";
+        }
 
+        // Second block.
         else if (id == "base.arrival.one") dialogueIDToLoad = "base.letterman.one";
         else if (id == "base.letterman.one") dialogueIDToLoad = "base.letterman.two";
         else if (id == "base.letterman.two") dialogueIDToLoad = "base.letterman.three";
         else if (id == "base.letterman.three") dialogueIDToLoad = "base.letterman.four";
         else if (id == "base.letterman.four") dialogueIDToLoad = "base.letterman.five";
 
+        // Quiz.
         else if (id == "base.letterman.five") ShowLettermanQuiz();
+        // Quiz loop.
         else if (id == "base.letterman.q_wrong1") ShowLettermanQuiz();
 
+        // Quiz correct.
         else if (id == "base.letterman.q_correct1") dialogueIDToLoad = "base.letterman.q_correct2";
-
         else if (id == "base.letterman.q_correct2") dialogueIDToLoad = "base.journal.one";
 
+        // Third block.
         else if (id == "base.journal.one") dialogueIDToLoad = "base.letter.one";
         else if (id == "base.letter.one") dialogueIDToLoad = "base.letter.two";
         else if (id == "base.letter.two") dialogueIDToLoad = "base.letter.three";
@@ -56,9 +67,14 @@ public class BaseController : SceneFlowController
         else if (id == "base.letter.four") dialogueIDToLoad = "base.letter.five";
         else if (id == "base.letter.five") dialogueIDToLoad = "base.letter.six";
         else if (id == "base.letter.six") dialogueIDToLoad = "base.letter.seven";
-
         else if (id == "base.letter.seven") dialogueIDToLoad = "base.location_change.one";
 
+        // "base.location_change.one" is the last dialogue of the scene.
+
+        // Chained interactable dialogues.
+        else if (id == "interactable.base.fountain.one") dialogueIDToLoad = "interactable.base.fountain.final";
+
+        // Show the next dialogue, if there is one that needs to be shown.
         if (dialogueIDToLoad != null) DialogueManager.Instance.ShowDialogue(dialogueIDToLoad);
     }
 
@@ -72,28 +88,28 @@ public class BaseController : SceneFlowController
 
         string dialogueIDToLoad = null;
 
-        if (!state.completedDialogues.Contains("base.intro.one")) dialogueIDToLoad = "base.intro.one";
-        else if (!state.completedDialogues.Contains("base.location_change.one")) dialogueIDToLoad = "base.letterman.q_correct1";
-        
-        // TODO rewrite!
-        /*
-        else if (!state.completedDialogues.Contains("base.arrival.one")) ShowArrivalDialogue();
-        else if (!state.completedDialogues.Contains("base.letterman.five")) ShowLettermanDialogue("one");
-        else if (!state.completedDialogues.Contains("base.letterman.q_correct")) ShowLettermanQuiz();
-        */
+        // New game/save - show intro dialogue with the background image hidden.
+        if (!state.completedDialogues.Contains("base.intro.one"))
+        {
+            if (backgroundImage) backgroundImage.SetActive(false);
+            DialogueManager.Instance.ShowDialogue("base.intro.one");
+            return;
+        }
+        // Background image is visible.
+        else if (backgroundImage) backgroundImage.SetActive(true);
 
+        // Trigger the "checkpointed" dialogue based on which dialogue was last completed.
+        // Second block wasn't finished.
+        if (!state.completedDialogues.Contains("base.letterman.q_correct1")) dialogueIDToLoad = "base.arrival.one";
+
+        // Correct quiz dialogue wasn't finished.
+        else if (!state.completedDialogues.Contains("base.letter.one")) dialogueIDToLoad = "base.letterman.q_correct1";
+
+        // Third block wasn't finished.
+        else if (!state.completedDialogues.Contains("base.location_change.one")) dialogueIDToLoad = "base.letter.one";
+
+        // Show an entry dialogue, if there is one that needs to be shown.
         if (dialogueIDToLoad != null) DialogueManager.Instance.ShowDialogue(dialogueIDToLoad);
-    }
-
-    #endregion
-    #region Public Methods (Story Progression)
-
-    /// <summary>
-    /// Triggers the first intro dialogue.
-    /// </summary>
-    public void ShowIntroDialogue()
-    {
-        DialogueManager.Instance.ShowDialogue("base.intro.one");
     }
 
     #endregion
@@ -110,8 +126,9 @@ public class BaseController : SceneFlowController
         };
 
         // Show base.letterman.quiz with answers
-        DialogueManager.Instance.ShowDialogue("base.letterman.quiz", answers);
+        DialogueManager.Instance.ShowDialogue("base.letterman.quiz", null, answers);
     }
 
     #endregion
+
 }

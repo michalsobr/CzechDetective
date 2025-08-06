@@ -191,6 +191,30 @@
       ]
     },
     {
+      "id": "interactable.base.fountain.one",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "fountain placeholder one."
+      ]
+    },
+    {
+      "id": "interactable.base.fountain.final",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "fountain placeholder final."
+      ]
+    },
+        {
+      "id": "interactable.base.cloud.final",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "cloud placeholder final."
+      ]
+    },
+    {
       "id": "scene.placeholder.one",
       "speakerLeft": "none",
       "speakerRight": "none",
