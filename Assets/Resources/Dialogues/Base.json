@@ -5,8 +5,8 @@
       "speakerLeft": "detective_init",
       "speakerRight": "none",
       "lines": [
-        "(press <b>spacebar</b> to skip dialogue while it's typing.)\n(press <b>spacebar</b> or click on the <b>Next</b> button on the right of the dialogue to get to the next dialogue.)",
-        "(click on the the <b>Settings</b> icon <i>(the icon with the gear)</i> to save, load or exit the game.)",
+        "<b>!</b> (Press <b>spacebar</b> to skip dialogue while it's typing.) <b>!</b>\n\n<b>!</b> (Press <b>spacebar</b> or click on the <b>Next</b> button on the right side of the dialogue window to get to the next dialogue.) <b>!</b>",
+        "<b>!</b> (Click on the the <b>Settings</b> icon <i>(the icon with the gear)</i> in the bottom left corner to quickly save or exit the game.) <b>!</b>",
         "For the longest time, it was just me and my mom.",
         "I was born and raised in the UK. It's all I know. But before that, my mom lived in a small Czech town with the rest of her family.",
         "I tried asking her about it a few times, but she always dodged the subject. She hardly ever spoke of it.",
@@ -36,10 +36,10 @@
     {
       "id": "base.letterman.one",
       "speakerLeft": "detective_neutral",
-      "speakerRight": "none",
+      "speakerRight": "letterman",
       "lines": [
         "...",
-        "You notice an older man standing near the fountain, staring directly at you. He's holding an envelope."
+        "You notice a mysterious man standing near the fountain holding something in his hands, staring directly at you."
       ]
     },
     {
@@ -47,7 +47,7 @@
       "speakerLeft": "none",
       "speakerRight": "letterman",
       "lines": [
-        "\"Pan Novák?\""
+        "He approches me.\n<b>\"Pan Novák?\"</b>\n\n<b>!</b> (<b>Hover</b> over underlined words and phrases to get a <b>translation</b>.) <b>!</b>"
       ]
     },
     {
@@ -63,7 +63,7 @@
       "speakerLeft": "none",
       "speakerRight": "letterman",
       "lines": [
-        "\"Tady. Tento dopis je pro Vás.\"\n<b>(hover over underlined text to get a hint)</b>"
+        "\"Tady. Tento dopis je pro Vás.\"\n\n<b>!</b> (Some words and phrases might have a <b>\"hint\"</b> about their translation before you learn what they actually mean.) <b>!</b>"
       ]
     },
     {
@@ -71,7 +71,7 @@
       "speakerLeft": "detective_surprised",
       "speakerRight": "none",
       "lines": [
-        "Hmm… I'm pretty sure tady means here. And dopis... something to do with paper.\n\n<b>What do you think he just said?</b>"
+        "Hmm… I know what <b>\"tady\"</b> means but not quite sure with the rest.\nOh - and I also think <b>\"dopis\"</b> has something to do with paper?"
       ]
     },
     {
@@ -79,7 +79,7 @@
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
-        "What do you think he just said?\n<b>(hover over underlined text throughout the game for hints)</b>\n\n<b>\"Tady. Tento dopis je pro Vás.\"</b>"
+        "What do you think he just said?\n\n<b>!</b> (Hover over underlined words throughout the game if you ever need a hint or to see translations of words and phrases we already know.) <b>!</b>\n\n<b>\"Tady. Tento dopis je pro Vás.\"</b>"
       ]
     },
     {
@@ -87,7 +87,7 @@
       "speakerLeft": "detective_sad",
       "speakerRight": "none",
       "lines": [
-        "Hmm... no, I don't think that's quite right.\nWhat else could it be...?"
+        "Hmm... <b>No</b>, I don't think that's quite right...\nBut what else could it be?"
       ]
     },
     {
@@ -95,7 +95,7 @@
       "speakerLeft": "detective_happy",
       "speakerRight": "none",
       "lines": [
-        "Oh, yes!"
+        "<b>Oh, yes!</b>"
       ]
     },
     {
@@ -103,7 +103,7 @@
       "speakerLeft": "detective_happy",
       "speakerRight": "none",
       "lines": [
-        "I think he said <b>\"Here. This letter is for you.\"</b>! (\"Tady. Tento dopis je pro Vás.\")"
+        "I think he said <b>\"Here. This letter is for you.\"</b>! \n(\"Tady. Tento dopis je pro Vás.\")"
       ]
     },
     {
@@ -111,7 +111,7 @@
       "speakerLeft": "detective_happy",
       "speakerRight": "none",
       "lines": [
-        "You just learned some new words!\n(click the icon above <b>Settings</b> <i>(the icon with the book)</i> to open your <b>Journal</b>. All your learned words will be there if you need to revisit them.)"
+        "<b>(You just learned some new words!)</b>\n\n<b>!</b> (If you want to remind yourself which words and phrases you already know and their translations, click on the icon above the <b>Settings</b> - <i>(the icon with the book)</i> - to open your <b>Journal</b>.) <b>!</b>"
       ]
     },
     {
@@ -128,9 +128,10 @@
       "speakerRight": "none",
       "lines": [
         "You look down at your hands and turn over the envelope. You notice your full name handwritten in cursive on it.",
-        "<i>\"Tobiáš Novák\"</i>",
-        "It also has a return address on it and the name \"Růžena Nováková\".",
-        "You vaguely remember hearing this name once or twice in your childhood. Was it your mother's... cousin? Or maybe her mom?",
+        "<b><i>\"Tobiáš Novák\"</i></b>",
+        "It also has a return address on it with the name... \"Růžena Nováková\"?",
+        "Must be a relative!?",
+        "You vaguely remember hearing this name once or twice in your childhood. But who was it...Was it your mother's... cousin? Or maybe her mom?",
         "You can't quite remember..."
       ]
     },
@@ -139,8 +140,10 @@
       "speakerLeft": "detective_surprised",
       "speakerRight": "none",
       "lines": [
-        "You realize you've been staring at the envelope for some time and so you look up to talk with the man who handed it to you just to see he's gone, nowhere to be seen.",
-        "Oh?"
+        "You realize you've been staring at the envelope for some time and so you look up to talk with the man who handed it to you.",
+        "Oh?",
+        "He's gone... nowhere to be seen.",
+        "<i>Strange...</i>"
       ]
     },
     {
@@ -148,7 +151,7 @@
       "speakerLeft": "detective_letter",
       "speakerRight": "none",
       "lines": [
-        "You look back down and open the envelope.",
+        "You look back down to open the envelope.",
         "Inside is a handwritten letter -"
       ]
     },
@@ -160,10 +163,10 @@
         "Well, let's see how much I can decipher...",
         "<b>Milý Tobiáši,</b>\n...\nDear, Tobiáš - duh",
         "<b>Pokud čteš tento dopis, pak jsi skutečně přijel.</b>\n...\nSomething about me reading this letter...",
-        "<b>Já a tvoje máma jsme si byly vždycky velmi blízké. Lituji toho, že tajemnství a spousta let co jsme byly od sebe nás rozdělily a nezůstali jsme jedna rodina.</b>\n...\n Oh, something about my mom. I think - secrets and... years? Years of secrets?! And the last word definitely means family!",
-        "<b>Musím ti říct něco důležitého. Z našeho domu zmizel náhrdelník. Je to rodinný klenot, který nám předala tvoje babička.</b>\n...\nShe want to tell me something about... somehting to do with family. Oh and I'm pretty sure the last word means grandmother?",
-        "<b>Ostatní tvrdí, že se jen ztratil, ale já tomu nevěřím.\n\nUž jsem příliš stará a unavená na rodinné hádky. Ale ty, člověk zvenčí, ale zároveň z rodiny, bys mi možná mohl pomoci zjistit pravdu.</b>\n...\nAll I can tell from these lines is family, human? and the truth?",
-        "<b>Nikomu jsem o tomto dopise neřekla. Doufám, že za mnou přijdeš co nejdřív.\nNajdeš mě v rodinné vile Novákových.</b>\n...\nSomething about the letter again and I think she's telling me to visit her at the Novák's villa?"
+        "<b>Já a tvoje máma jsme si byly vždycky velmi blízké. Lituji toho, že tajemnství a spousta let co jsme byly od sebe nás rozdělily a nezůstali jsme jedna rodina.</b>\n...\n Oh, something about my mom. Secrets?! And the last word definitely means family!",
+        "<b>Musím ti říct něco důležitého. Z našeho domu zmizel náhrdelník. Je to rodinný klenot, který nám předala tvoje babička.</b>\n...\nShe wants to tell me something. Something about... my family?\nOh - and I'm pretty sure the last word means grandmother?",
+        "<b>Ostatní tvrdí, že se jen ztratil, ale já tomu nevěřím.\nUž jsem příliš stará a unavená na rodinné hádky. Ale ty, člověk zvenčí, ale zároveň z této rodiny, bys mi možná mohl pomoci zjistit pravdu.</b>\n...\nAll I can tell from these lines is family again, then - human? and the word for truth.",
+        "<b>Nikomu jsem o tomto dopise neřekla. Doufám, že za mnou přijdeš co nejdřív.\nNajdeš mě v rodinné vile Novákových.</b>\n...\nSomething about the letter again and I think she's telling me to visit her at the Novák's villa?!"
       ]
     },
     {
@@ -179,7 +182,8 @@
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
-        "Well, I wanted to look around this town square some more <b>(I still could, just a bit)</b> but I think my next stop is obvious - the Novák's villa!"
+        "Well, I think my next stop is obvious - the Novák's villa!",
+        "I did want to explore this town square some more though...\n<i>Maybe I'll have just a quick look before I go!</i>"
       ]
     },
     {
@@ -187,7 +191,8 @@
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
-        "(You can take a look around the square and <b>interact</b> with some objects OR you can go straight to your next location.)\n(To change your location click on the <b>Location</b> icon above <b>Journal</b>.)>"
+        "(Sometimes there might be objects you can interact with. <b>Try and find some at this town square!)</b>\n\n<b>!</b> (If you can't find any or have a hard time finding them all, click on the icon in the bottom right corner - <i>(the icon with the red eye)</i> - to <b>highlight</b> them all.) <b>!</b>",
+        "(Once you are ready to leave the town square, click on the icon above the <b>Journal</b> - <i>(the icon with the location symbol)</i> - to open the <b>Map</b>.)"
       ]
     },
     {
@@ -206,7 +211,7 @@
         "fountain placeholder final."
       ]
     },
-        {
+    {
       "id": "interactable.base.cloud.final",
       "speakerLeft": "none",
       "speakerRight": "none",
