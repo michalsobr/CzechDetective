@@ -39,7 +39,7 @@
       "speakerRight": "letterman",
       "lines": [
         "...",
-        "You notice a mysterious man standing near the fountain holding something in his hands, staring directly at you."
+        "You notice a mysterious man standing near the fountain. He's holding something in his hands, staring directly at you."
       ]
     },
     {
@@ -47,7 +47,7 @@
       "speakerLeft": "none",
       "speakerRight": "letterman",
       "lines": [
-        "He approches me.\n<b>\"Pan Novák?\"</b>\n\n<b>!</b> (<b>Hover</b> over underlined words and phrases to get a <b>translation</b>.) <b>!</b>"
+        "He approches - \n<cz><b>\"Pan Novák?\"</b></cz>\n\n<b>!</b> (<b>Hover</b> over underlined words and phrases to get a <b>translation</b>.) <b>!</b>"
       ]
     },
     {
@@ -63,7 +63,7 @@
       "speakerLeft": "none",
       "speakerRight": "letterman",
       "lines": [
-        "\"Tady. Tento dopis je pro Vás.\"\n\n<b>!</b> (Some words and phrases might have a <b>\"hint\"</b> about their translation before you learn what they actually mean.) <b>!</b>"
+        "<cz>\"Tady. Tento dopis je pro Vás.\"</cz>\n\n<b>!</b> (Some words and phrases might have a <b>\"hint\"</b> about their translation before you learn what they actually mean.) <b>!</b>"
       ]
     },
     {
@@ -71,7 +71,7 @@
       "speakerLeft": "detective_surprised",
       "speakerRight": "none",
       "lines": [
-        "Hmm… I know what <b>\"tady\"</b> means but not quite sure with the rest.\nOh - and I also think <b>\"dopis\"</b> has something to do with paper?"
+        "Hmm… I know what <cz><b>\"tady\"</b></cz> means but not quite sure with the rest.\nOh - and I also think <cz><b>\"dopis\"</b></cz> has something to do with paper?"
       ]
     },
     {
@@ -79,7 +79,7 @@
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
-        "What do you think he just said?\n\n<b>!</b> (Hover over underlined words throughout the game if you ever need a hint or to see translations of words and phrases we already know.) <b>!</b>\n\n<b>\"Tady. Tento dopis je pro Vás.\"</b>"
+        "What do you think he just said?\n\n<b>!</b> (Hover over underlined words throughout the game if you ever need a hint or to see translations of words and phrases we already know.) <b>!</b>\n\n<cz><b>\"Tady. Tento dopis je pro Vás.\"</b></cz>"
       ]
     },
     {
@@ -103,7 +103,7 @@
       "speakerLeft": "detective_happy",
       "speakerRight": "none",
       "lines": [
-        "I think he said <b>\"Here. This letter is for you.\"</b>! \n(\"Tady. Tento dopis je pro Vás.\")"
+        "I think he said <b>\"Here. This letter is for you.\"</b>! \n<cz>(\"Tady. Tento dopis je pro Vás.\")</cz>"
       ]
     },
     {
@@ -111,7 +111,7 @@
       "speakerLeft": "detective_happy",
       "speakerRight": "none",
       "lines": [
-        "<b>(You just learned some new words!)</b>\n\n<b>!</b> (If you want to remind yourself which words and phrases you already know and their translations, click on the icon above the <b>Settings</b> - <i>(the icon with the book)</i> - to open your <b>Journal</b>.) <b>!</b>"
+        "<b>(You just learned some new words!)</b>\n\n<b>!</b> (If you want to remind yourself which words and phrases you already know and their translations, click on the icon above the <b>Settings</b> - <i>(the icon with the book)</i> - to open your <b>Journal</b>. The words and phrases will be <b>sorted in chronological order as you learned them</b> by default but you can also <b>sort them alphabetically</b>.) <b>!</b>"
       ]
     },
     {
@@ -129,7 +129,7 @@
       "lines": [
         "You look down at your hands and turn over the envelope. You notice your full name handwritten in cursive on it.",
         "<b><i>\"Tobiáš Novák\"</i></b>",
-        "It also has a return address on it with the name... \"Růžena Nováková\"?",
+        "It also has a return address on it with the name... <b><i>\"Růžena Nováková\"</b></i>?",
         "Must be a relative!?",
         "You vaguely remember hearing this name once or twice in your childhood. But who was it...Was it your mother's... cousin? Or maybe her mom?",
         "You can't quite remember..."
@@ -158,27 +158,69 @@
     {
       "id": "base.letter.five",
       "speakerLeft": "detective_letter",
-      "speakerRight": "aunt_unknown",
+      "speakerRight": "none",
       "lines": [
-        "Well, let's see how much I can decipher...",
-        "<b>Milý Tobiáši,</b>\n...\nDear, Tobiáš - duh",
-        "<b>Pokud čteš tento dopis, pak jsi skutečně přijel.</b>\n...\nSomething about me reading this letter...",
-        "<b>Já a tvoje máma jsme si byly vždycky velmi blízké. Lituji toho, že tajemnství a spousta let co jsme byly od sebe nás rozdělily a nezůstali jsme jedna rodina.</b>\n...\n Oh, something about my mom. Secrets?! And the last word definitely means family!",
-        "<b>Musím ti říct něco důležitého. Z našeho domu zmizel náhrdelník. Je to rodinný klenot, který nám předala tvoje babička.</b>\n...\nShe wants to tell me something. Something about... my family?\nOh - and I'm pretty sure the last word means grandmother?",
-        "<b>Ostatní tvrdí, že se jen ztratil, ale já tomu nevěřím.\nUž jsem příliš stará a unavená na rodinné hádky. Ale ty, člověk zvenčí, ale zároveň z této rodiny, bys mi možná mohl pomoci zjistit pravdu.</b>\n...\nAll I can tell from these lines is family again, then - human? and the word for truth.",
-        "<b>Nikomu jsem o tomto dopise neřekla. Doufám, že za mnou přijdeš co nejdřív.\nNajdeš mě v rodinné vile Novákových.</b>\n...\nSomething about the letter again and I think she's telling me to visit her at the Novák's villa?!"
+        "Well, let's see how much I can decipher..."
       ]
     },
     {
       "id": "base.letter.six",
       "speakerLeft": "detective_letter",
-      "speakerRight": "aunt_known",
+      "speakerRight": "aunt_unknown",
       "lines": [
-        "<b>S láskou, Teta Růžena</b>\n...\nWith love... <b>Oh!</b> - <b>aunt</b> Růžena!"
+        "<cz><b>Milý Tobiáši,</b></cz>\n...\nDear, Tobiáš - duh"
       ]
     },
     {
       "id": "base.letter.seven",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "aunt_unknown",
+      "lines": [
+        "<cz><b>Pokud čteš tento dopis, pak jsi skutečně přijel.</b></cz>\n...\nSomething about me reading this letter..."
+      ]
+    },
+    {
+      "id": "base.letter.eight",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "aunt_unknown",
+      "lines": [
+        "<cz><b>Já a tvoje máma jsme si byly vždycky velmi blízké. Lituji toho, že tajemnství a spousta let co jsme byly od sebe nás rozdělily a nezůstali jsme jedna rodina.</b></cz>\n...\n Oh, something about my mom. Secrets and... years? Years of secrets?!\nAnd the last word definitely means family!"
+      ]
+    },
+    {
+      "id": "base.letter.nine",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "aunt_unknown",
+      "lines": [
+        "<cz><b>Musím ti říct něco důležitého. Z našeho domu zmizel náhrdelník. Je to rodinný klenot, který nám předala tvoje babička.</b></cz>\n...\nShe wants to tell me something. Something about... my family?\nOh - and I'm pretty sure the last word means grandmother?"
+      ]
+    },
+    {
+      "id": "base.letter.ten",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "aunt_unknown",
+      "lines": [
+        "<cz><b>Ostatní tvrdí, že se jen ztratil, ale já tomu nevěřím.\nUž jsem příliš stará a unavená na rodinné hádky. Ale ty, člověk zvenčí, ale zároveň z této rodiny, bys mi možná mohl pomoci zjistit pravdu.</b></cz>\n...\nAll I can tell from these lines is family again, then - human? and the word for truth."
+      ]
+    },
+    {
+      "id": "base.letter.eleven",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "aunt_unknown",
+      "lines": [
+        "<cz><b>Nikomu jsem o tomto dopise neřekla. Doufám, že za mnou přijdeš co nejdřív.\nNajdeš mě v rodinné vile Novákových.</b></cz>\n...\nSomething about the letter again and I think she's telling me to visit her at the Novák's villa?!"
+      ]
+    },
+    {
+      "id": "base.letter.twelve",
+      "speakerLeft": "detective_letter",
+      "speakerRight": "aunt_known",
+      "lines": [
+        "<cz><b>S láskou, Teta Růžena</b></cz>\n...\nWith love... <b>Oh!</b> - <b>aunt</b> Růžena!"
+      ]
+    },
+    {
+      "id": "base.letter.thirteen",
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
@@ -187,7 +229,7 @@
       ]
     },
     {
-      "id": "base.location_change.one",
+      "id": "base.location.one",
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
