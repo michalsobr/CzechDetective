@@ -53,6 +53,7 @@ public class DialogueManager : MonoBehaviour
     private int currentLineCount;
     private bool isTyping = false;
     private bool isFullyTyped = false;
+    private string fullLineToShow;
 
     /// <summary> The active coroutine running the typewriter effect. </summary>
     private Coroutine typingCoroutine;
@@ -68,6 +69,7 @@ public class DialogueManager : MonoBehaviour
 
     /// <summary> The interactable image that triggered the current dialogue, if any. </summary>
     private InteractableImage currentInteractableImage;
+    private bool isDialogueActive = false; // Tracks whether a dialogue canvas is currently active.
 
     #endregion
     #region Unity Lifecycle Methods
@@ -139,7 +141,10 @@ public class DialogueManager : MonoBehaviour
     /// <param name="id">The unique identifier of the dialogue entry to show.</param>
     public void ShowDialogue(string id, InteractableImage interactableImage = null, string[] answers = null)
     {
+        isDialogueActive = true;
+
         InteractableManager.Instance.SetAllInteractablesActive(false);
+        UIManager.Instance.SetUIButtonInteractable(UIManager.Instance.highlightButton, false);
 
         DialogueEntry entry = DialogueDatabase.Instance.Get(id);
 
@@ -199,32 +204,35 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void DisplayLine()
     {
-        string textToShow = CurrentLineText;
+        // Turn only <cz>...</cz> parts into links/underline
+        fullLineToShow = TranslationManager.Instance.ProcessCzSegments(CurrentLineText);
 
-        // If quiz is active, append answers as TMP links
+        // If quiz is active, append answer links
         if (isQuizActive && currentAnswers != null)
         {
-            QuizManager.Instance.SetupQuiz(currentEntry.id, currentAnswers);
-            textToShow += QuizManager.Instance.GetFormattedAnswers();
+            QuizManager.Instance.SetupQuiz(currentEntry.id, currentAnswers, fullLineToShow);
+            fullLineToShow += QuizManager.Instance.BuildAnswersMarkup();
         }
 
-        // Calculate how many lines the current dialogue line will occupy and adjust the UI accordingly.
-        currentLineCount = GetLineCount(textToShow);
+        // Calculate how many lines the current dialogue line will occupy and adjust the UI.
+        currentLineCount = GetLineCount(fullLineToShow);
         AdjustDialogueUI();
 
         // Show instantly if quiz is active (skip typing animation).
         if (isQuizActive)
         {
-            string processedLine = TranslationManager.Instance.AutoLinkText(textToShow);
-            dialogueText.text = AddUnderlineToLinks(processedLine);
-
             isTyping = false;
             isFullyTyped = true;
 
-            // Show the force pressed "Off" advance button and disable its interaction.
             UpdateAdvanceButton(false, "Off", true);
+
+            dialogueText.text = fullLineToShow;
+            dialogueText.ForceMeshUpdate(); // build link data for hover
         }
-        else typingCoroutine = StartCoroutine(TypeLine(textToShow));
+        else
+        {
+            typingCoroutine = StartCoroutine(TypeLine(fullLineToShow));
+        }
     }
 
     /// <summary>
@@ -239,8 +247,7 @@ public class DialogueManager : MonoBehaviour
         {
             StopCoroutine(typingCoroutine);
 
-            string processedLine = TranslationManager.Instance.AutoLinkText(CurrentLineText);
-            dialogueText.text = AddUnderlineToLinks(processedLine);
+            dialogueText.text = fullLineToShow;
 
             isTyping = false;
             isFullyTyped = true;
@@ -273,10 +280,13 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     private void EndDialogue()
     {
+        isDialogueActive = false;
+
         // Hide the dialogue UI.
         dialogueCanvas.SetActive(false);
 
         InteractableManager.Instance.SetAllInteractablesActive(true);
+        UIManager.Instance.SetUIButtonInteractable(UIManager.Instance.highlightButton, true);
 
         string id = currentEntry.id;
 
@@ -427,10 +437,6 @@ public class DialogueManager : MonoBehaviour
         // Show the force pressed "Skip" advance button and disable its interaction while typing.
         UpdateAdvanceButton(false, "Skip", true);
 
-        line = TranslationManager.Instance.AutoLinkText(line);
-        // Preprocess the line to add underline tags to links before typing.
-        line = AddUnderlineToLinks(line);
-
         // Initialize typing state
         isTyping = true;
         isFullyTyped = false;
@@ -462,32 +468,10 @@ public class DialogueManager : MonoBehaviour
         isTyping = false;
         isFullyTyped = true;
 
+        dialogueText.ForceMeshUpdate(); // build link data for hover
+
         // Show the "Next" advance button and enable its interaction.
         UpdateAdvanceButton(true, "Next", false);
-    }
-
-    /// <summary>
-    /// Adds underline tags to any clickable links in the provided dialogue text.
-    /// </summary>
-    /// <param name="text">The dialogue text containing link tags.</param>
-    /// <returns>The modified text with underlined links.</returns>
-    public string AddUnderlineToLinks(string text)
-    {
-        return System.Text.RegularExpressions.Regex.Replace(
-            text,
-            "<link=\"([^\"]+)\">(.*?)</link>",
-            match =>
-            {
-                string id = match.Groups[1].Value; // link ID
-                string content = match.Groups[2].Value; // link text
-
-                // If it's a quiz answer, don't underline
-                if (id.StartsWith("Answer_"))
-                    return $"<link=\"{id}\">{content}</link>";
-
-                // Normal links get underlined
-                return $"<link=\"{id}\"><u>{content}</u></link>";
-            });
     }
 
     /// <summary>
@@ -518,7 +502,7 @@ public class DialogueManager : MonoBehaviour
     {
         advanceBlocked = true;
         // Wait for 0.3 seconds before allowing dialogue advancement again.
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         advanceBlocked = false;
     }
 
@@ -592,8 +576,10 @@ public class DialogueManager : MonoBehaviour
         if (isQuizActive) return false;
 
         // Safety check: allow advancing only if there are lines remaining and the dialogue UI is active.
-        return currentLines != null && currentLines.Count > 0 && dialogueCanvas.activeSelf;
+        return currentLines != null && currentLines.Count > 0 && isDialogueActive;
     }
+
+    public bool IsDialogueOpen => isDialogueActive;
 
     #endregion
 }

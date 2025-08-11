@@ -1,97 +1,111 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Detects mouse hover and click events on TMP links inside a TextMeshProUGUI component.
-/// Used to make quiz answers (or other links) clickable and hoverable.
+/// Listens for hover and click on TMP <link> elements inside a TextMeshProUGUI.
+/// We only handle quiz answer links here (with IDs like "a:0", etc.).
+/// Word translation links ("w:...") are ignored by this script.
 /// </summary>
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class EventTriggerListener : MonoBehaviour, IPointerExitHandler
 {
     #region Fields
 
-    private TextMeshProUGUI tmpText;
+    [Header("References")]
+    [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private Canvas parentCanvas;
 
-    /// <summary> The index of the currently hovered link. </summary>
-    private int lastLinkIndex = -1;
+    /// <summary> Index of the currently hovered answer link, -1 if none. </summary>
+    private int lastHoveredAnswerIndex = -1;
 
     #endregion
-    #region Unity Lifecycle Methods
 
-    private void Awake()
-    {
-        tmpText = GetComponent<TextMeshProUGUI>();
-    }
+    #region Unity
 
     private void Update()
     {
+        if (!dialogueText || Mouse.current == null) return;
+
         Vector2 mousePos = Mouse.current.position.ReadValue();
 
-        // Check if the mouse is over a TMP link
-        int linkIndex = TMP_TextUtilities.FindIntersectingLink(tmpText, mousePos, null);
+        // Correct camera, overlay -> null, otherwise canvas.worldCamera (shouldn't be necessary)
+        Camera cam = (parentCanvas && parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            ? null
+            : parentCanvas ? parentCanvas.worldCamera : null;
 
-        if (linkIndex != -1)
+        // Find which link (if any) the mouse is over.
+        int linkIndex = TMP_TextUtilities.FindIntersectingLink(dialogueText, mousePos, cam);
+
+        if (linkIndex == -1)
         {
-            TMP_LinkInfo linkInfo = tmpText.textInfo.linkInfo[linkIndex];
-            string linkId = linkInfo.GetLinkID();
-
-            // Only handle links that are quiz answers
-            if (linkId.StartsWith("Answer_"))
-            {
-                // Hover started or moved to a new link
-                if (linkIndex != lastLinkIndex)
-                {
-                    lastLinkIndex = linkIndex;
-                    HighlightLink(linkInfo.GetLinkID(), true); // Apply hover color
-                }
-
-                // Detect click on the link
-                if (Mouse.current.leftButton.wasPressedThisFrame)
-                {
-                    QuizManager.Instance.OnAnswerClicked(linkInfo.GetLinkID());
-                }
-            }
+            // Not over any link -> clear previous hover if we had one.
+            UnhighlightCurrent();
+            return;
         }
-        else if (lastLinkIndex != -1)
+
+        // We have a link under the mouse.
+        var linkInfo = dialogueText.textInfo.linkInfo[linkIndex];
+        string linkId = linkInfo.GetLinkID();
+
+        // Only react to quiz answers ("a:"). Ignore word links ("w:...") here.
+        if (!linkId.StartsWith("a:"))
         {
-            // Mouse left the link area
-            TMP_LinkInfo linkInfo = tmpText.textInfo.linkInfo[lastLinkIndex];
-            HighlightLink(linkInfo.GetLinkID(), false); // Remove hover color
-            lastLinkIndex = -1;
+            UnhighlightCurrent();
+            return;
+        }
+
+        // If we just moved to a different answer link.
+        if (linkIndex != lastHoveredAnswerIndex)
+        {
+            // Unhighlight the previous answer, if any.
+            UnhighlightCurrent();
+
+            // Highlight the new one.
+            QuizManager.Instance?.UpdateAnswerHighlight(linkId, true);
+            lastHoveredAnswerIndex = linkIndex;
+        }
+        else // Same link as last frame -> do nothing (but clicks below are still allowed)
+
+        // Handle click on this answer
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            QuizManager.Instance?.OnAnswerClicked(linkId);
+            // After a click, the dialogue changes -> clear local hover state
+            lastHoveredAnswerIndex = -1;
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (lastLinkIndex != -1)
-        {
-            TMP_LinkInfo linkInfo = tmpText.textInfo.linkInfo[lastLinkIndex];
-            string linkId = linkInfo.GetLinkID();
-
-            // Only reset highlight for quiz answers.
-            if (linkId.StartsWith("Answer_"))
-            {
-                QuizManager.Instance.UpdateAnswerHighlight(linkId, false);
-            }
-
-            lastLinkIndex = -1;
-        }
+        // Mouse left the text area.
+        UnhighlightCurrent();
     }
 
     #endregion
-    #region Private Methods
+
+    #region Helpers
 
     /// <summary>
-    /// Changes the color of a specific link ID when hovered or unhovered.
+    /// Removes hover highlight from the currently hovered answer (if any).
     /// </summary>
-    /// <param name="linkId">The ID of the link (quiz answer index).</param>
-    /// <param name="hover">Whether the link is being hovered.</param>
-    private void HighlightLink(string linkId, bool hover)
+    private void UnhighlightCurrent()
     {
-        // Rebuild the text with updated colors
-        QuizManager.Instance.UpdateAnswerHighlight(linkId, hover);
+        if (lastHoveredAnswerIndex == -1 || dialogueText == null) return;
+
+        if (lastHoveredAnswerIndex >= 0 && lastHoveredAnswerIndex < dialogueText.textInfo.linkInfo.Length)
+        {
+            var prevLink = dialogueText.textInfo.linkInfo[lastHoveredAnswerIndex];
+            string prevId = prevLink.GetLinkID();
+
+            if (prevId.StartsWith("a:"))
+            {
+                QuizManager.Instance?.UpdateAnswerHighlight(prevId, false);
+            }
+        }
+
+        lastHoveredAnswerIndex = -1;
     }
 
     #endregion

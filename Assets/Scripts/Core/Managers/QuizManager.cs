@@ -1,147 +1,169 @@
+using System.Text;
 using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// Manages quiz answers that are displayed as clickable links in TMP text.
-/// Handles storing answers, checking previous attempts, and processing clicks.
+/// Builds and manages quiz answers that appear as clickable TMP <link> items
+/// under the current dialogue line. Also handles hover highlight and clicks.
 /// </summary>
 public class QuizManager : MonoBehaviour
 {
+    #region Fields
+
     public static QuizManager Instance;
 
+    [Header("UI")]
     [SerializeField] private TextMeshProUGUI dialogueText;
 
-    private string currentDialogueId;
-    private string questionText;
-    private string[] currentAnswers;
+    [Header("Colors")]
+    [SerializeField] private string colorNotTried = "#4B4B4B";
+    [SerializeField] private string colorTried = "#7F0000";
+    [SerializeField] private string colorHover = "#000000";
+
+    private string activeDialogueId;
+    private string activeQuestion;      // Question part (processed)
+    private string[] answers;           // Raw answer texts in order
+
+    #endregion
+
+    #region Unity
 
     private void Awake()
     {
-        // If another instance already exists, destroy this one.
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        
+        if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
     }
 
+    #endregion
+
+    #region Public Methods
+
     /// <summary>
-    /// Prepares a quiz by storing its answers and associated dialogue ID.
+    /// Remember which quiz is active and prepare the processed question text.
+    /// Call this before appending answers to the dialogue.
     /// </summary>
-    public void SetupQuiz(string dialogueId, string[] answers)
+    public void SetupQuiz(string dialogueId, string[] answerOptions, string processedQuestion)
     {
-        currentDialogueId = dialogueId;
-        currentAnswers = answers;
-
-        // Store the already processed line (with links)
-        string processed = DialogueManager.Instance.CurrentLineText;
-        processed = TranslationManager.Instance.AutoLinkText(processed);
-        processed = DialogueManager.Instance.AddUnderlineToLinks(processed);
-
-        questionText = processed;
+        activeDialogueId = dialogueId;
+        answers = answerOptions;
+        this.activeQuestion = processedQuestion;
     }
 
     /// <summary>
-    /// Generates a formatted string with clickable links for all answers.
+    /// Build the markup for all answers. DialogueManager will append this to the question.
     /// </summary>
-    public string GetFormattedAnswers()
+    public string BuildAnswersMarkup()
     {
-        if (currentAnswers == null || currentAnswers.Length == 0) return "";
+        if (answers == null || answers.Length == 0) return "";
 
-        string result = "";
-        for (int i = 0; i < currentAnswers.Length; i++)
+        var stringBuilder = new StringBuilder(answers.Length * 32);
+
+        for (int i = 0; i < answers.Length; i++)
         {
-            bool alreadyTried =
-                GameManager.Instance.CurrentState.puzzleAttempts.ContainsKey(currentDialogueId) &&
-                GameManager.Instance.CurrentState.puzzleAttempts[currentDialogueId].Contains(currentAnswers[i]);
+            string id = $"a:{i}";
+            string color = IsAlreadyTried(i) ? colorTried : colorNotTried;
 
-            string colorTag = alreadyTried ? "<color=#7F0000>" : "<color=#4B4B4B>";
-            result += $"\n<link=\"Answer_{i}\">{colorTag}{currentAnswers[i]}</color></link>";
+            stringBuilder.Append('\n');
+            stringBuilder.Append($"<link=\"{id}\"><color={color}>{answers[i]}</color></link>");
         }
-        return result;
+
+        return stringBuilder.ToString();
     }
 
     /// <summary>
-    /// Highlights or unhighlights a specific quiz answer in the dialogue text.
+    /// Rebuilds the answers with a hover highlight for the given answer ID.
+    /// Call with highlighted=true on hover enter, and highlighted=false on hover exit.
     /// </summary>
-    /// <param name="answerId">The ID of the answer (from the <link> tag).</param>
-    /// <param name="highlighted">True to highlight, false to reset.</param>
     public void UpdateAnswerHighlight(string answerId, bool highlighted)
     {
-        if (currentAnswers == null || currentAnswers.Length == 0) return;
+        if (answers == null || answers.Length == 0 || string.IsNullOrEmpty(activeQuestion) || dialogueText == null)
+            return;
 
-        string rebuiltAnswers = "";
+        var stringBuilder = new StringBuilder(answers.Length * 32);
 
-        for (int i = 0; i < currentAnswers.Length; i++)
+        for (int i = 0; i < answers.Length; i++)
         {
-            string id = $"Answer_{i}";
+            string id = $"a:{i}";
+            bool isThis = id == answerId;
 
-            // Check if this answer was already tried
-            bool alreadyTried =
-                GameManager.Instance.CurrentState.puzzleAttempts.ContainsKey(currentDialogueId) &&
-                GameManager.Instance.CurrentState.puzzleAttempts[currentDialogueId].Contains(currentAnswers[i]);
+            string baseColor = IsAlreadyTried(i) ? colorTried : colorNotTried;
+            string color = (highlighted && isThis) ? colorHover : baseColor;
 
-            // Base color 
-            string baseColor = alreadyTried ? "#7F0000" : "#4B4B4B";
-
-            // If this is the hovered answer
-            string color = (id == answerId && highlighted) ? "#000000" : baseColor;
-
-            rebuiltAnswers += $"\n<link=\"{id}\"><color={color}>{currentAnswers[i]}</color></link>";
+            stringBuilder.Append('\n');
+            stringBuilder.Append($"<link=\"{id}\"><color={color}>{answers[i]}</color></link>");
         }
 
-        // Rebuild final text: question + answers
-        dialogueText.text = questionText + rebuiltAnswers;
+        // Question + rebuilt answers
+        dialogueText.text = activeQuestion + stringBuilder.ToString();
+        dialogueText.ForceMeshUpdate(); // ensure links are hoverable
     }
 
     /// <summary>
-    /// Called when an answer link is clicked.
+    /// Handle a click on an answer link ("a:i").
+    /// Records the attempt and tells DialogueManager which dialogue to show next.
     /// </summary>
     public void OnAnswerClicked(string linkId)
     {
-        if (currentAnswers == null) return;
+        if (answers == null || answers.Length == 0 || string.IsNullOrEmpty(activeDialogueId))
+            return;
 
-        // Parse "Answer_X" to get index
-        if (!linkId.StartsWith("Answer_")) return;
-        int index = int.Parse(linkId.Replace("Answer_", ""));
+        if (!linkId.StartsWith("a:")) return;
 
-        string answer = currentAnswers[index];
+        if (!int.TryParse(linkId.Substring("a:".Length), out int index)) return;
+        if (index < 0 || index >= answers.Length) return;
 
-        // Record attempt
-        GameManager.Instance.CurrentState.MarkPuzzleComplete(currentDialogueId, answer);
+        // Save the attempt in GameState
+        GameManager.Instance.CurrentState.MarkPuzzleComplete(activeDialogueId, index.ToString());
 
-        // Pick next dialogue
-        string nextDialogue = GetNextDialogueId(answer);
-        ClearQuiz();
-        DialogueManager.Instance.ShowDialogue(nextDialogue);
+        // Pick next dialogue based on the picked answer
+        string nextDialogueId = ResolveNextDialogueId(activeDialogueId, index);
+
+        // Clear quiz state and continue
+        Clear();
+        DialogueManager.Instance.ShowDialogue(nextDialogueId);
     }
 
-    private string GetNextDialogueId(string answer)
+    #endregion
+
+    #region Private Helpers
+
+    /// <summary>
+    /// Returns true if the player already tried this answer for this dialogue.
+    /// </summary>
+    private bool IsAlreadyTried(int answerIndex)
     {
-        if (currentDialogueId == "base.letterman.quiz")
-        {
-            if (answer == currentAnswers[1]) currentDialogueId = "base.letterman.q_correct1";
-            else currentDialogueId = "base.letterman.q_wrong1";
+        // Safety check.
+        if (GameManager.Instance?.CurrentState == null) return false;
+        if (string.IsNullOrEmpty(activeDialogueId)) return false;
+        if (answerIndex < 0 || answerIndex >= (answers?.Length ?? 0)) return false;
 
-            /*
-            return answer switch
-            {
-                "Sorry. That's not your letter." => "base.letterman.q_wrong1",
-                "Here. This letter is for you." => "base.letterman.q_correct1",
-                "Please. This note says you need help." => "base.letterman.q_wrong1",
-                "There. The post office is over there." => "base.letterman.q_wrong1",
-                _ => currentDialogueId
-            };
-            */
-        }
-        return currentDialogueId;
+        var state = GameManager.Instance.CurrentState;
+        if (!state.puzzleAttempts.TryGetValue(activeDialogueId, out var list)) return false;
+
+        return list.Contains(answerIndex.ToString());
     }
 
-    private void ClearQuiz()
+    /// <summary>
+    /// Decide which dialogue to show next based on the active quiz, the picked answer text, or its index.
+    /// </summary>
+    private string ResolveNextDialogueId(string dialogueId, int pickedIndex)
     {
-        currentAnswers = null;
-        currentDialogueId = questionText = null;
+        if (dialogueId == "base.letterman.quiz")
+            return pickedIndex == 1 ? "base.letterman.q_correct1" : "base.letterman.q_wrong1";
+
+        // Fallback default: stay on the same id.
+        return dialogueId;
     }
+
+    /// <summary>
+    /// Remove quiz state so the next line is clean.
+    /// </summary>
+    private void Clear()
+    {
+        activeDialogueId = null;
+        activeQuestion = null;
+        answers = null;
+    }
+
+    #endregion
 }

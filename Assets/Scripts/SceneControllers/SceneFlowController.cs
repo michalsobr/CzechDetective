@@ -24,6 +24,11 @@ public class SceneFlowController : MonoBehaviour
 
         // Force a manual reload of the dialogue database for the current scene.
         DialogueDatabase.Instance.Reload();
+
+        // Sync unlocked words/forms.
+        if (GameManager.Instance.IsGameLoaded)
+            TranslationManager.Instance.SyncUnlocksFrom(GameManager.Instance.CurrentState);
+
     }
 
     #endregion
@@ -37,7 +42,6 @@ public class SceneFlowController : MonoBehaviour
     public virtual void OnDialogueComplete(string id)
     {
         GameManager.Instance.CurrentState.MarkDialogueComplete(id);
-        TranslationManager.Instance.UnlockTranslations();
     }
 
     /// <summary>
@@ -45,8 +49,11 @@ public class SceneFlowController : MonoBehaviour
     /// Intended to be overridden by derived classes for scene-specific behavior.
     /// </summary>
     /// <param name="state">The current <see cref="GameState"/>.</param>
-    public virtual void ShowSceneEntryDialogue(GameState state) { }
+    public virtual void ShowSceneEntryDialogue(GameState state)
+    {
+        UIManager.Instance.SetAllUIButtonsActive(true);
+    }
 
     #endregion
-    
+
 }

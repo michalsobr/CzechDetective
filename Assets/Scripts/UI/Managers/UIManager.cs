@@ -14,6 +14,12 @@ public class UIManager : MonoBehaviour
     // Singleton instance.
     public static UIManager Instance { get; private set; }
 
+    [Header("UI Buttons")]
+    [SerializeField] public Button settingsButton;
+    [SerializeField] public Button journalButton;
+    [SerializeField] public Button mapButton;
+    [SerializeField] public Button highlightButton;
+
     [Header("UI Button Group")]
     /// <summary>
     /// The list of UI button groups managed by this UI manager.
@@ -21,11 +27,10 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [SerializeField] private List<UIButtonGroup> buttonGroups = new();
 
-    [Header("Highlight Button")]
-    [SerializeField] private Button highlightButton;
-
-    private bool isInteractable = true;
     private bool isPopupOpen = false;
+    private bool isJournalUnlocked = false;
+    private bool isMapUnlocked = false;
+    private bool isHighlightUnlocked = false;
 
     #endregion
     #region Unity Lifecycle Methods
@@ -63,13 +68,17 @@ public class UIManager : MonoBehaviour
 
             group.button.onClick.AddListener(() => ShowPopupCanvas(group));
 
+            if (GameManager.Instance.CurrentState.completedDialogues.Contains("base.journal.one"))
+                UnlockJournal();
+            if (GameManager.Instance.CurrentState.completedDialogues.Contains("base.location.one"))
+                UnlockMapAndHighlight();
         }
 
         // Register highlight button listener, if assigned.
         if (highlightButton) highlightButton.onClick.AddListener(HighlightInteractables);
 
-        // Apply the initial interactability state to all UI buttons.
-        SetInteractable(isInteractable);
+        // Set all UI buttons to be interactable by default.
+        SetAllUIButtonsActive(true);
     }
 
     private void OnEnable()
@@ -91,35 +100,35 @@ public class UIManager : MonoBehaviour
     /// <param name="target">The UI button group whose popup should be opened.</param>
     public void ShowPopupCanvas(UIButtonGroup target)
     {
+        isPopupOpen = true;
+
         InteractableManager.Instance.SetAllInteractablesActive(false);
+        SetAllUIButtonsActive(false);
 
         target.popupScript.Open();
-        isPopupOpen = true;
-        SetInteractable(false);
     }
 
     /// <summary>
     /// Enables or disables all UI buttons.
     /// </summary>
     /// <param name="state"><c>true</c> to make UI buttons interactable; otherwise, <c>false</c>.</param>
-    public void SetInteractable(bool state)
+    public void SetAllUIButtonsActive(bool state)
     {
-        isInteractable = state;
+        if (settingsButton) settingsButton.interactable = state;
 
-        foreach (var group in buttonGroups)
-        {
-            if (group.button != null) group.button.interactable = state;
-        }
-        if (highlightButton) highlightButton.interactable = state;
+        if (journalButton) journalButton.interactable = isJournalUnlocked ? state : false;
+        if (mapButton) mapButton.interactable = isMapUnlocked ? state : false;
+        if (highlightButton) highlightButton.interactable = isHighlightUnlocked && !DialogueManager.Instance.IsDialogueOpen ? state : false;
     }
 
     /// <summary>
-    /// Determines whether UI buttons are currently interactable.
+    /// Sets the interactability state of a specific UI button managed by the UIManager.
     /// </summary>
-    /// <returns><c>true</c> if the UI is interactable; otherwise, <c>false</c>.</returns>
-    public bool IsInteractable()
+    /// <param name="targetButton">The button whose state should be changed.</param>
+    /// <param name="state"><c>true</c> to make it interactable; otherwise, <c>false</c>.</param>
+    public void SetUIButtonInteractable(Button targetButton, bool state)
     {
-        return isInteractable;
+        targetButton.interactable = state;
     }
 
     /// <summary>
@@ -138,7 +147,26 @@ public class UIManager : MonoBehaviour
     {
         isPopupOpen = false;
 
-        InteractableManager.Instance.SetAllInteractablesActive(true);
+        SetAllUIButtonsActive(true);
+
+        if (!DialogueManager.Instance.IsDialogueOpen)
+            InteractableManager.Instance.SetAllInteractablesActive(true);
+        else highlightButton.interactable = false;
+    }
+
+    public void UnlockJournal()
+    {
+        isJournalUnlocked = true;
+        if (journalButton) journalButton.interactable = true;
+    }
+
+    public void UnlockMapAndHighlight()
+    {
+        isMapUnlocked = true;
+        mapButton.interactable = true;
+
+        isHighlightUnlocked = true;
+        if (!DialogueManager.Instance.IsDialogueOpen) highlightButton.interactable = true;
     }
 
     #endregion
@@ -152,6 +180,7 @@ public class UIManager : MonoBehaviour
     }
 
     #endregion
+    #region Event Handlers / Callbacks
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -169,8 +198,9 @@ public class UIManager : MonoBehaviour
             group.canvas.SetActive(false); // Ensure canvases are hidden.
         }
 
-        SetInteractable(true);
+        SetAllUIButtonsActive(true);
         ClosePopup();
-
     }
+
+    #endregion
 }

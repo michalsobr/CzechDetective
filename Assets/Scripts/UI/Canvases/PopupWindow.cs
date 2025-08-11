@@ -7,7 +7,7 @@ public abstract class PopupWindow : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        if(closeButton) closeButton.onClick.AddListener(() => Close());
+        if (closeButton) closeButton.onClick.AddListener(() => Close());
     }
 
     public virtual void Open()
@@ -17,7 +17,6 @@ public abstract class PopupWindow : MonoBehaviour
 
     public virtual void Close()
     {
-        UIManager.Instance.SetInteractable(true);
         UIManager.Instance.ClosePopup();
 
         gameObject.SetActive(false);

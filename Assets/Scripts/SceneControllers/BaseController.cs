@@ -1,134 +1,215 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Controls the logic for the Base scene, including entry behavior, dialogue progression, and new game initialization.
-/// Inherits from <see cref="SceneFlowController"/> to reuse common scene flow functionality.
+/// Controls the Base scene flow:
+/// - Shows the right entry dialogue depending on progress
+/// - Responds to dialogue completions
+/// - Unlocks vocabulary at the right moments
 /// </summary>
 public class BaseController : SceneFlowController
 {
-    #region Unity Lifecycle Methods
+    #region Unity Lifecycle
 
     /// <summary>
-    /// Invoked on the first frame when the script is enabled and active.
-    /// Calls the base setup and triggers the entry dialogue for the current scene state.
+    /// Base setup + show the correct entry dialogue for this scene.
     /// </summary>
     protected override void Start()
     {
         base.Start();
+
         ShowSceneEntryDialogue(GameManager.Instance.CurrentState);
     }
 
     #endregion
-    #region Overrides
+
+    #region Dialogue Callbacks
 
     /// <summary>
-    /// Invoked by the <see cref="DialogueManager"/> when a dialogue is completed.
-    /// Updates the game state and triggers the next relevant dialogue in the story flow.
+    /// Called by DialogueManager when a dialogue finishes.
+    /// Decides the next dialogue and unlocks words where needed.
     /// </summary>
-    /// <param name="id">The ID of the completed dialogue.</param>
     public override void OnDialogueComplete(string id)
     {
         base.OnDialogueComplete(id);
+
         Debug.Log($"[BaseController] Dialogue completed: {id}");
 
-        string dialogueIDToLoad = null;
+        string nextDialogueId = null;
 
-        // Intro.
+        // Intro
         if (id == "base.intro.one")
         {
-            backgroundImage.SetActive(true);
-            dialogueIDToLoad = "base.arrival.one";
+            if (backgroundImage) backgroundImage.SetActive(true);
+            nextDialogueId = "base.arrival.one";
         }
 
-        // Second block.
-        else if (id == "base.arrival.one") dialogueIDToLoad = "base.letterman.one";
-        else if (id == "base.letterman.one") dialogueIDToLoad = "base.letterman.two";
-        else if (id == "base.letterman.two") dialogueIDToLoad = "base.letterman.three";
-        else if (id == "base.letterman.three") dialogueIDToLoad = "base.letterman.four";
-        else if (id == "base.letterman.four") dialogueIDToLoad = "base.letterman.five";
+        // Second block
+        else if (id == "base.arrival.one") nextDialogueId = "base.letterman.one";
+        else if (id == "base.letterman.one")
+        {
+            nextDialogueId = "base.letterman.two";
+            UnlockWords("pan"); // Mr.
+        }
+        else if (id == "base.letterman.two") nextDialogueId = "base.letterman.three";
+        else if (id == "base.letterman.three")
+        {
+            nextDialogueId = "base.letterman.four";
+            UnlockWords("tady"); // here
+        }
+        else if (id == "base.letterman.four") nextDialogueId = "base.letterman.five";
 
-        // Quiz.
-        else if (id == "base.letterman.five") ShowLettermanQuiz();
-        // Quiz loop.
-        else if (id == "base.letterman.q_wrong1") ShowLettermanQuiz();
+        // Quiz entry / retry loop
+        else if (id == "base.letterman.five" || id == "base.letterman.q_wrong1") ShowLettermanQuiz();
 
-        // Quiz correct.
-        else if (id == "base.letterman.q_correct1") dialogueIDToLoad = "base.letterman.q_correct2";
-        else if (id == "base.letterman.q_correct2") dialogueIDToLoad = "base.journal.one";
+        // Quiz correct branch
+        else if (id == "base.letterman.q_correct1")
+        {
+            nextDialogueId = "base.letterman.q_correct2";
+            // Unlock base keys (forms are covered as well automatically)
+            UnlockWords("dopis", "tento", "je", "pro", "vás");
+        }
+        else if (id == "base.letterman.q_correct2")
+        {
+            nextDialogueId = "base.journal.one";
+            UIManager.Instance.UnlockJournal();
+        }
 
-        // Third block.
-        else if (id == "base.journal.one") dialogueIDToLoad = "base.letter.one";
-        else if (id == "base.letter.one") dialogueIDToLoad = "base.letter.two";
-        else if (id == "base.letter.two") dialogueIDToLoad = "base.letter.three";
-        else if (id == "base.letter.three") dialogueIDToLoad = "base.letter.four";
-        else if (id == "base.letter.four") dialogueIDToLoad = "base.letter.five";
-        else if (id == "base.letter.five") dialogueIDToLoad = "base.letter.six";
-        else if (id == "base.letter.six") dialogueIDToLoad = "base.letter.seven";
-        else if (id == "base.letter.seven") dialogueIDToLoad = "base.location_change.one";
+        // Third block
+        else if (id == "base.journal.one") nextDialogueId = "base.letter.one";
+        else if (id == "base.letter.one") nextDialogueId = "base.letter.two";
+        else if (id == "base.letter.two") nextDialogueId = "base.letter.three";
+        else if (id == "base.letter.three") nextDialogueId = "base.letter.four";
+        else if (id == "base.letter.four") nextDialogueId = "base.letter.five";
+        else if (id == "base.letter.five")
+        {
+            nextDialogueId = "base.letter.six";
+            UnlockWords("milý");
+        }
+        else if (id == "base.letter.six") nextDialogueId = "base.letter.seven"; // "čteš" guess
+        else if (id == "base.letter.seven")
+        {
+            nextDialogueId = "base.letter.eight";
+            UnlockWords("já", "a", "tvoje", "máma", "jsme", "let", "jedna", "rodina");
+        }
+        else if (id == "base.letter.eight")
+        {
+            nextDialogueId = "base.letter.nine";
+            UnlockWords("tobě", "rodinný"); // "tajemnství", "babička" and "říct" guess
+        }
+        else if (id == "base.letter.nine")
+        {
+            nextDialogueId = "base.letter.ten";
+            UnlockWords("ty", "pravda"); // "člověk" guess
+        }
+        else if (id == "base.letter.ten")
+        {
+            nextDialogueId = "base.letter.eleven";
+            UnlockWords("o", "vila"); // "mě" guess
+        }
+        else if (id == "base.letter.eleven")
+        {
+            nextDialogueId = "base.letter.twelve";
+            UnlockWords("s", "láska", "teta");
+        }
+        else if (id == "base.letter.twelve") nextDialogueId = "base.letter.thirteen";
+        else if (id == "base.letter.thirteen")
+        {
+            nextDialogueId = "base.location.one";
+            UIManager.Instance.UnlockMapAndHighlight();
+        }
 
-        // "base.location_change.one" is the last dialogue of the scene.
+        // "base.location.one" is the last dialogue of the scene.
 
-        // Chained interactable dialogues.
-        else if (id == "interactable.base.fountain.one") dialogueIDToLoad = "interactable.base.fountain.final";
+        // Interactable dialogues
+        else if (id == "interactable.base.fountain.one")
+            nextDialogueId = "interactable.base.fountain.final";
 
-        // Show the next dialogue, if there is one that needs to be shown.
-        if (dialogueIDToLoad != null) DialogueManager.Instance.ShowDialogue(dialogueIDToLoad);
+        // Go to the next dialogue if we set one
+        if (!string.IsNullOrEmpty(nextDialogueId))
+            DialogueManager.Instance.ShowDialogue(nextDialogueId);
     }
 
+    #endregion
+
+    #region Entry / Resume
+
     /// <summary>
-    /// Displays the correct entry dialogue for the current scene based on which dialogues have already been completed.
+    /// Chooses which entry dialogue to show when entering the scene, based on what the player already finished.
     /// </summary>
-    /// <param name="state">The current <see cref="GameState"/>.</param>
     public override void ShowSceneEntryDialogue(GameState state)
     {
         base.ShowSceneEntryDialogue(state);
 
-        string dialogueIDToLoad = null;
-
-        // New game/save - show intro dialogue with the background image hidden.
+        // New game: show intro with hidden background
         if (!state.completedDialogues.Contains("base.intro.one"))
         {
             if (backgroundImage) backgroundImage.SetActive(false);
             DialogueManager.Instance.ShowDialogue("base.intro.one");
             return;
         }
-        // Background image is visible.
-        else if (backgroundImage) backgroundImage.SetActive(true);
 
-        // Trigger the "checkpointed" dialogue based on which dialogue was last completed.
-        // Second block wasn't finished.
-        if (!state.completedDialogues.Contains("base.letterman.q_correct1")) dialogueIDToLoad = "base.arrival.one";
+        // If intro was done before, background can be visible now
+        if (backgroundImage) backgroundImage.SetActive(true);
 
-        // Correct quiz dialogue wasn't finished.
-        else if (!state.completedDialogues.Contains("base.letter.one")) dialogueIDToLoad = "base.letterman.q_correct1";
+        string nextDialogueId = null;
 
-        // Third block wasn't finished.
-        else if (!state.completedDialogues.Contains("base.location_change.one")) dialogueIDToLoad = "base.letter.one";
+        // If the second block wasn't finished yet, continue there
+        if (!state.completedDialogues.Contains("base.letterman.q_correct1"))
+            nextDialogueId = "base.arrival.one";
 
-        // Show an entry dialogue, if there is one that needs to be shown.
-        if (dialogueIDToLoad != null) DialogueManager.Instance.ShowDialogue(dialogueIDToLoad);
+        // If the quiz correct branch wasn't finished yet, jump to it
+        else if (!state.completedDialogues.Contains("base.letter.one"))
+            nextDialogueId = "base.letterman.q_correct1";
+
+        // Otherwise continue the third block
+        else if (!state.completedDialogues.Contains("base.location.one"))
+            nextDialogueId = "base.letter.one";
+
+        // Go to the next dialogue if we set one
+        if (!string.IsNullOrEmpty(nextDialogueId))
+            DialogueManager.Instance.ShowDialogue(nextDialogueId);
     }
 
     #endregion
-    #region Private Methods (Quizes)
 
+    #region Private Helpers (Quiz + Unlocks)
+
+    /// <summary>
+    /// Shows the Letterman multiple-choice quiz with 4 answers. Correct answer 2 (index 1).
+    /// </summary>
     private void ShowLettermanQuiz()
     {
         string[] answers =
         {
-        "Sorry. That's not your letter.",
-        "Here. This letter is for you.",
-        "Please. This note says you need help.",
-        "There. The post office is right over there."
+            "Sorry. That's not your letter.",
+            "Here. This letter is for you.",
+            "Please. This note says you need help.",
+            "There. The post office is right over there."
         };
 
-        // Show base.letterman.quiz with answers
         DialogueManager.Instance.ShowDialogue("base.letterman.quiz", null, answers);
     }
 
-    #endregion
+    /// <summary>
+    /// Adds one or more words to the save's unlocked list and refreshes TranslationManager so links/underlines and popups are up-to-date immediately.
+    /// Use base keys when you can (forms are handled automatically).
+    /// </summary>
+    private void UnlockWords(params string[] keysOrForms)
+    {
+        var state = GameManager.Instance?.CurrentState;
+        if (state == null || keysOrForms == null || keysOrForms.Length == 0) return;
 
+        foreach (var token in keysOrForms)
+        {
+            if (string.IsNullOrWhiteSpace(token)) continue;
+            state.UnlockForm(token); // Accepts either a base key or any form
+        }
+
+        // Push changes into TranslationManager so the current line reflects unlocks
+        TranslationManager.Instance.SyncUnlocksFrom(state);
+    }
+
+    #endregion
 }

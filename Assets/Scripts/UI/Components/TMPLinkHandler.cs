@@ -4,79 +4,61 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 /// <summary>
-/// Detects when the mouse hovers over or exits a TMP link in dialogue text.
-/// Displays a translation popup for the hovered word using <see cref="TranslationPopup"/>.
+/// Shows a popup when the mouse is over a TMP <link>.
+/// Expects link IDs like "w:Key".
 /// </summary>
 public class TMPLinkHandler : MonoBehaviour, IPointerExitHandler
 {
     #region Fields
 
     [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private Canvas parentCanvas;
 
-    /// <summary> The index of the last hovered link. Used to track when the hovered link changes. </summary>
     private int lastLinkIndex = -1;
 
     #endregion
-    #region Unity Lifecycle Methods
+    #region Unity
 
-    /// <summary>
-    /// Called every frame.
-    /// Detects whether the mouse is currently hovering over a TMP link in the dialogue text.
-    /// If a new link is hovered, displays the translation popup with the translated word at the cursor position.
-    /// If hovering the same link, only updates the popup position.
-    /// If no link is hovered, hides the popup.
-    /// </summary>
     private void Update()
     {
-        // Get the current mouse position from the Input System.
+        if (!dialogueText || Mouse.current == null) return;
+
         Vector2 mousePos = Mouse.current.position.ReadValue();
+        Camera cam = (parentCanvas && parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay) ? null : parentCanvas.worldCamera;
 
-        // Determine the index of the link under the mouse, or -1 if none.
-        int linkIndex = TMP_TextUtilities.FindIntersectingLink(dialogueText, mousePos, null);
-
-        if (linkIndex != -1) // If mouse is over a link.
+        int linkIndex = TMP_TextUtilities.FindIntersectingLink(dialogueText, mousePos, cam);
+        if (linkIndex == -1)
         {
-            TMP_LinkInfo linkInfo = dialogueText.textInfo.linkInfo[linkIndex];
-            string hoveredWord = linkInfo.GetLinkID();
+            HidePopup();
+            return;
+        }
 
-            // Skip translation for quiz answers.
-            if (hoveredWord.StartsWith("Answer_")) return; // Don't show translation popup.
+        if (linkIndex != lastLinkIndex)
+        {
+            var info = dialogueText.textInfo.linkInfo[linkIndex];
+            string id = info.GetLinkID(); // "w:Key"
+            string key = id.StartsWith("w:") ? id.Substring(2) : id;
 
-            if (linkIndex != lastLinkIndex)
-            {
-                // The hovered link has changed, update popup text and position.
-                TranslationPopup.Instance.Show(hoveredWord, mousePos);
-            }
-            else
-            {
-                // Still hovering the same link, only update popup position.
-                TranslationPopup.Instance.UpdatePosition(mousePos);
-            }
+            if (TranslationManager.Instance != null &&
+                TranslationManager.Instance.TryGetPopupLabel(key, out string label) &&
+                !string.IsNullOrEmpty(label)) TranslationPopup.Instance?.Show(label, mousePos);
+            else TranslationPopup.Instance?.Hide();
 
-            // Store the current hovered link index
             lastLinkIndex = linkIndex;
         }
-        else if (lastLinkIndex != -1) // If mouse left the link
+        else TranslationPopup.Instance?.UpdatePosition(mousePos);
+    }
+
+    public void OnPointerExit(PointerEventData eventData) => HidePopup();
+
+    private void HidePopup()
+    {
+        if (lastLinkIndex != -1)
         {
-            // Reset state and hide the popup.
             lastLinkIndex = -1;
-            TranslationPopup.Instance.Hide();
+            TranslationPopup.Instance?.Hide();
         }
     }
-
-    #endregion
-    #region Event Handlers / Callbacks
-
-    /// <summary>
-    /// Invoked when the pointer exits the text area.
-    /// Hides the translation popup and resets the hovered link index.
-    /// </summary>
-    /// <param name="eventData">The pointer event data.</param>
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        TranslationPopup.Instance.Hide();
-        lastLinkIndex = -1;
-    }
-
+    
     #endregion
 }

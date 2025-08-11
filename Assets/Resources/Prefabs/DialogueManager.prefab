@@ -576,8 +576,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e9578d6915c94bb6a67d69a3114feec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  translationRT: {fileID: 8130143778584747083}
-  translationText: {fileID: 4929952152562939657}
+  panel: {fileID: 8130143778584747083}
+  label: {fileID: 4929952152562939657}
 --- !u!1 &2696928969097778696
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +699,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 5629438446680576015}
+  colorNotTried: '#4B4B4B'
+  colorTried: '#7F0000'
+  colorHover: '#000000'
 --- !u!1 &5826790530975217888
 GameObject:
   m_ObjectHideFlags: 0
@@ -1457,6 +1460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueText: {fileID: 5629438446680576015}
+  parentCanvas: {fileID: 8328873870428248066}
 --- !u!114 &8549652811141875752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1469,3 +1473,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd241f7947dbf4b9ab404e06a74bdd6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueText: {fileID: 5629438446680576015}
+  parentCanvas: {fileID: 8328873870428248066}

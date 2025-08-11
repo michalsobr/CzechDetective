@@ -1,22 +1,260 @@
 {
-  "verbs": {
-    "spacebar": { "word": "spacebar", "translation": "testing" },
-    "skip": { "word": "skip", "translation": "much longer <b>testing</b>, just to see" },
-    "tady": { "word": "tady", "translation": "<b>tady</b>" },
-    "pro": { "word": "pro", "translation": "<b>for</b>" },
-    "vás": { "word": "vás", "translation": "<b>you (formally)</b>" },
-    "čteš": { "word": "čteš", "translation": "<b>read</b> | you read" },
-    "je": { "word": "je", "translation": "<b>to be</b> | he/she/it is" },
-    "říct": { "word": "říct", "translation": "<b>to say/tell</b>" }
+  "noun": {
+    "dopis": {
+      "words": [
+        "dopis",
+        "dopise"
+      ],
+      "guess": "paper",
+      "journal": "dopis (m • sg.)",
+      "translation": "<b>letter</b>"
+    },
+    "pan": {
+      "words": [
+        "pan"
+      ],
+      "journal": "pan / pán (m • sg.)",
+      "translation": "<b>Mr.</b> / <b>sir</b> / <b>gentleman</b>"
+    },
+    "máma": {
+      "words": [
+        "máma"
+      ],
+      "journal": "máma (f • sg.)",
+      "translation": "<b>mom</b>"
+    },
+    "babička": {
+      "words": [
+        "babička"
+      ],
+      "guess": "grandma",
+      "journal": "placeholder",
+      "translation": "<b>grandma</b>"
+    },
+    "člověk": {
+      "words": [
+        "člověk"
+      ],
+      "guess": "human",
+      "journal": "placeholder",
+      "translation": "<b>person</b> / <b>human</b>"
+    },
+    "let": {
+      "words": [
+        "let"
+      ],
+      "journal": "let / roky (m • pl.)",
+      "translation": "<b>years</b>"
+    },
+    "rodina": {
+      "words": [
+        "rodina"
+      ],
+      "journal": "rodina (f • sg.)",
+      "translation": "<b>family</b>"
+    },
+    "pravda": {
+      "words": [
+        "pravda",
+        "pravdu"
+      ],
+      "journal": "pravda (f • sg.)",
+      "translation": "<b>truth</b>"
+    },
+    "vila": {
+      "words": [
+        "vile",
+        "vila"
+      ],
+      "journal": "vila (f • sg.)",
+      "translation": "<b>villa</b>"
+    },
+    "láska": {
+      "words": [
+        "láskou",
+        "láska"
+      ],
+      "journal": "láska (f • sg.)",
+      "translation": "<b>love</b>"
+    },
+    "tajemství": {
+      "words": [
+        "tajemství"
+      ],
+      "guess": "secret",
+      "journal": "placeholder",
+      "translation": "<b>secret/s</b> / <b>mystery</b>"
+    },
+    "teta": {
+      "words": [
+        "teta"
+      ],
+      "journal": "teta (f • sg.)",
+      "translation": "<b>aunt</b>"
+    }
   },
-  "nouns": {
-    "dopis_guess": { "word": "dopis", "translation": "paper?" },
-    "dopis": { "word": "dopis", "translation": "<b>letter</b>" },
-    "máma": { "word": "máma", "translation": "<b>mom</b>" },
-    "náhrdelník": { "word": "náhrdelník", "translation": "<b>necklace</b>" }
+  "verb": {
+    "je": {
+      "words": [
+        "jsem",
+        "jsi",
+        "je"
+      ],
+      "journal": "jsem / jsi / je (sg.)",
+      "translation": "<b>am</b> / <b>are</b> / <b>is</b>"
+    },
+    "jsme": {
+      "words": [
+        "jsme",
+        "jste",
+        "jsou"
+      ],
+      "journal": "jsme / jste / jsou (pl.)",
+      "translation": "<b>are</b>"
+    },
+    "čteš": {
+      "words": [
+        "čteš"
+      ],
+      "guess": "read",
+      "journal": "placeholder",
+      "translation": "to read"
+    },
+    "říct": {
+      "words": [
+        "říct"
+      ],
+      "guess": "to tell",
+      "journal": "placeholder",
+      "translation": "to tell"
+    }
   },
-  "adjectives": {
-    "milý": { "word": "milý", "translation": "<b>dear</b>" },
-    "důležitý": { "word": "důležitého", "translation": "<b>important</b>" }
+  "adjective": {
+    "rodinný": {
+      "words": [
+        "rodinný",
+        "rodinná",
+        "rodinné"
+      ],
+      "journal": "rodinný / rodinná / rodinné (m/f/n • sg.)",
+      "translation": "<b>family</b>"
+    },
+    "milý": {
+      "words": [
+        "milý"
+      ],
+      "journal": "milý / milá / milé (m/f/n • sg.)",
+      "translation": "<b>dear</b>"
+    }
+  },
+  "preposition": {
+    "pro": {
+      "words": [
+        "pro"
+      ],
+      "journal": "pro",
+      "translation": "<b>for</b>"
+    },
+    "o": {
+      "words": [
+        "o"
+      ],
+      "journal": "o",
+      "translation": "<b>about</b> / <b>of</b>"
+    },
+    "s": {
+      "words": [
+        "s"
+      ],
+      "journal": "s",
+      "translation": "<b>with</b>"
+    }
+  },
+  "pronoun": {
+    "vás": {
+      "words": [
+        "vás"
+      ],
+      "journal": "Vás",
+      "translation": "<b>you</b> <i>(formal)</i>"
+    },
+    "já": {
+      "words": [
+        "já"
+      ],
+      "journal": "já",
+      "translation": "<b>I</b>"
+    },
+    "tvoje": {
+      "words": [
+        "tvoje",
+        "tvůj"
+      ],
+      "journal": "tvůj / tvoje (m/f+n)",
+      "translation": "<b>your</b> / <b>yours</b> "
+    },
+    "tobě": {
+      "words": [
+        "ti",
+        "tobě"
+      ],
+      "journal": "tobě / ti",
+      "translation": "<b>to you</b>"
+    },
+    "mě": {
+      "words": [
+        "mě"
+      ],
+      "guess": "me",
+      "journal": "placeholder",
+      "translation": "<b>me</b>"
+    },
+    "ty": {
+      "words": [
+        "ty"
+      ],
+      "journal": "ty",
+      "translation": "<b>you</b> <i>(informal)</i>"
+    }
+  },
+  "number": {
+    "jedna": {
+      "words": [
+        "jedna"
+      ],
+      "journal": "jedna (f • sg.)",
+      "translation": "<b>one</b>"
+    }
+  },
+  "demonstrative": {
+    "tento": {
+      "words": [
+        "tento",
+        "tato",
+        "toto",
+        "této",
+        "tomto"
+      ],
+      "journal": "tento / tato / toto (m/f/n • sg.)",
+      "translation": "<b>this</b>"
+    }
+  },
+  "adverb": {
+    "tady": {
+      "words": [
+        "tady"
+      ],
+      "journal": "tady",
+      "translation": "<b>here</b>"
+    }
+  },
+  "conjunction": {
+    "a": {
+      "words": [
+        "a"
+      ],
+      "journal": "a",
+      "translation": "<b>and</b>"
+    }
   }
 }

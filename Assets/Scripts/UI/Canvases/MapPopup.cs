@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LocationPopup : PopupWindow
+public class MapPopup : PopupWindow
 {
     protected override void OnEnable()
     {

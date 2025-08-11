@@ -20,6 +20,9 @@ public class GameState
     /// <summary> The slot number in which this game state is stored. </summary>
     public int currentSaveSlot;
 
+    /// <summary> A collection of unique unlocked words the player has learned/should know. </summary>
+    public List<string> unlockedWords = new();
+
     /// <summary> A list of IDs representing interactable objects the player has fully interacted with. </summary>
     public List<string> completedInteractables = new();
 
@@ -79,6 +82,12 @@ public class GameState
         if (!puzzleAttempts.ContainsKey(id)) puzzleAttempts[id] = new List<string>();
 
         if (!puzzleAttempts[id].Contains(attempt)) puzzleAttempts[id].Add(attempt);
+    }
+
+    public void UnlockForm(string word)
+    {
+        if (!unlockedWords.Contains(word.ToLower()))
+            unlockedWords.Add(word.ToLower());
     }
 
     #endregion

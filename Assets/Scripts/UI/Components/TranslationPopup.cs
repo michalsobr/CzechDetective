@@ -1,113 +1,66 @@
 using UnityEngine;
 using TMPro;
 
-
 /// <summary>
-/// Handles displaying a translation popup when hovering over linked words in dialogue text.
-/// Implements a singleton pattern.
+/// Small tooltip shown near the cursor.
 /// </summary>
 public class TranslationPopup : MonoBehaviour
 {
     #region Fields
 
-    // Singleton instance.
     public static TranslationPopup Instance;
 
-    [SerializeField] private RectTransform translationRT;
-    [SerializeField] private TextMeshProUGUI translationText;
+    [SerializeField] private RectTransform panel;
+    [SerializeField] private TextMeshProUGUI label;
 
+    private const float WidthPad = 0.25f;  // 25% width padding
+    private const float HeightFactor = 2f; // two lines tall
+    private const float OffsetY = 15f;     // lift above cursor
     #endregion
-    #region Unity Lifecycle Methods
 
-    /// <summary>
-    /// Invoked when the script instance is loaded, even if the GameObject is inactive.
-    /// Implements a singleton pattern and hides the popup by default.
-    /// </summary>
+    #region Unity Lifecycle
+
     private void Awake()
     {
-        // If another instance already exists, destroy this one.
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
-
-        // This object persists across scenes as part of the Dialogue Manager.
-
-        // Hide popup by default.
         gameObject.SetActive(false);
     }
 
     #endregion
     #region Public Methods
 
-    /// <summary>
-    /// Displays the translation popup near the given screen position with the translated word.
-    /// Dynamically resizes the popup based on the translated text length.
-    /// </summary>
-    /// <param name="word">The word to translate and display.</param>
-    /// <param name="screenPos">The screen position where the popup should appear.</param>
-    public void Show(string word, Vector2 screenPos)
+    public void Show(string text, Vector2 screenPos)
     {
-        // Make the popup visible.
+        if (!panel || !label || string.IsNullOrEmpty(text)) return;
+
         gameObject.SetActive(true);
 
-        // Update the text content first so its size can be measured.
-        translationText.text = GetTranslation(word);
-        translationText.ForceMeshUpdate();
+        label.text = text;
+        label.ForceMeshUpdate();
 
-        // Determine the preferred size of the popup based on text width/height.
-        Vector2 preferredSize = new Vector2(
-            translationText.preferredWidth + (translationText.preferredWidth / 5),
-            2 * translationText.preferredHeight
-        );
+        Vector2 size = new(label.preferredWidth * (1f + WidthPad),
+                           label.preferredHeight * HeightFactor);
 
-        translationRT.sizeDelta = preferredSize;
-
+        panel.sizeDelta = size;
         UpdatePosition(screenPos);
     }
 
-    /// <summary>
-    /// Hides the translation popup.
-    /// </summary>
-    public void Hide() => gameObject.SetActive(false);
+    public void Hide()
+    {
+        if (gameObject.activeSelf) gameObject.SetActive(false);
+    }
 
-    /// <summary>
-    /// Updates the position of the translation popup relative to the given screen position.
-    /// Does not modify the popup text or size – only repositions it to follow the cursor.
-    /// </summary>
-    /// <param name="screenPos">The current screen position of the mouse cursor.</param>
     public void UpdatePosition(Vector2 screenPos)
     {
-        // Convert the screen position to a local position relative to the popup's parent (canvas).
+        if (!panel || !panel.parent) return;
+
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            translationRT.parent as RectTransform,
-            screenPos,
-            null,
-            out Vector2 localPos
-        );
+            panel.parent as RectTransform, screenPos, null, out var local);
 
-        // Slightly offset the popup upwards so it does not overlap with the cursor.
-        localPos.y += 15f;
-
-        // Slightly offset the popup upwards so it does not overlap with the cursor.
-        translationRT.localPosition = localPos;
+        local.y += OffsetY;
+        panel.localPosition = local;
     }
-
-    #endregion
-    #region Private Methods
-
-    /// <summary>
-    /// Retrieves a translated string for the given word.
-    /// </summary>
-    /// <param name="word">The word to translate.</param>
-    /// <returns>The translated word, if available; otherwise, a placeholder text.</returns>
-    private string GetTranslation(string id)
-    {
-        // Load full JSON once in TranslationManager
-        return TranslationManager.Instance.GetTranslationById(id);
-    }
-
+    
     #endregion
 }
