@@ -6,21 +6,21 @@
         "dopise"
       ],
       "guess": "paper",
-      "journal": "dopis (m • sg.)",
+      "journal": "<u>dopis</u>  (m • sg.)",
       "translation": "<b>letter</b>"
     },
     "pan": {
       "words": [
         "pan"
       ],
-      "journal": "pan / pán (m • sg.)",
+      "journal": "<u>pan</u> / <u>pán</u>  (m • sg.)",
       "translation": "<b>Mr.</b> / <b>sir</b> / <b>gentleman</b>"
     },
     "máma": {
       "words": [
         "máma"
       ],
-      "journal": "máma (f • sg.)",
+      "journal": "<u>máma</u>  (f • sg.)",
       "translation": "<b>mom</b>"
     },
     "babička": {
@@ -43,14 +43,14 @@
       "words": [
         "let"
       ],
-      "journal": "let / roky (m • pl.)",
+      "journal": "<u>let</u> / <u>roky</u>  (m • pl.)",
       "translation": "<b>years</b>"
     },
     "rodina": {
       "words": [
         "rodina"
       ],
-      "journal": "rodina (f • sg.)",
+      "journal": "<u>rodina</u>  (f • sg.)",
       "translation": "<b>family</b>"
     },
     "pravda": {
@@ -58,7 +58,7 @@
         "pravda",
         "pravdu"
       ],
-      "journal": "pravda (f • sg.)",
+      "journal": "<u>pravda</u>  (f • sg.)",
       "translation": "<b>truth</b>"
     },
     "vila": {
@@ -66,7 +66,7 @@
         "vile",
         "vila"
       ],
-      "journal": "vila (f • sg.)",
+      "journal": "<u>vila</u>  (f • sg.)",
       "translation": "<b>villa</b>"
     },
     "láska": {
@@ -74,7 +74,7 @@
         "láskou",
         "láska"
       ],
-      "journal": "láska (f • sg.)",
+      "journal": "<u>láska</u>  (f • sg.)",
       "translation": "<b>love</b>"
     },
     "tajemství": {
@@ -89,7 +89,7 @@
       "words": [
         "teta"
       ],
-      "journal": "teta (f • sg.)",
+      "journal": "<u>teta</u>  (f • sg.)",
       "translation": "<b>aunt</b>"
     }
   },
@@ -100,7 +100,7 @@
         "jsi",
         "je"
       ],
-      "journal": "jsem / jsi / je (sg.)",
+      "journal": "<u>jsem</u> / <u>jsi</u> / <u>je</u>  (sg.)",
       "translation": "<b>am</b> / <b>are</b> / <b>is</b>"
     },
     "jsme": {
@@ -109,7 +109,7 @@
         "jste",
         "jsou"
       ],
-      "journal": "jsme / jste / jsou (pl.)",
+      "journal": "<u>jsme</u> / <u>jste</u> / <u>jsou</u>  (pl.)",
       "translation": "<b>are</b>"
     },
     "čteš": {
@@ -136,14 +136,14 @@
         "rodinná",
         "rodinné"
       ],
-      "journal": "rodinný / rodinná / rodinné (m/f/n • sg.)",
+      "journal": "<u>rodinný</u> / <u>rodinná</u> / <u>rodinné</u>  (m/f/n • sg.)",
       "translation": "<b>family</b>"
     },
     "milý": {
       "words": [
         "milý"
       ],
-      "journal": "milý / milá / milé (m/f/n • sg.)",
+      "journal": "<u>milý</u> / <u>milá</u> / <u>milé</u>  (m/f/n • sg.)",
       "translation": "<b>dear</b>"
     }
   },
@@ -152,21 +152,21 @@
       "words": [
         "pro"
       ],
-      "journal": "pro",
+      "journal": "<u>pro</u>  ",
       "translation": "<b>for</b>"
     },
     "o": {
       "words": [
         "o"
       ],
-      "journal": "o",
+      "journal": "<u>o</u>  ",
       "translation": "<b>about</b> / <b>of</b>"
     },
     "s": {
       "words": [
         "s"
       ],
-      "journal": "s",
+      "journal": "<u>s</u>  ",
       "translation": "<b>with</b>"
     }
   },
@@ -175,14 +175,14 @@
       "words": [
         "vás"
       ],
-      "journal": "Vás",
+      "journal": "<u>Vás</u>  ",
       "translation": "<b>you</b> <i>(formal)</i>"
     },
     "já": {
       "words": [
         "já"
       ],
-      "journal": "já",
+      "journal": "<u>já</u>  ",
       "translation": "<b>I</b>"
     },
     "tvoje": {
@@ -190,7 +190,7 @@
         "tvoje",
         "tvůj"
       ],
-      "journal": "tvůj / tvoje (m/f+n)",
+      "journal": "<u>tvůj</u> / <u>tvoje</u>  (m/f+n)",
       "translation": "<b>your</b> / <b>yours</b> "
     },
     "tobě": {
@@ -198,7 +198,7 @@
         "ti",
         "tobě"
       ],
-      "journal": "tobě / ti",
+      "journal": "<u>tobě</u> / <u>ti</u>  ",
       "translation": "<b>to you</b>"
     },
     "mě": {
@@ -213,7 +213,7 @@
       "words": [
         "ty"
       ],
-      "journal": "ty",
+      "journal": "<u>ty</u>  ",
       "translation": "<b>you</b> <i>(informal)</i>"
     }
   },
@@ -222,7 +222,7 @@
       "words": [
         "jedna"
       ],
-      "journal": "jedna (f • sg.)",
+      "journal": "<u>jedna</u>  (f • sg.)",
       "translation": "<b>one</b>"
     }
   },
@@ -235,7 +235,7 @@
         "této",
         "tomto"
       ],
-      "journal": "tento / tato / toto (m/f/n • sg.)",
+      "journal": "<u>tento</u> / <u>tato</u> / <u>toto</u>  (m/f/n • sg.)",
       "translation": "<b>this</b>"
     }
   },
@@ -244,7 +244,7 @@
       "words": [
         "tady"
       ],
-      "journal": "tady",
+      "journal": "<u>tady</u>  ",
       "translation": "<b>here</b>"
     }
   },
@@ -253,7 +253,7 @@
       "words": [
         "a"
       ],
-      "journal": "a",
+      "journal": "<u>a</u>  ",
       "translation": "<b>and</b>"
     }
   }

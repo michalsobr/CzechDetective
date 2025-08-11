@@ -168,7 +168,7 @@ public class JournalPopup : PopupWindow
 
     private static string FormatRow(TranslationEntry entry)
     {
-        return $"{entry.Journal} [{entry.Class}]  -  {entry.Translation}";
+        return $"{entry.Journal}[{entry.Class}]  -  {entry.Translation}";
     }
 
     private void UpdateToggleIcon()
