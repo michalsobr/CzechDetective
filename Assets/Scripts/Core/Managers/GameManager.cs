@@ -98,11 +98,11 @@ public class GameManager : MonoBehaviour
         if (FindFirstObjectByType<SaveManager>() == null)
             Instantiate(Resources.Load("Prefabs/SaveManager"));
 
-        if (FindFirstObjectByType<UIManager>() == null)
-            Instantiate(Resources.Load("Prefabs/UIManager"));
-
         if (FindFirstObjectByType<DialogueManager>() == null)
             Instantiate(Resources.Load("Prefabs/DialogueManager"));
+
+        if (FindFirstObjectByType<UIManager>() == null)
+            Instantiate(Resources.Load("Prefabs/UIManager"));
 
         if (FindFirstObjectByType<InteractableManager>() == null)
             Instantiate(Resources.Load("Prefabs/InteractableManager"));

@@ -27,6 +27,15 @@ public class UIManager : MonoBehaviour
     /// </summary>
     [SerializeField] private List<UIButtonGroup> buttonGroups = new();
 
+    [Header("Highlight Visuals")]
+    [SerializeField] public Image highlightImage; // the image that holds the sprite
+    [SerializeField] private Sprite highlightInactiveSprite;   // normal (red) icon
+    [SerializeField] private Sprite highlightActiveSprite; // active (green) icon
+    [SerializeField] private float flashDuration = 3f;    // total flash time
+    [SerializeField] private float flashInterval = 0.5f;  // time between color swaps
+
+    private Coroutine highlightRoutine;
+
     private bool isPopupOpen = false;
     private bool isJournalUnlocked = false;
     private bool isMapUnlocked = false;
@@ -68,10 +77,8 @@ public class UIManager : MonoBehaviour
 
             group.button.onClick.AddListener(() => ShowPopupCanvas(group));
 
-            if (GameManager.Instance.CurrentState.completedDialogues.Contains("base.journal.one"))
-                UnlockJournal();
-            if (GameManager.Instance.CurrentState.completedDialogues.Contains("base.location.one"))
-                UnlockMapAndHighlight();
+            UnlockJournal();
+            UnlockMapAndHighlight();
         }
 
         // Register highlight button listener, if assigned.
@@ -156,27 +163,131 @@ public class UIManager : MonoBehaviour
 
     public void UnlockJournal()
     {
-        isJournalUnlocked = true;
-        if (journalButton) journalButton.interactable = true;
+        if (journalButton)
+        {
+            isJournalUnlocked = GameManager.Instance.CurrentState.completedDialogues.Contains("base.letterman.q_correct2") ? true : false;
+
+            if (isJournalUnlocked) journalButton.interactable = true;
+        }
     }
 
     public void UnlockMapAndHighlight()
     {
-        isMapUnlocked = true;
-        mapButton.interactable = true;
+        if (mapButton)
+        {
+            bool shouldMapAndHighlightBeUnlocked = GameManager.Instance.CurrentState.completedDialogues.Contains("base.letter.thirteen") ? true : false;
 
-        isHighlightUnlocked = true;
-        if (!DialogueManager.Instance.IsDialogueOpen) highlightButton.interactable = true;
+            isMapUnlocked = shouldMapAndHighlightBeUnlocked;
+            isHighlightUnlocked = shouldMapAndHighlightBeUnlocked;
+
+            if (isMapUnlocked && isHighlightUnlocked) {
+                mapButton.interactable = true;
+                highlightButton.interactable = true;
+            }
+        }
     }
 
     #endregion
     #region Private Methods
 
     /// <summary>
-    /// TODO Highlights interactable objects in the scene.
+    /// Flashes all interactables briefly to help the player find them.
+    /// Swaps the highlight icon to green while active, then restores to red.
     /// </summary>
     private void HighlightInteractables()
     {
+        // If disabled by dialogue or lock, bail early.
+        if (highlightButton && highlightButton.interactable)
+        {
+            // Start routine.
+            highlightRoutine = StartCoroutine(FlashInteractablesRoutine());
+        }
+    }
+
+    private System.Collections.IEnumerator FlashInteractablesRoutine()
+    {
+        // Swap icon to the green active sprite and temporarily disable the button.
+        if (highlightActiveSprite)
+        {
+            highlightImage.sprite = highlightActiveSprite;
+            highlightButton.interactable = false;
+        }
+
+        GameObject[] interactables = InteractableManager.Instance.GetAllInteractableObjects();
+
+        if (interactables != null && interactables.Length > 0)
+        {
+            var interactableImages = new List<Image>();
+            var canvasGroups = new List<CanvasGroup>();
+
+            foreach (var obj in interactables)
+            {
+                if (obj)
+                {
+                    if (obj.TryGetComponent<CanvasGroup>(out var canvasGroup))
+                    {
+                        canvasGroups.Add(canvasGroup);
+                        canvasGroup.interactable = false;       // disable UI interaction
+                        canvasGroup.blocksRaycasts = false;     // avoid clicks while flashing
+                    }
+                    if (obj.TryGetComponent<Image>(out var interactableImage))
+                    {
+                        interactableImages.Add(interactableImage);
+                    }
+                }
+            }
+
+            // Two colors to "ping pong" between.
+            var defaultColor = new Color32(255, 255, 255, 255);
+            var highlightedColor = new Color32(200, 200, 200, 255);
+            bool useAlt = false;
+            float elapsed = 0f;
+
+            while (elapsed < flashDuration)
+            {
+                var targetColor = useAlt ? defaultColor : highlightedColor;
+
+                if (interactableImages != null)
+                {
+                    foreach (Image interactableImage in interactableImages)
+                    {
+                        interactableImage.color = targetColor;
+                    }
+                }
+
+                useAlt = !useAlt;
+                yield return new WaitForSeconds(flashInterval);
+                elapsed += flashInterval;
+            }
+
+            // After flashing finishes, restore the original colors.
+            if (interactableImages != null)
+            {
+                foreach (Image interactableImage in interactableImages)
+                {
+                    interactableImage.color = defaultColor;
+                }
+            }
+
+            // After flashing finishes, make all interactables interactable again.
+            if (canvasGroups != null)
+            {
+                foreach (CanvasGroup canvasGroup in canvasGroups)
+                {
+                    canvasGroup.interactable = true;
+                    canvasGroup.blocksRaycasts = true;
+                }
+            }
+        }
+
+        // Swap icon to the red inactive sprite and re-enable the button.
+        if (highlightActiveSprite)
+        {
+            highlightImage.sprite = highlightInactiveSprite;
+            highlightButton.interactable = true;
+        }
+
+        highlightRoutine = null;
     }
 
     #endregion
@@ -200,6 +311,8 @@ public class UIManager : MonoBehaviour
 
         SetAllUIButtonsActive(true);
         ClosePopup();
+        UnlockJournal();
+        UnlockMapAndHighlight();
     }
 
     #endregion

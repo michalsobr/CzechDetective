@@ -1043,6 +1043,11 @@ MonoBehaviour:
   - button: {fileID: 4314893247418832443}
     canvas: {fileID: 3004610514628772851}
     popupScript: {fileID: 8929293620947695919}
+  highlightImage: {fileID: 3983674529965156864}
+  highlightInactiveSprite: {fileID: 6972680976186302969, guid: 297144a1e4fc74945863bdefd9a210a8, type: 3}
+  highlightActiveSprite: {fileID: 1489619400592482215, guid: f62f50c8c44c84bfe846bea47f5b9cb7, type: 3}
+  flashDuration: 3
+  flashInterval: 0.5
 --- !u!1 &2009562040001412634
 GameObject:
   m_ObjectHideFlags: 0

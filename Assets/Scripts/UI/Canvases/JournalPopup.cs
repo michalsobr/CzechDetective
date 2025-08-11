@@ -52,6 +52,15 @@ public class JournalPopup : PopupWindow
         if (toggleButton) toggleButton.onClick.AddListener(OnToggleMode);
     }
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        if (upButton) upButton.onClick.RemoveListener(OnPageUp);
+        if (downButton) downButton.onClick.RemoveListener(OnPageDown);
+        if (toggleButton) toggleButton.onClick.RemoveListener(OnToggleMode);
+    }
+
     public override void Open()
     {
         base.Open();

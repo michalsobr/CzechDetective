@@ -10,6 +10,11 @@ public abstract class PopupWindow : MonoBehaviour
         if (closeButton) closeButton.onClick.AddListener(() => Close());
     }
 
+    protected virtual void OnDisable()
+    {
+        if (closeButton) closeButton.onClick.RemoveListener(() => Close());
+    }
+
     public virtual void Open()
     {
         gameObject.SetActive(true);

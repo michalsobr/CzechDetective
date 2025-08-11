@@ -137,27 +137,36 @@ public class InteractableManager : MonoBehaviour
 
     public void SetAllInteractablesActive(bool state)
     {
-        GameObject[] interactables = GameObject.FindGameObjectsWithTag("InteractableImage");
+        GameObject [] interactables = GetAllInteractableObjects();
 
         foreach (GameObject obj in interactables)
         {
-            CanvasGroup cg = obj.GetComponent<CanvasGroup>();
-            if (cg != null)
+            CanvasGroup canvasGroup = obj.GetComponent<CanvasGroup>();
+            if (canvasGroup != null)
             {
                 if (state)
                 {
-                    cg.alpha = 1f;
-                    cg.interactable = true;
-                    cg.blocksRaycasts = true;
+                    canvasGroup.alpha = 1f;
+                    canvasGroup.interactable = true;
+                    canvasGroup.blocksRaycasts = true;
                 }
                 else
                 {
-                    cg.alpha = 0f;
-                    cg.interactable = false;
-                    cg.blocksRaycasts = false;
+                    canvasGroup.alpha = 0f;
+                    canvasGroup.interactable = false;
+                    canvasGroup.blocksRaycasts = false;
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Returns all UI Graphics that represent interactables for highlighting.
+    /// Tag interactable GameObjects as "Interactable" and ensure they have a Graphic.
+    /// </summary>
+    public GameObject[] GetAllInteractableObjects()
+    {
+        return GameObject.FindGameObjectsWithTag("InteractableImage");
     }
 
     private IEnumerator DelayedAssignReferences()

@@ -18,6 +18,11 @@ public class SettingsPopup : PopupWindow
         base.OnEnable();
     }
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+    }
+
     public override void Open()
     {
         base.Open();
