@@ -29,6 +29,7 @@ public class SceneFlowController : MonoBehaviour
         if (GameManager.Instance.IsGameLoaded)
             TranslationManager.Instance.SyncUnlocksFrom(GameManager.Instance.CurrentState);
 
+        ShowSceneEntryDialogue(GameManager.Instance.CurrentState);
     }
 
     #endregion

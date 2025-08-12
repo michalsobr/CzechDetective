@@ -18,8 +18,6 @@ public class BaseController : SceneFlowController
     protected override void Start()
     {
         base.Start();
-
-        ShowSceneEntryDialogue(GameManager.Instance.CurrentState);
     }
 
     #endregion
@@ -50,13 +48,13 @@ public class BaseController : SceneFlowController
         else if (id == "base.letterman.one")
         {
             nextDialogueId = "base.letterman.two";
-            UnlockWords("pan"); // Mr.
+            TranslationManager.Instance.UnlockWords("pan"); // Mr.
         }
         else if (id == "base.letterman.two") nextDialogueId = "base.letterman.three";
         else if (id == "base.letterman.three")
         {
             nextDialogueId = "base.letterman.four";
-            UnlockWords("tady"); // here
+            TranslationManager.Instance.UnlockWords("tady"); // here
         }
         else if (id == "base.letterman.four") nextDialogueId = "base.letterman.five";
 
@@ -68,7 +66,7 @@ public class BaseController : SceneFlowController
         {
             nextDialogueId = "base.letterman.q_correct2";
             // Unlock base keys (forms are covered as well automatically)
-            UnlockWords("dopis", "tento", "je", "pro", "vás");
+            TranslationManager.Instance.UnlockWords("dopis", "tento", "je", "pro", "vás");
         }
         else if (id == "base.letterman.q_correct2")
         {
@@ -85,33 +83,33 @@ public class BaseController : SceneFlowController
         else if (id == "base.letter.five")
         {
             nextDialogueId = "base.letter.six";
-            UnlockWords("milý");
+            TranslationManager.Instance.UnlockWords("milý");
         }
         else if (id == "base.letter.six") nextDialogueId = "base.letter.seven"; // "čteš" guess
         else if (id == "base.letter.seven")
         {
             nextDialogueId = "base.letter.eight";
-            UnlockWords("já", "a", "tvoje", "máma", "jsme", "let", "jedna", "rodina");
+            TranslationManager.Instance.UnlockWords("já", "a", "tvoje", "máma", "jsme", "let", "jedna", "rodina");
         }
         else if (id == "base.letter.eight")
         {
             nextDialogueId = "base.letter.nine";
-            UnlockWords("tobě", "rodinný"); // "tajemnství", "babička" and "říct" guess
+            TranslationManager.Instance.UnlockWords("tobě", "rodinný"); // "tajemnství", "babička" and "říct" guess
         }
         else if (id == "base.letter.nine")
         {
             nextDialogueId = "base.letter.ten";
-            UnlockWords("ty", "pravda"); // "člověk" guess
+            TranslationManager.Instance.UnlockWords("ty", "pravda"); // "člověk" guess
         }
         else if (id == "base.letter.ten")
         {
             nextDialogueId = "base.letter.eleven";
-            UnlockWords("o", "vila"); // "mě" guess
+            TranslationManager.Instance.UnlockWords("o", "vila"); // "mě" guess
         }
         else if (id == "base.letter.eleven")
         {
             nextDialogueId = "base.letter.twelve";
-            UnlockWords("s", "láska", "teta");
+            TranslationManager.Instance.UnlockWords("s", "láska", "teta");
         }
         else if (id == "base.letter.twelve") nextDialogueId = "base.letter.thirteen";
         else if (id == "base.letter.thirteen")
@@ -174,7 +172,7 @@ public class BaseController : SceneFlowController
 
     #endregion
 
-    #region Private Helpers (Quiz + Unlocks)
+    #region Private Helpers (Quiz)
 
     /// <summary>
     /// Shows the Letterman multiple-choice quiz with 4 answers. Correct answer 2 (index 1).
@@ -190,25 +188,6 @@ public class BaseController : SceneFlowController
         };
 
         DialogueManager.Instance.ShowDialogue("base.letterman.quiz", null, answers);
-    }
-
-    /// <summary>
-    /// Adds one or more words to the save's unlocked list and refreshes TranslationManager so links/underlines and popups are up-to-date immediately.
-    /// Use base keys when you can (forms are handled automatically).
-    /// </summary>
-    private void UnlockWords(params string[] keysOrForms)
-    {
-        var state = GameManager.Instance?.CurrentState;
-        if (state == null || keysOrForms == null || keysOrForms.Length == 0) return;
-
-        foreach (var token in keysOrForms)
-        {
-            if (string.IsNullOrWhiteSpace(token)) continue;
-            state.UnlockForm(token); // Accepts either a base key or any form
-        }
-
-        // Push changes into TranslationManager so the current line reflects unlocks
-        TranslationManager.Instance.SyncUnlocksFrom(state);
     }
 
     #endregion

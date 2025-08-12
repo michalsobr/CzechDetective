@@ -73,6 +73,11 @@ public class JournalPopup : PopupWindow
         RenderPage(0);
     }
 
+    public override void Close()
+    {
+        base.Close();
+    }
+
     #endregion
 
     #region Buttons

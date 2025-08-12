@@ -98,6 +98,25 @@ public class TranslationManager : MonoBehaviour
     #region Public Sync and Lookup Methods
 
     /// <summary>
+    /// Adds one or more words to the save's unlocked list.
+    /// Use base keys when you can (forms are handled automatically).
+    /// </summary>
+    public void UnlockWords(params string[] keysOrForms)
+    {
+        var state = GameManager.Instance.CurrentState;
+        if (state == null || keysOrForms == null || keysOrForms.Length == 0) return;
+
+        foreach (var token in keysOrForms)
+        {
+            if (string.IsNullOrWhiteSpace(token)) continue;
+            state.UnlockForm(token); // Accepts either a base key or any form
+        }
+
+        // Push changes.
+        SyncUnlocksFrom(state);
+    }
+
+    /// <summary>
     /// Apply unlocks from the current save. Works with either base keys or forms.
     /// </summary>
     public void SyncUnlocksFrom(GameState state)

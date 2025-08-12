@@ -1,0 +1,53 @@
+{
+  "entries": [
+    {
+      "id": "villaoutside.intro.one",
+      "speakerLeft": "detective_init",
+      "speakerRight": "none",
+      "lines": [
+        "<b>!</b> (Press <b>spacebar</b> to skip dialogue while it's typing.) <b>!</b>\n\n<b>!</b> (Press <b>spacebar</b> or click on the <b>Next</b> button on the right side of the dialogue window to get to the next dialogue.) <b>!</b>"
+      ]
+    },
+    {
+      "id": "villaoutside.arrival.one",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "Well, here I am... standing at the town square of a small Czech town called Tichovice.",
+        "Wow -"
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.fountain.one",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "fountain at villaoutside placeholder one."
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.fountain.final",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "fountain at villaoutside placeholder final."
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.cloud.final",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "cloud at villaoutside placeholder final."
+      ]
+    },
+    {
+      "id": "scene.placeholder.one",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        ""
+      ]
+    }
+  ]
+}
