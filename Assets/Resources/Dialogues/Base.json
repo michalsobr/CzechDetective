@@ -238,19 +238,16 @@
       ]
     },
     {
-      "id": "interactable.base.fountain.one",
-      "speakerLeft": "none",
-      "speakerRight": "none",
-      "lines": [
-        "fountain placeholder one."
-      ]
-    },
-    {
       "id": "interactable.base.fountain.final",
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
-        "fountain placeholder final."
+        "(You approach the fountain. The sound of trickling water grows louder.)",
+        "There are some coins scattered at the bottom of the fountain.",
+        "(You overhear a small girl and her mother talking nearby.)",
+        "Mami, můžu hodit minci do fontány a něco si přát?",
+        "Ano, ale mysli na něco hezkého.",
+        "Hmm...Už vím! Přeju si, aby dneska nepršelo."
       ]
     },
     {
@@ -258,7 +255,10 @@
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
-        "cloud placeholder final."
+        "(You notice a small girl and her mother nearby, both looking and pointing at the sky.)",
+        "Podívej se nahoru na ty mraky, jak jsou nadýchané.",
+        "Jsou jako cukrová vata!",
+        "Haha. Ano a plují krásně pomalu po obloze."
       ]
     },
     {

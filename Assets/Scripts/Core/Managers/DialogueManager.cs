@@ -152,7 +152,7 @@ public class DialogueManager : MonoBehaviour
         if (interactableImage != null) currentInteractableImage = interactableImage;
         else currentInteractableImage = null;
 
-        // Determine if this is a quiz
+        // Determine if this is a quiz (multiple choice or fill in the blank)
         currentAnswers = answers;
         isQuizActive = answers != null && answers.Length > 0;
 
@@ -208,10 +208,19 @@ public class DialogueManager : MonoBehaviour
         fullLineToShow = TranslationManager.Instance.ProcessCzSegments(CurrentLineText);
 
         // If quiz is active, append answer links
-        if (isQuizActive && currentAnswers != null)
+        if (isQuizActive)
         {
-            QuizManager.Instance.SetupQuiz(currentEntry.id, currentAnswers, fullLineToShow);
-            fullLineToShow += QuizManager.Instance.BuildAnswersMarkup();
+            if (currentEntry.id.Contains("quiz"))
+            {
+                // Setup the quiz with the current entry ID and answers
+                QuizManager.Instance.SetupQuiz(currentEntry.id, currentAnswers, fullLineToShow);
+                fullLineToShow += QuizManager.Instance.BuildAnswersMarkup();
+            }
+            else if (currentEntry.id.Contains("fill_in_blank"))
+            {
+                QuizManager.Instance.SetupFillInBlankQuiz(currentEntry.id, currentAnswers);
+                fullLineToShow += $"\n\n\n";
+            }
         }
 
         // Calculate how many lines the current dialogue line will occupy and adjust the UI.
@@ -538,6 +547,12 @@ public class DialogueManager : MonoBehaviour
     /// <param name="mode">The scene loading mode.</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (currentEntry != null)
+        {
+            EndDialogue();
+            dialogueCanvas.SetActive(false);
+        }
+
         controller = null;
         currentEntry = null;
         currentLines = null;

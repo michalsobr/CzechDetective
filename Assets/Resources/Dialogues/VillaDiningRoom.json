@@ -1,0 +1,60 @@
+{
+  "entries": [
+    {
+      "id": "villadiningroom.intro.one",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "villadiningroom intro dialogue placeholder."
+      ]
+    },
+        {
+      "id": "interactable.villadiningroom.tea.final",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "tea at villadiningroom placeholder."
+      ]
+    },
+            {
+      "id": "interactable.villadiningroom.table.final",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "table at villadiningroom placeholder."
+      ]
+    },
+            {
+      "id": "interactable.villadiningroom.pictures.final",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "pictures at villadiningroom placeholder."
+      ]
+    },
+            {
+      "id": "interactable.villadiningroom.glassdisplay.final",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "glassdisplay at villadiningroom placeholder."
+      ]
+    },
+            {
+      "id": "interactable.villadiningroom.drawer.final",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "drawer at villadiningroom placeholder."
+      ]
+    },
+    {
+      "id": "scene.placeholder.one",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        ""
+      ]
+    }
+  ]
+}

@@ -36,19 +36,12 @@ public class VillaOutsideController : SceneFlowController
 
         string nextDialogueId = null;
 
-        // TODO testing
-        if (id == "villaoutside.intro.one")
-        {
-            nextDialogueId = "villaoutside.arrival.one";
-            // TranslationManager.Instance.UnlockWords("pan"); // Mr.
-        }
-        // else if (id == "base.letterman.two") nextDialogueId = "base.letterman.three";
+        // TODO
+        if (id == "villaoutside.intro.one" || id == "villaoutside.teta.fib_wrong1") ShowFIBTeta();
+        else if (id == "villaoutside.teta.fib_correct1" || id == "villaoutside.teta.fib_failed1")
+            nextDialogueId = "villaoutside.teta.fib_correct2";
 
         // "" is the last dialogue of the scene.
-
-        // Interactable dialogues
-        else if (id == "interactable.villaoutside.fountain.one")
-            nextDialogueId = "interactable.villaoutside.fountain.final";
 
         // Go to the next dialogue if we set one
         if (!string.IsNullOrEmpty(nextDialogueId))
@@ -68,9 +61,14 @@ public class VillaOutsideController : SceneFlowController
 
         string nextDialogueId = null;
 
-        // TODO testing
+        // TODO
         if (!state.completedDialogues.Contains("villaoutside.intro.one"))
             nextDialogueId = "villaoutside.intro.one";
+
+        else if (!state.completedDialogues.Contains("villaoutside.teta.fib_correct1"))
+            ShowFIBTeta();
+        else if (!state.completedDialogues.Contains("villaoutside.teta.fib_correct2"))
+            nextDialogueId = "villaoutside.teta.fib_correct1";
 
         // Go to the next dialogue if we set one
         if (!string.IsNullOrEmpty(nextDialogueId))
@@ -81,6 +79,16 @@ public class VillaOutsideController : SceneFlowController
 
     #region Private Helpers (Quiz)
 
+    private void ShowFIBTeta()
+    {
+        string[] answers =
+        {
+            "Teta", // answer
+            "teta" // answer lowercase
+        };
+
+        DialogueManager.Instance.ShowDialogue("villaoutside.teta.fill_in_blank", null, answers);
+    }
 
     #endregion
 }

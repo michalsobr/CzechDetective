@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 374412110}
   interactableID: base.fountain
-  dialogueID: interactable.base.fountain.one
+  dialogueID: interactable.base.fountain.final
   buttonText: "P\u0159ij\xEDt bl\xED\u017E"
   sourceTexture: {fileID: 2800000, guid: 74f513e815a6a4c3a96e250372e2297f, type: 3}
   alphaThreshold: 0.1

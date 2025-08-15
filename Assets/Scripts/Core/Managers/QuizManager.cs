@@ -1,6 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Builds and manages quiz answers that appear as clickable TMP <link> items
@@ -15,6 +18,12 @@ public class QuizManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI dialogueText;
 
+    [Header("Fill-in-the-blank Quiz UI")]
+    [SerializeField] private GameObject input;
+    [SerializeField] private TMP_InputField inputField;
+    [SerializeField] private GameObject submit;
+    [SerializeField] private Button submitButton;
+
     [Header("Colors")]
     [SerializeField] private string colorNotTried = "#4B4B4B";
     [SerializeField] private string colorTried = "#7F0000";
@@ -24,6 +33,9 @@ public class QuizManager : MonoBehaviour
     private string activeQuestion;      // Question part (processed)
     private string[] answers;           // Raw answer texts in order
 
+    private List<string> correctAnswers;
+    private int wrongAttempts;
+
     #endregion
 
     #region Unity
@@ -32,6 +44,11 @@ public class QuizManager : MonoBehaviour
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
+
+        submitButton.onClick.AddListener(OnSubmit);
+
+        submit.SetActive(false);
+        input.SetActive(false);
     }
 
     #endregion
@@ -46,7 +63,23 @@ public class QuizManager : MonoBehaviour
     {
         activeDialogueId = dialogueId;
         answers = answerOptions;
-        this.activeQuestion = processedQuestion;
+        activeQuestion = processedQuestion;
+    }
+
+    public void SetupFillInBlankQuiz(string dialogueId, string[] acceptedAnswers)
+    {
+        if (activeDialogueId != dialogueId) wrongAttempts = 0;
+        
+        activeDialogueId = dialogueId;
+        correctAnswers = acceptedAnswers.Select(a => a.ToLower().Trim()).ToList();
+
+        submit.SetActive(true);
+        submitButton.interactable = true;
+
+        input.SetActive(true);
+        inputField.text = string.Empty;
+        inputField.Select();
+        inputField.ActivateInputField();
     }
 
     /// <summary>
@@ -123,6 +156,29 @@ public class QuizManager : MonoBehaviour
         DialogueManager.Instance.ShowDialogue(nextDialogueId);
     }
 
+    public void OnSubmit()
+    {
+        if (correctAnswers == null || correctAnswers.Count == 0 || string.IsNullOrEmpty(activeDialogueId)) return;
+
+        submitButton.interactable = false;
+        submit.SetActive(false);
+
+        string playerInput = inputField.text.ToLower().Trim();
+
+        input.SetActive(false);
+        inputField.text = string.Empty;
+
+        // Save the attempt in GameState
+        GameManager.Instance.CurrentState.MarkPuzzleComplete(activeDialogueId, playerInput);
+
+        // Pick next dialogue based on the picked answer
+        string nextDialogueId = ResolveNextDialogueId(activeDialogueId, -1, playerInput);
+
+        if (wrongAttempts == 3) Clear();
+
+        DialogueManager.Instance.ShowDialogue(nextDialogueId);
+    }
+
     #endregion
 
     #region Private Helpers
@@ -146,10 +202,31 @@ public class QuizManager : MonoBehaviour
     /// <summary>
     /// Decide which dialogue to show next based on the active quiz, the picked answer text, or its index.
     /// </summary>
-    private string ResolveNextDialogueId(string dialogueId, int pickedIndex)
+    private string ResolveNextDialogueId(string dialogueId, int pickedIndex, string playerInput = null)
     {
+        // Quiz.
         if (dialogueId == "base.letterman.quiz")
             return pickedIndex == 1 ? "base.letterman.q_correct1" : "base.letterman.q_wrong1";
+
+        // Fill-in-the-blank quiz.
+        else if (dialogueId == "villaoutside.teta.fill_in_blank")
+        {
+            if (correctAnswers.Contains(playerInput))
+            {
+                wrongAttempts = 3;
+                return "villaoutside.teta.fib_correct1";
+            }
+            else if (wrongAttempts < 2)
+            {
+                wrongAttempts++;
+                return "villaoutside.teta.fib_wrong1";
+            }
+            else
+            {
+                wrongAttempts = 3;
+                return "villaoutside.teta.fib_failed1";
+            }
+        }
 
         // Fallback default: stay on the same id.
         return dialogueId;
@@ -163,6 +240,8 @@ public class QuizManager : MonoBehaviour
         activeDialogueId = null;
         activeQuestion = null;
         answers = null;
+
+        wrongAttempts = 0;
     }
 
     #endregion

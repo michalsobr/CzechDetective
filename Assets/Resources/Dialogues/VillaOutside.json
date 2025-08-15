@@ -2,43 +2,91 @@
   "entries": [
     {
       "id": "villaoutside.intro.one",
-      "speakerLeft": "detective_init",
-      "speakerRight": "none",
-      "lines": [
-        "<b>!</b> (Press <b>spacebar</b> to skip dialogue while it's typing.) <b>!</b>\n\n<b>!</b> (Press <b>spacebar</b> or click on the <b>Next</b> button on the right side of the dialogue window to get to the next dialogue.) <b>!</b>"
-      ]
-    },
-    {
-      "id": "villaoutside.arrival.one",
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
-        "Well, here I am... standing at the town square of a small Czech town called Tichovice.",
-        "Wow -"
+        "(You arrived at the Novák's villa.)",
+        "Wow... so this is the house my mom grew up in!"
       ]
     },
     {
-      "id": "interactable.villaoutside.fountain.one",
+      "id": "villaoutside.teta.fill_in_blank",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "Oh wait - before I go in... what was the Czech word for aunt again?\nI need to remember before I go in cause I want to try to greet my aunt in Czech!\n\n<b>____ Růžena</b> <i>(fill in the blank)</i>" 
+      ]
+    },
+        {
+      "id": "villaoutside.teta.fib_correct1",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "<b>Yes!</b> How could I have forgotten that!"
+      ]
+    },
+        {
+      "id": "villaoutside.teta.fib_wrong1",
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
-        "fountain at villaoutside placeholder one."
+        "<b>No</b>... Let me think... let me think..."
+      ]
+    },
+            {
+      "id": "villaoutside.teta.fib_correct2",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "Teta Růžena, of course!"
+      ]
+    },
+        {
+      "id": "villaoutside.test.fib_failed1",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "I give up. I think I wrote it down somewhere in my journal. Let's see..."
       ]
     },
     {
-      "id": "interactable.villaoutside.fountain.final",
+      "id": "interactable.villaoutside.broom.final",
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
-        "fountain at villaoutside placeholder final."
+        "broom at villaoutside placeholder."
       ]
     },
-    {
-      "id": "interactable.villaoutside.cloud.final",
+        {
+      "id": "interactable.villaoutside.roof.final",
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
-        "cloud at villaoutside placeholder final."
+        "roof at villaoutside placeholder."
+      ]
+    },
+        {
+      "id": "interactable.villaoutside.fence.final",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "fence at villaoutside placeholder."
+      ]
+    },
+        {
+      "id": "interactable.villaoutside.tree.final",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "tree at villaoutside placeholder."
+      ]
+    },
+        {
+      "id": "interactable.villaoutside.flowers.final",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "flowers at villaoutside placeholder."
       ]
     },
     {

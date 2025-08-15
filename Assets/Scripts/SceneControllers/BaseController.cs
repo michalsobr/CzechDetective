@@ -121,8 +121,6 @@ public class BaseController : SceneFlowController
         // "base.location.one" is the last dialogue of the scene.
 
         // Interactable dialogues
-        else if (id == "interactable.base.fountain.one")
-            nextDialogueId = "interactable.base.fountain.final";
 
         // Go to the next dialogue if we set one
         if (!string.IsNullOrEmpty(nextDialogueId))
