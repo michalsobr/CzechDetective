@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 374412110}
   interactableID: base.fountain
-  dialogueID: interactable.base.fountain.final
+  dialogueID: interactable.base.fountain.one
   buttonText: "P\u0159ij\xEDt bl\xED\u017E"
   sourceTexture: {fileID: 2800000, guid: 74f513e815a6a4c3a96e250372e2297f, type: 3}
   alphaThreshold: 0.1
@@ -654,7 +654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 1570190135}
   interactableID: base.cloud
-  dialogueID: interactable.base.cloud.final
+  dialogueID: interactable.base.cloud.one
   buttonText: "Pod\xEDvat se nahoru"
   sourceTexture: {fileID: 2800000, guid: a54f481b2ca61458687674d4f4a75363, type: 3}
   alphaThreshold: 0.1

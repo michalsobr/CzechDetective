@@ -5,47 +5,303 @@
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
-        "villadiningroom intro dialogue placeholder."
+        "Seems like Jana took you to the dining room.",
+        "There is an older lady sitting in a chair. She stands up and says:"
       ]
     },
-        {
+    {
+      "id": "villadiningroom.aunt.one",
+      "speakerLeft": "none",
+      "speakerRight": "aunt_visible",
+      "lines": [
+        "\"Tobiáši!\"",
+        "\"<cz>Nemůžu tomu uvěřit... Tak ty jsi opravdu přišel</cz>.\""
+      ]
+    },
+    {
+      "id": "villadiningroom.aunt.two",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "\"<u><link=\"ráda tě poznávám\">Ráda tě poznávám</link></u>. <cz>Já jsem Růžena, tvoje teta</cz>.\"",
+        "Suddenly, she looks as if she's about to cry -\n\"<cz>Vypadáš úplně jako tvoje matka</cz>.\"",
+        "She stands up from the chair and slowly leans closer to me and lowers her voice.",
+        "\"<cz>Ten náhrdelník...</cz>\" - She whispers with a secretive expression, glancing around the room.",
+        "\"<cz>Zmizel před třemi dny po rodinné večeři</cz>.\"",
+        "\"<cz>Někdo v domě určitě něco skrývá</cz>.\"",
+        "She sits back down and continues speaking in a normal tone.",
+        "\"<cz>Nechám tě se tu trochu porozhlédnout a poznat zbytek rodiny. Chovej se tu jako doma</cz>.\"",
+        "She gently grabs my hand and finishes the conversation with a smile.",
+        "\"<cz>Jsem moc ráda, že jsi přišel</cz>.\""
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.tea.one",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "You pour yourself a cup of tea from the tea set on the table."
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.tea.two",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "\"<cz>Máš rád bylinkový čaj</cz>?\""
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.tea.three",
+      "speakerLeft": "detective_surprised",
+      "speakerRight": "none",
+      "lines": [
+        "Did she just ask me if I like tea? Or maybe this particular kind of tea?\nYou bring the cup to your nose and take a sniff.",
+        "It smells like it's a chamomile tea.",
+        "Before you have the chance to answer, she frowns a little and asks:"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.tea.four",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "\"<cz>Pokud ne, můžu ti udělat třeba čaj ovocný, nebo kávu? Nebo bys radši něco studeného? Vodu, džus, limonádu</cz>?\""
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.tea.fill_in_blank",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "The translations of <cz>káva, džus and limonáda</cz> all seem pretty self-explanatory, but what is <b>voda</b>?\n\n<b>voda</b> <i>(fill in the blank)</i>"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.tea.fib_correct1",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "<b>Oh!</b> \"<cz>Voda</cz>\" means <b>water</b>!"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.tea.fib_wrong1",
+      "speakerLeft": "detective_sad",
+      "speakerRight": "none",
+      "lines": [
+        "<b>No</b>. Surely it must be something fairly basic, right?"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.tea.fib_failed1",
+      "speakerLeft": "detective_angry",
+      "speakerRight": "none",
+      "lines": [
+        "I just can't seem to figure this one out...",
+        "You take a look around the room all frustated.\nSuddenly you notice an empty bottle of water in a trash bin that's in the corner of the room."
+      ]
+    },
+    {
       "id": "interactable.villadiningroom.tea.final",
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
-        "tea at villadiningroom placeholder."
+        "You quickly shake your head, take a sip of the tea, and smile at her with a cheerful little grunt to show her you like the tea and don't need anything else."
       ]
     },
-            {
-      "id": "interactable.villadiningroom.table.final",
+    {
+      "id": "interactable.villadiningroom.pictures.one",
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
-        "table at villadiningroom placeholder."
+        "You notice several family portraits hanging on the wall.",
+        "Teta Růžena probably noticed you looking at them cause as you're trying to recognize who exactly are the people on the photo, she comes from behind you, starts pointing at the people in the photo, and says:"
       ]
     },
-            {
+    {
+      "id": "interactable.villadiningroom.pictures.two",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "\"<cz>Tohle je jedna z mých oblíbených fotografií. Moje sestra a bratr s naším tátou</cz>.\"",
+        "She turns at me and says - \"<cz>Takhle vypadala tvoje máma, strýc a děda, když byli mladší. Poznal bys tu tvojí mamku</cz>?\""
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.pictures.three",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "You point at your mom in the photo, nod, and smile - \"<cz>Ano</cz>.\""
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.pictures.quiz",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "One of the men in the photo was Růžena's brother, my uncle.\n\n<b>What were the Czech words for \"brother\" and \"uncle\"?</b>"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.pictures.q_correct1",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "<b>Yes!</b>"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.pictures.q_wrong1",
+      "speakerLeft": "detective_sad",
+      "speakerRight": "none",
+      "lines": [
+        "Ahh... I know I heard it before... what was it again?"
+      ]
+    },
+    {
       "id": "interactable.villadiningroom.pictures.final",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "\"<cz>Bratr</cz>\" is <b>brother</b> and \"<cz>strýc</cz>\" is <b>uncle</b>!"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.table.one",
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
-        "pictures at villadiningroom placeholder."
+        "Your legs ache from standing and walking all day. You stretch your neck and ease your feet."
       ]
     },
-            {
+    {
+      "id": "interactable.villadiningroom.table.two",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "\"<cz>Pojď, posaď se na chvíli tady na židli vedle mě. Musíš být unavený po tak dlouhé cestě do našeho městečka</cz>.“"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.table.three",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "You sit down and let your eyes wander around the room."
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.table.four",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "\"<cz>Nejsi hladový? Můžu ti ohřát domácí slepičí polévku, a jestli máš větší hlad, můžu říct Janě, aby ti něco uvařila</cz>?\""
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.table.five",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "You look at her for a moment trying to decipher what she just said."
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.table.six",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "She keeps looking at you probably waiting for an answer.",
+        "After a short moment, she smiles and gestures with her hand towards her mouth in repeated motions."
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.table.seven",
+      "speakerLeft": "detective_surprised",
+      "speakerRight": "none",
+      "lines": [
+        "You just realized she's probably offering you something to eat.",
+        "You shake your head - \"<cz>Ne, děkuji</cz>.\""
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.table.final",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "\"<cz>Dobře, ale kdyby ti vyhládlo, tak určitě řekni</cz>.\""
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.drawer.one",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "You notice a slightly open drawer. You open it some more and inside lies a photo of a man and a woman none of which you recognize."
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.drawer.final",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "\"<cz>Co jsi tam našel? Á, to je fotografie s mojí maminkou a panem Procházkou</cz>.\"",
+        "She points to the woman, her face softening.",
+        "\"<cz>Tohle je tvoje babička, která už bohužel není mezi námi</cz>.\"",
+        "Her expression turns visibly sad.",
+        "\"<cz>A tohle je starý přítel naší rodiny, pan Procházka. Před třemi dny tu byl s námi na večeři, než ten náhrdelník zmizel. Být tebou, zeptala bych se ho na to</cz>.\"\nShe says with a serious expression."
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.glassdisplay.one",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "One shelf in the glass display has a conspicuously empty space."
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.glassdisplay.two",
+      "speakerLeft": "none",
+      "speakerRight": "aunt",
+      "lines": [
+        "\"<cz>Ano, tady byl původně vystavený ten náhrdelník</cz>.\"",
+        "She gestures to her neck.",
+        "\"<cz>Ten, co se před třemi dny nevysvětlitelně ztratil</cz>.\"\nWhile she says \"nevysvětlitelně\" she makes air quotes with her fingers."
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.glassdisplay.quiz",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "I've heard that word so many times now and her gesturing just made it all that more obvious as to what <cz>\"náhrdelník\"</cz> probably means.\n\n<b><cz>Náhrdelník</cz></b> must mean:"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.glassdisplay.q_correct1",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "<b>Yes!</b> <cz>Náhrdelník</cz> means <b>necklace</b>!"
+      ]
+    },
+    {
+      "id": "interactable.villadiningroom.glassdisplay.q_wrong1",
+      "speakerLeft": "detective_sad",
+      "speakerRight": "none",
+      "lines": [
+        "<b>No.</b> I don't think she would be talking about that. It must be something else..."
+      ]
+    },
+    {
       "id": "interactable.villadiningroom.glassdisplay.final",
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
-        "glassdisplay at villadiningroom placeholder."
-      ]
-    },
-            {
-      "id": "interactable.villadiningroom.drawer.final",
-      "speakerLeft": "detective_neutral",
-      "speakerRight": "none",
-      "lines": [
-        "drawer at villadiningroom placeholder."
+        "You examine the case and the area around it but find nothing unusual. Maybe you'll need to <b>explore other rooms</b> and <b>talk to more people</b> to understand what really happened here. Maybe even looking <b>outside</b> again..."
       ]
     },
     {

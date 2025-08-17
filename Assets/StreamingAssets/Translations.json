@@ -9,16 +9,77 @@
       "journal": "<u>dopis</u>  (m • sg.)",
       "translation": "<b>letter</b>"
     },
+    "fontána": {
+      "words": [
+        "fontána",
+        "fontány"
+      ],
+      "journal": "<u>fontána</u>  (f • sg.)",
+      "translation": "<b>fountain</b>"
+    },
+    "dny": {
+      "words": [
+        "dny"
+      ],
+      "guess": "days",
+      "journal": "placeholder",
+      "translation": "<b>days</b>"
+    },
+    "cukrová vata": {
+      "words": [
+        "cukrová vata"
+      ],
+      "guess": "candy floss",
+      "journal": "<u>cukrová vata</u>  (f • sg.)",
+      "translation": "<b>candy floss</b>"
+    },
+    "obloha": {
+      "words": [
+        "obloha",
+        "obloze"
+      ],
+      "guess": "sky",
+      "journal": "placeholder",
+      "translation": "<b>sky</b>"
+    },
+    "mince": {
+      "words": [
+        "mince",
+        "minci"
+      ],
+      "guess": "coin",
+      "journal": "placeholder",
+      "translation": "<b>coin</b>"
+    },
     "pan": {
       "words": [
-        "pan"
+        "pan",
+        "panem"
       ],
       "journal": "<u>pan</u> / <u>pán</u>  (m • sg.)",
-      "translation": "<b>Mr.</b> / <b>sir</b> / <b>gentleman</b>"
+      "translation": "<b>Mr.</b> / <b>man</b> / <b>sir</b> / <b>gentleman</b>"
+    },
+    "paní": {
+      "words": [
+        "paní"
+      ],
+      "journal": "<u>paní</u>  (f • sg.)",
+      "translation": "<b>Mrs.</b> / <b>woman</b> / <b>lady</b>"
+    },
+    "služebná": {
+      "words": [
+        "služebná"
+      ],
+      "journal": "<u>služebná</u>  (f • sg.)",
+      "translation": "<b>maid</b> / <b>(female) servant</b>"
     },
     "máma": {
       "words": [
-        "máma"
+        "máma",
+        "mami",
+        "matka",
+        "mamku",
+        "maminkou"
       ],
       "journal": "<u>máma</u>  (f • sg.)",
       "translation": "<b>mom</b>"
@@ -28,7 +89,7 @@
         "babička"
       ],
       "guess": "grandma",
-      "journal": "placeholder",
+      "journal": "<u>babička</u>. (f • sg.)",
       "translation": "<b>grandma</b>"
     },
     "člověk": {
@@ -46,9 +107,17 @@
       "journal": "<u>let</u> / <u>roky</u>  (m • pl.)",
       "translation": "<b>years</b>"
     },
+    "přítel": {
+      "words": [
+        "přítel"
+      ],
+      "journal": "<u>přítel</u> (m • sg.)",
+      "translation": "<b>friend</b> | (also-) / <b>partner (masculine)</b> <b>boyfriend</b>  "
+    },
     "rodina": {
       "words": [
-        "rodina"
+        "rodina",
+        "rodiny"
       ],
       "journal": "<u>rodina</u>  (f • sg.)",
       "translation": "<b>family</b>"
@@ -61,6 +130,30 @@
       "journal": "<u>pravda</u>  (f • sg.)",
       "translation": "<b>truth</b>"
     },
+    "polévka": {
+      "words": [
+        "polévka",
+        "polévku"
+      ],
+      "guess": "soup",
+      "journal": "placeholder",
+      "translation": "<b>soup</b>"
+    },
+    "jídelna": {
+      "words": [
+        "jídelna",
+        "jídelně"
+      ],
+      "journal": "<u>jídelna</u>  (f • sg.)",
+      "translation": "<b>dining room</b> / <b>canteen</b>"
+    },
+    "mraky": {
+      "words": [
+        "mraky"
+      ],
+      "journal": "<u>mraky</u>  (m • pl.)",
+      "translation": "<b>clouds</b>"
+    },
     "vila": {
       "words": [
         "vile",
@@ -68,6 +161,22 @@
       ],
       "journal": "<u>vila</u>  (f • sg.)",
       "translation": "<b>villa</b>"
+    },
+    "levandule": {
+      "words": [
+        "levandule"
+      ],
+      "journal": "<u>levandule</u>  (f • sg.)",
+      "translation": "<b>levender</b>"
+    },
+    "vůně": {
+      "words": [
+        "vůně",
+        "vůni"
+      ],
+      "guess": "smell",
+      "journal": "<u>vůně</u>  (f • sg.)",
+      "translation": "<b>smell</b>"
     },
     "láska": {
       "words": [
@@ -91,6 +200,147 @@
       ],
       "journal": "<u>teta</u>  (f • sg.)",
       "translation": "<b>aunt</b>"
+    },
+    "fotografie": {
+      "words": [
+        "fotografie",
+        "fotografií"
+      ],
+      "journal": "<u>fotografie</u> / <u>fotka</u>  (f • sg.+pl./sg.)",
+      "translation": "<b>photo</b> / <b>picture</b>"
+    },
+    "sestra": {
+      "words": [
+        "sestra"
+      ],
+      "journal": "<u>sestra</u>  (f • sg.)",
+      "translation": "<b>sister</b>"
+    },
+    "strýc": {
+      "words": [
+        "strýc"
+      ],
+      "journal": "<u>strýc</u>  (m • sg.)",
+      "translation": "<b>uncle</b>"
+    },
+    "děda": {
+      "words": [
+        "děda"
+      ],
+      "journal": "<u>děda</u>  (m • sg.)",
+      "translation": "<b>grandfather</b>"
+    },
+    "bratr": {
+      "words": [
+        "bratr"
+      ],
+      "journal": "<u>bratr</u>  (m • sg.)",
+      "translation": "<b>brother</b>"
+    },
+    "židle": {
+      "words": [
+        "židle",
+        "židli"
+      ],
+      "journal": "<u>židle</u>  (f • sg.)",
+      "translation": "<b>chair</b>"
+    },
+    "městečka": {
+      "words": [
+        "městečka"
+      ],
+      "journal": "<u>městečko</u>  (n • sg.)",
+      "translation": "<b>town</b> / <b>small city</b>"
+    },
+    "město": {
+      "words": [
+        "město"
+      ],
+      "journal": "<u>město</u>  (n • sg.)",
+      "translation": "<b>city</b>"
+    },
+    "táta": {
+      "words": [
+        "táta",
+        "tátou"
+      ],
+      "journal": "<u>táta</u>  (m • sg.)",
+      "translation": "<b>dad</b>"
+    },
+    "náhrdelník": {
+      "words": [
+        "náhrdelník"
+      ],
+      "guess": "??",
+      "journal": "<u>náhrdelník</u>  (m • sg.)",
+      "translation": "<b>necklace</b>"
+    },
+    "zvuky": {
+      "words": [
+        "zvuky"
+      ],
+      "guess": "noises",
+      "journal": "<u>zvuky</u>  (m • pl.)",
+      "translation": "<b>noises</b>"
+    },
+    "pracovna": {
+      "words": [
+        "pracovna"
+      ],
+      "journal": "<u>pracovna</u>  (f • sg.)",
+      "translation": "<b>office</b> / <b>study room</b>"
+    },
+    "čaj": {
+      "words": [
+        "čaj"
+      ],
+      "journal": "<u>čaj</u>  (m • sg.)",
+      "translation": "<b>tea</b>"
+    },
+    "káva": {
+      "words": [
+        "kávu"
+      ],
+      "journal": "<u>káva</u> / <u> kafe </u> (f • sg.)",
+      "translation": "<b>coffee</b>"
+    },
+    "džus": {
+      "words": [
+        "džus"
+      ],
+      "journal": "<u>džus</u>  (m • sg.)",
+      "translation": "<b>juice</b>"
+    },
+    "limonáda": {
+      "words": [
+        "limonádu"
+      ],
+      "journal": "<u>limonáda</u>  (f • sg.)",
+      "translation": "<b>lemonade</b>"
+    },
+    "voda": {
+      "words": [
+        "vodu"
+      ],
+      "journal": "<u>voda</u>  (f • sg.)",
+      "translation": "<b>water</b>"
+    },
+    "nábytek": {
+      "words": [
+        "nábytek"
+      ],
+      "guess": "furniture",
+      "journal": "<u>nábytek</u>  (m • sg.)",
+      "translation": "<b>furniture</b>"
+    },
+    "zem": {
+      "words": [
+        "zem",
+        "zemi"
+      ],
+      "guess": "ground",
+      "journal": "<u>země</u>  (f • sg.)",
+      "translation": "<b>ground</b> | (also-) <b>Earth</b> / <b>country</b>  "
     }
   },
   "verb": {
@@ -98,10 +348,105 @@
       "words": [
         "jsem",
         "jsi",
-        "je"
+        "je",
+        "nejsi",
+        "nejsem",
+        "není"
       ],
       "journal": "<u>jsem</u> / <u>jsi</u> / <u>je</u>  (sg.)",
       "translation": "<b>am</b> / <b>are</b> / <b>is</b>"
+    },
+    "posadit": {
+      "words": [
+        "posaď"
+      ],
+      "journal": "<u>posadit (se)</u>  ",
+      "translation": "<b>(to) sit</b>"
+    },
+    "přeju": {
+      "words": [
+        "přeju",
+        "přát"
+      ],
+      "guess": "wish",
+      "journal": "placeholder  ",
+      "translation": "<b>(to) wish</b>"
+    },
+    "vzpomenout": {
+      "words": [
+        "vzpomněla"
+      ],
+      "guess": "remember",
+      "journal": "<u>vzpomenout (si)</u>  ",
+      "translation": "<b>(to) recall / remember</b>"
+    },
+    "slyšet": {
+      "words": [
+        "slyšela"
+      ],
+      "guess": "hear",
+      "journal": "<u>slyšet  </u>  ",
+      "translation": "<b>(to) hear</b>"
+    },
+    "zmizet": {
+      "words": [
+        "zmizel",
+        "ztratil"
+      ],
+      "guess": "dissapear",
+      "journal": "placeholder",
+      "translation": "<b>(to) disappear</b> / <b>get lost</b>"
+    },
+    "prohlédnout": {
+      "words": [
+        "prohlédnout"
+      ],
+      "guess": "inspect",
+      "journal": "<u>prohlédnout (si)</u>  ",
+      "translation": "<b>(to) inspect</b> / <b>look (at)</b>"
+    },
+    "zeptat": {
+      "words": [
+        "zeptala"
+      ],
+      "guess": "ask",
+      "journal": "placeholder",
+      "translation": "<b>(to) ask</b>"
+    },
+    "skrývat": {
+      "words": [
+        "skrývá"
+      ],
+      "guess": "hide",
+      "journal": "placeholder",
+      "translation": "<b>(to) hide</b>"
+    },
+    "čekat": {
+      "words": [
+        "čeká"
+      ],
+      "journal": "<u>čekat</u>  ",
+      "translation": "<b>(to) wait</b>"
+    },
+    "jít": {
+      "words": [
+        "jít",
+        "pojďte",
+        "pojď",
+        "přijít",
+        "přišel"
+      ],
+      "journal": "<u>jít</u> / <u>přijít</u> ",
+      "translation": "<b>(to) come</b> / <b>walk</b> / <b>go</b>"
+    },
+    "vaří": {
+      "words": [
+        "vaří",
+        "nevaří",
+        "uvařila"
+      ],
+      "journal": "<u>vařit</u> / <u>nevařit</u>  ",
+      "translation": "<b>(to) cook</b>"
     },
     "jsme": {
       "words": [
@@ -112,6 +457,15 @@
       "journal": "<u>jsme</u> / <u>jste</u> / <u>jsou</u>  (pl.)",
       "translation": "<b>are</b>"
     },
+    "mluvit": {
+      "words": [
+        "mluvit",
+        "mluvím",
+        "nemluvím"
+      ],
+      "journal": "<u>mluvit</u>  ",
+      "translation": "<b>(to) talk</b> / <b>speak</b>"
+    },
     "čteš": {
       "words": [
         "čteš"
@@ -120,13 +474,45 @@
       "journal": "placeholder",
       "translation": "to read"
     },
+    "vím": {
+      "words": [
+        "vím",
+        "nevím"
+      ],
+      "guess": "(don't?) know",
+      "journal": "placeholder",
+      "translation": "know"
+    },
+    "rád": {
+      "words": [
+        "rád"
+      ],
+      "guess": "like",
+      "journal": "placeholder",
+      "translation": "like"
+    },
     "říct": {
       "words": [
-        "říct"
+        "říct",
+        "řekni"
       ],
       "guess": "to tell",
       "journal": "placeholder",
       "translation": "to tell"
+    },
+    "hodit": {
+      "words": [
+        "hodit"
+      ],
+      "journal": "<u>hodit</u>  ",
+      "translation": "<b>to throw</b> / <b>toss</b>"
+    },
+    "podívej": {
+      "words": [
+        "podívej"
+      ],
+      "journal": "<u>podívej (se)</u>  ",
+      "translation": "<b>look (at)</b>"
     }
   },
   "adjective": {
@@ -138,6 +524,25 @@
       ],
       "journal": "<u>rodinný</u> / <u>rodinná</u> / <u>rodinné</u>  (m/f/n • sg.)",
       "translation": "<b>family</b>"
+    },
+    "velké": {
+      "words": [
+        "velké",
+        "velký",
+        "velká"
+      ],
+      "guess": "big",
+      "journal": "<u>velký</u> / <u>velká</u> / <u>velké</u>  (m/f/n • sg.)",
+      "translation": "<b>big</b>"
+    },
+    "fialová": {
+      "words": [
+        "fialová",
+        "fialovou"
+      ],
+      "guess": "purple",
+      "journal": "<u>fialový</u> / <u>fialová</u> / <u>fialové</u>  (m/f/n • sg.)",
+      "translation": "<b>purple</b> / <b>violet</b>"
     },
     "milý": {
       "words": [
@@ -168,12 +573,21 @@
       ],
       "journal": "<u>s</u>  ",
       "translation": "<b>with</b>"
+    },
+    "nad": {
+      "words": [
+        "nad",
+        "nade"
+      ],
+      "journal": "<u>nad</u>  ",
+      "translation": "<b>above</b> /<b>over (something)</b>"
     }
   },
   "pronoun": {
     "vás": {
       "words": [
-        "vás"
+        "vás",
+        "vy"
       ],
       "journal": "<u>Vás</u>  ",
       "translation": "<b>you</b> <i>(formal)</i>"
@@ -188,7 +602,8 @@
     "tvoje": {
       "words": [
         "tvoje",
-        "tvůj"
+        "tvůj",
+        "tvojí"
       ],
       "journal": "<u>tvůj</u> / <u>tvoje</u>  (m/f+n)",
       "translation": "<b>your</b> / <b>yours</b> "
@@ -196,14 +611,16 @@
     "tobě": {
       "words": [
         "ti",
-        "tobě"
+        "tobě",
+        "tě"
       ],
       "journal": "<u>tobě</u> / <u>ti</u>  ",
       "translation": "<b>to you</b>"
     },
     "mě": {
       "words": [
-        "mě"
+        "mě",
+        "mnou"
       ],
       "guess": "me",
       "journal": "placeholder",
@@ -211,7 +628,8 @@
     },
     "ty": {
       "words": [
-        "ty"
+        "ty",
+        "tebou"
       ],
       "journal": "<u>ty</u>  ",
       "translation": "<b>you</b> <i>(informal)</i>"
@@ -224,6 +642,13 @@
       ],
       "journal": "<u>jedna</u>  (f • sg.)",
       "translation": "<b>one</b>"
+    },
+    "třemi": {
+      "words": [
+        "třemi"
+      ],
+      "journal": "<u>tři</u>  ",
+      "translation": "<b>three</b>"
     }
   },
   "demonstrative": {
@@ -233,7 +658,8 @@
         "tato",
         "toto",
         "této",
-        "tomto"
+        "tomto",
+        "tohle"
       ],
       "journal": "<u>tento</u> / <u>tato</u> / <u>toto</u>  (m/f/n • sg.)",
       "translation": "<b>this</b>"
@@ -246,6 +672,34 @@
       ],
       "journal": "<u>tady</u>  ",
       "translation": "<b>here</b>"
+    },
+    "ano": {
+      "words": [
+        "ano"
+      ],
+      "journal": "<u>ano</u>  ",
+      "translation": "<b>yes</b>"
+    },
+    "ne": {
+      "words": [
+        "ne"
+      ],
+      "journal": "<u>ne</u>  ",
+      "translation": "<b>no</b>"
+    },
+    "nahoru": {
+      "words": [
+        "nahoru"
+      ],
+      "journal": "<u>nahoru</u>  ",
+      "translation": "<b>up</b> / <b>above</b>"
+    },
+    "doma": {
+      "words": [
+        "doma"
+      ],
+      "journal": "<u>doma</u>  ",
+      "translation": "<b>home</b>"
     }
   },
   "conjunction": {
@@ -255,6 +709,38 @@
       ],
       "journal": "<u>a</u>  ",
       "translation": "<b>and</b>"
+    }
+  },
+  "greeting": {
+    "dobrý den": {
+      "words": [
+        "dobrý den"
+      ],
+      "journal": "<u>dobrý den</u>  ",
+      "translation": "<b>good day</b> / <b>hello</b> <i>(formal)</i>"
+    }
+  },
+  "phrase": {
+    "ráda tě poznávám": {
+      "words": [
+        "ráda tě poznávám"
+      ],
+      "journal": "<u>rád/a tě poznávám</u>  (m/f)",
+      "translation": "<b>nice to meet you</b>"
+    },
+    "omlouvám se": {
+      "words": [
+        "omlouvám se"
+      ],
+      "journal": "<u>omlouvám se</u>  (m/f)",
+      "translation": "<b>(I am) sorry</b> / <b>(I) apologize</b>"
+    },
+    "děkuji": {
+      "words": [
+        "děkuji"
+      ],
+      "journal": "<u>děkuji</u>  ",
+      "translation": "<b>(I) thank (you)</b>"
     }
   }
 }

@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 374412110}
   interactableID: villadiningroom.drawer
-  dialogueID: interactable.villadiningroom.drawer.final
+  dialogueID: interactable.villadiningroom.drawer.one
   buttonText: "Otev\u0159\xEDt"
   sourceTexture: {fileID: 2800000, guid: a4726d7959fb34ac8a3a6e12cc530439, type: 3}
   alphaThreshold: 0.1
@@ -412,7 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 756401666}
   interactableID: villadiningroom.tea
-  dialogueID: interactable.villadiningroom.tea.final
+  dialogueID: interactable.villadiningroom.tea.one
   buttonText: "Nal\xEDt si"
   sourceTexture: {fileID: 2800000, guid: 5e13bc08ca25d499ea00308d011b28f3, type: 3}
   alphaThreshold: 0.1
@@ -519,7 +519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 757107292}
   interactableID: villadiningroom.pictures
-  dialogueID: interactable.villadiningroom.pictures.final
+  dialogueID: interactable.villadiningroom.pictures.one
   buttonText: "Prohl\xE9dnout si"
   sourceTexture: {fileID: 2800000, guid: 6e8dfa10dc4fe4b9ab43de409ae603fd, type: 3}
   alphaThreshold: 0.1
@@ -871,7 +871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 1570190135}
   interactableID: villadiningroom.glassdisplay
-  dialogueID: interactable.villadiningroom.glassdisplay.final
+  dialogueID: interactable.villadiningroom.glassdisplay.one
   buttonText: Prozkoumat
   sourceTexture: {fileID: 2800000, guid: be9478d10fd0945cd965c14cae03e839, type: 3}
   alphaThreshold: 0.1
@@ -1235,7 +1235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 1977919077}
   interactableID: villadiningroom.table
-  dialogueID: interactable.villadiningroom.table.final
+  dialogueID: interactable.villadiningroom.table.one
   buttonText: Posadit se
   sourceTexture: {fileID: 2800000, guid: 329d17daed336451689c1d743b191c15, type: 3}
   alphaThreshold: 0.1

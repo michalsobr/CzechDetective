@@ -5,7 +5,7 @@
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
-        "(You arrived at the Novák's villa.)",
+        "You arrived in front of the Novák's villa.",
         "Wow... so this is the house my mom grew up in!"
       ]
     },
@@ -14,10 +14,10 @@
       "speakerLeft": "detective_neutral",
       "speakerRight": "none",
       "lines": [
-        "Oh wait - before I go in... what was the Czech word for aunt again?\nI need to remember before I go in cause I want to try to greet my aunt in Czech!\n\n<b>____ Růžena</b> <i>(fill in the blank)</i>" 
+        "Oh wait - before I go in... what was the Czech word for aunt again?\nI need to remember before I go in cause I want to try to greet my aunt in Czech!\n\n<b>____ Růžena</b> <i>(fill in the blank)</i>"
       ]
     },
-        {
+    {
       "id": "villaoutside.teta.fib_correct1",
       "speakerLeft": "detective_happy",
       "speakerRight": "none",
@@ -25,39 +25,231 @@
         "<b>Yes!</b> How could I have forgotten that!"
       ]
     },
-        {
+    {
       "id": "villaoutside.teta.fib_wrong1",
-      "speakerLeft": "none",
+      "speakerLeft": "detective_sad",
       "speakerRight": "none",
       "lines": [
         "<b>No</b>... Let me think... let me think..."
       ]
     },
-            {
-      "id": "villaoutside.teta.fib_correct2",
-      "speakerLeft": "none",
+    {
+      "id": "villaoutside.test.fib_failed1",
+      "speakerLeft": "detective_angry",
       "speakerRight": "none",
       "lines": [
-        "Teta Růžena, of course!"
+        "<b>I give up</b>. I think I wrote it down somewhere in my journal. Let's see..."
       ]
     },
-        {
-      "id": "villaoutside.test.fib_failed1",
+    {
+      "id": "villaoutside.teta.fib_correct2",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "<cz><b>Teta</b></cz> Růžena, of course!"
+      ]
+    },
+    {
+      "id": "villaoutside.jana.one",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "You walk up to the door and knock.",
+        "<i><b>knock knock</b></i>"
+      ]
+    },
+    {
+      "id": "villaoutside.jana.two",
+      "speakerLeft": "detective_surprised",
+      "speakerRight": "none",
+      "lines": [
+        "The door opens and you see a young woman standing in the doorway.",
+        "I don't think this could be my aunt... She looks way too young."
+      ]
+    },
+    {
+      "id": "villaoutside.jana.three",
+      "speakerLeft": "none",
+      "speakerRight": "maid_visible",
+      "lines": [
+        "\"<cz>Vy musíte být pan Tobiáš</cz>.\""
+      ]
+    },
+    {
+      "id": "villaoutside.jana.quiz",
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
-        "I give up. I think I wrote it down somewhere in my journal. Let's see..."
+        "Uh oh... what should I say back?\n\n<b>\"<cz>Vy musíte být pan Tobiáš</cz>.\"</b>"
+      ]
+    },
+    {
+      "id": "villaoutside.jana.q_correct1",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "-> \"<b><u><link=\"dobrý den\">Dobrý den</link></u>.<cz> Ano. Nemluvím česky</cz>.</b>\""
+      ]
+    },
+    {
+      "id": "villaoutside.jana.q_wrong_hotel",
+      "speakerLeft": "detective_angry",
+      "speakerRight": "none",
+      "lines": [
+        "Hotel?! That's not why I came... I don't think it's the right time to be joking right now."
+      ]
+    },
+    {
+      "id": "villaoutside.jana.q_wrong_silence",
+      "speakerLeft": "detective_sad",
+      "speakerRight": "none",
+      "lines": [
+        "I should at least try to say something..."
+      ]
+    },
+    {
+      "id": "villaoutside.jana.four",
+      "speakerLeft": "none",
+      "speakerRight": "maid",
+      "lines": [
+        "\"<cz>Já jsem Jana. Služebná u rodiny Novákových. Pojďte se mnou. Paní Růžena už na Vás čeká</cz>.\""
+      ]
+    },
+    {
+      "id": "villaoutside.comeinside.quiz",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "What is it that she just said about my aunt?\n\n<cz>Paní Růžena už na Vás <b>\"čeká\"</b></cz>.</b>\nShe ______."
+      ]
+    },
+    {
+      "id": "villaoutside.comeinside.q_correct1",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "Oh, right! She is <b>waiting</b> for me! (\"<cz>čeká</cz>\")"
+      ]
+    },
+    {
+      "id": "villaoutside.comeinside.q_wrong_clean",
+      "speakerLeft": "detective_sad",
+      "speakerRight": "none",
+      "lines": [
+        "Hmm... why would she be cleaning when she has a maid? It's probably somehting else."
+      ]
+    },
+    {
+      "id": "villaoutside.comeinside.q_wrong_cook1",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "You sniff the air to try and smell something cooking.",
+        "Jana looks at you as she probably immediately figured out what you might have been thinking -"
+      ]
+    },
+    {
+      "id": "villaoutside.comeinside.q_wrong_cook2",
+      "speakerLeft": "none",
+      "speakerRight": "maid",
+      "lines": [
+        "Jana shakes her head and smiles.",
+        "\"<cz>Ne ne. Ona nevaří, ale čeká na Vás v jídelně</cz>.\""
+      ]
+    },
+    {
+      "id": "villaoutside.transition.one",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "maid",
+      "lines": [
+        "Jana leads you inside the villa and you follow her."
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.broom.one",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "You step closer to the broom. As you barely touch it, it drops on the ground and makes a loud noice when touching the stone pathway."
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.broom.two",
+      "speakerLeft": "detective_surprised",
+      "speakerRight": "none",
+      "lines": [
+        "Jana, working in the garden behind you, looks up with an \"aha, I just remembered something\" kind of expression and quickly comes over.",
+        "You utter a quick apology - \"<u><link=\"omlouvám se\">Omlouvám se</link></u>!\""
       ]
     },
     {
       "id": "interactable.villaoutside.broom.final",
       "speakerLeft": "none",
-      "speakerRight": "none",
+      "speakerRight": "maid",
       "lines": [
-        "broom at villaoutside placeholder."
+        "\"<cz>To nevadí. Zrovna jsem si ale vzpomněla na něco, co jsem slyšela po té večeři před třemi dny</cz>.\"",
+        "\"<cz>Když jsem umývala nádobí, slyšela jsem nade mnou zvuky, jako kdyby někdo posouval nábytek — postel, židli — prostě něco se šoupalo po zemi</cz>.\"",
+        "\"<cz>Nevím, jestli je to důležité, ale radši jsem to chtěla zmínit. Slyšela jsem to přímo nad sebou a přímo nade mnou je pracovna</cz>.\""
       ]
     },
-        {
+    {
+      "id": "interactable.villaoutside.flowers.one",
+      "speakerLeft": "detective_neutral",
+      "speakerRight": "none",
+      "lines": [
+        "You lean in to smell the flowers, taking in their fresh scent."
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.flowers.two",
+      "speakerLeft": "none",
+      "speakerRight": "maid",
+      "lines": [
+        "Jana strolls over, smiling.",
+        "\"<cz>Tohle je levandule. Má krásnou fialovou barvu, že? Pěstujeme ji hlavně kvůli vůni, ale velké plus je, že taky odpuzuje komáry</cz>!\""
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.flowers.fill_in_blank",
+      "speakerLeft": "none",
+      "speakerRight": "none",
+      "lines": [
+        "What do you think <b>\"levandule\"</b> means?\n\n<b>levandule</b> <i>(fill in the blank)</i>"
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.flowers.fib_correct1",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "<b>Yes!</b> Kinda obvious, isn't it?"
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.flowers.fib_wrong1",
+      "speakerLeft": "detective_sad",
+      "speakerRight": "none",
+      "lines": [
+        "<b>No</b>... let's not ovethink this. I think I know this one."
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.flowers.fib_failed1",
+      "speakerLeft": "detective_angry",
+      "speakerRight": "none",
+      "lines": [
+        "Le... leva... <cz>levandule</cz>... <b>Oh!</b>"
+      ]
+    },
+    {
+      "id": "interactable.villaoutside.flowers.final",
+      "speakerLeft": "detective_happy",
+      "speakerRight": "none",
+      "lines": [
+        "<cz>Levandule</cz> means <b>levender</b> of course!"
+      ]
+    },
+    {
       "id": "interactable.villaoutside.roof.final",
       "speakerLeft": "none",
       "speakerRight": "none",
@@ -65,7 +257,7 @@
         "roof at villaoutside placeholder."
       ]
     },
-        {
+    {
       "id": "interactable.villaoutside.fence.final",
       "speakerLeft": "none",
       "speakerRight": "none",
@@ -73,20 +265,12 @@
         "fence at villaoutside placeholder."
       ]
     },
-        {
+    {
       "id": "interactable.villaoutside.tree.final",
       "speakerLeft": "none",
       "speakerRight": "none",
       "lines": [
         "tree at villaoutside placeholder."
-      ]
-    },
-        {
-      "id": "interactable.villaoutside.flowers.final",
-      "speakerLeft": "none",
-      "speakerRight": "none",
-      "lines": [
-        "flowers at villaoutside placeholder."
       ]
     },
     {

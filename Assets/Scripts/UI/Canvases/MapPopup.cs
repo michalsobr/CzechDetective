@@ -61,8 +61,7 @@ public class MapPopup : PopupWindow
             dropdown.options.Add(new TMP_Dropdown.OptionData("Tichovice Town Square"));
         if (currentSceneName != "VillaOutside" && GameManager.Instance.CurrentState.completedDialogues.Contains("base.letter.thirteen"))
             dropdown.options.Add(new TMP_Dropdown.OptionData("Novák's Villa"));
-        // TODO placeholder condition - replace
-        if (currentSceneName != "VillaDiningRoom" && GameManager.Instance.CurrentState.completedDialogues.Contains("villaoutside.teta.fib_correct2"))
+        if (currentSceneName != "VillaDiningRoom" && GameManager.Instance.CurrentState.completedDialogues.Contains("villaoutside.transition.one"))
             dropdown.options.Add(new TMP_Dropdown.OptionData("Novák's Villa - Dining Room"));
 
         // Reset dropdown to have selected the first option by default.

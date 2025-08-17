@@ -120,11 +120,40 @@ public class BaseController : SceneFlowController
 
         // "base.location.one" is the last dialogue of the scene.
 
-        // Interactable dialogues
+        // --- Interactable: Fountain ---
+        else if (id == "interactable.base.fountain.one")
+        {
+            nextDialogueId = "interactable.base.fountain.two";
+            TranslationManager.Instance.UnlockWords("fontána", "hodit");
+        }
+        else if (id == "interactable.base.fountain.two")
+        {
+            nextDialogueId = "interactable.base.fountain.three";
+            TranslationManager.Instance.UnlockWords("ano");
+        }
+        else if (id == "interactable.base.fountain.three")
+            nextDialogueId = "interactable.base.fountain.final";
+
+        // --- Interactable: Cloud ---
+        else if (id == "interactable.base.cloud.one")
+        {
+            nextDialogueId = "interactable.base.cloud.two";
+            TranslationManager.Instance.UnlockWords("podívej", "nahoru", "mraky");
+        }
+        else if (id == "interactable.base.cloud.two")
+        {
+            nextDialogueId = "interactable.base.cloud.three";
+            TranslationManager.Instance.UnlockWords("cukrová vata");
+        }
+        else if (id == "interactable.base.cloud.three")
+        {
+            nextDialogueId = "interactable.base.cloud.final";
+            TranslationManager.Instance.UnlockWords("ano");
+        }
 
         // Go to the next dialogue if we set one
-        if (!string.IsNullOrEmpty(nextDialogueId))
-            DialogueManager.Instance.ShowDialogue(nextDialogueId);
+            if (!string.IsNullOrEmpty(nextDialogueId))
+                DialogueManager.Instance.ShowDialogue(nextDialogueId);
     }
 
     #endregion
@@ -179,8 +208,8 @@ public class BaseController : SceneFlowController
     {
         string[] answers =
         {
-            "Sorry. That's not your letter.",
-            "Here. This letter is for you.",
+            "Sorry. That's not your envelope.",
+            "Here. This letter is for you.", // correct
             "Please. This note says you need help.",
             "There. The post office is right over there."
         };

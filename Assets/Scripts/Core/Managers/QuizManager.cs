@@ -69,7 +69,7 @@ public class QuizManager : MonoBehaviour
     public void SetupFillInBlankQuiz(string dialogueId, string[] acceptedAnswers)
     {
         if (activeDialogueId != dialogueId) wrongAttempts = 0;
-        
+
         activeDialogueId = dialogueId;
         correctAnswers = acceptedAnswers.Select(a => a.ToLower().Trim()).ToList();
 
@@ -137,7 +137,7 @@ public class QuizManager : MonoBehaviour
     /// </summary>
     public void OnAnswerClicked(string linkId)
     {
-        if (answers == null || answers.Length == 0 || string.IsNullOrEmpty(activeDialogueId))
+        if (answers == null || answers.Length == 0 || string.IsNullOrEmpty(activeDialogueId) || UIManager.Instance.IsPopupOpen())
             return;
 
         if (!linkId.StartsWith("a:")) return;
@@ -158,7 +158,7 @@ public class QuizManager : MonoBehaviour
 
     public void OnSubmit()
     {
-        if (correctAnswers == null || correctAnswers.Count == 0 || string.IsNullOrEmpty(activeDialogueId)) return;
+        if (correctAnswers == null || correctAnswers.Count == 0 || string.IsNullOrEmpty(activeDialogueId) || UIManager.Instance.IsPopupOpen()) return;
 
         submitButton.interactable = false;
         submit.SetActive(false);
@@ -204,11 +204,48 @@ public class QuizManager : MonoBehaviour
     /// </summary>
     private string ResolveNextDialogueId(string dialogueId, int pickedIndex, string playerInput = null)
     {
-        // Quiz.
+        // Letterman Quiz.(1)
         if (dialogueId == "base.letterman.quiz")
             return pickedIndex == 1 ? "base.letterman.q_correct1" : "base.letterman.q_wrong1";
 
-        // Fill-in-the-blank quiz.
+        // Jana Quiz.(2)
+        else if (dialogueId == "villaoutside.jana.quiz" && pickedIndex == 0)
+            return "villaoutside.jana.q_wrong_silence";
+        else if (dialogueId == "villaoutside.jana.quiz" && pickedIndex == 1)
+            return "villaoutside.jana.q_wrong_hotel";
+        else if (dialogueId == "villaoutside.jana.quiz" && pickedIndex == 2)
+        {
+            TranslationManager.Instance.UnlockWords("dobrý den", "ano", "mluvím");
+            return "villaoutside.jana.q_correct1";
+        }
+
+        // Come Inside Quiz.(1)
+        else if (dialogueId == "villaoutside.comeinside.quiz" && pickedIndex == 0)
+            return "villaoutside.comeinside.q_wrong_clean";
+        else if (dialogueId == "villaoutside.comeinside.quiz" && pickedIndex == 1)
+        {
+            TranslationManager.Instance.UnlockWords("čekat");
+            return "villaoutside.comeinside.q_correct1";
+        }
+        else if (dialogueId == "villaoutside.comeinside.quiz" && pickedIndex == 2)
+            return "villaoutside.comeinside.q_wrong_cook1";
+        
+        // Pictures Quiz.(2)
+            if (dialogueId == "interactable.villadiningroom.pictures.quiz")
+                return pickedIndex == 2 ? "interactable.villadiningroom.pictures.q_correct1" : "interactable.villadiningroom.pictures.q_wrong1";
+
+        // Glass Display Quiz.(0)
+        if (dialogueId == "interactable.villadiningroom.glassdisplay.quiz")
+        {
+            if (pickedIndex == 0)
+            {
+                TranslationManager.Instance.UnlockWords("náhrdelník");
+                return "interactable.villadiningroom.glassdisplay.q_correct1";
+            }
+            else return "interactable.villadiningroom.glassdisplay.q_wrong1";
+        }
+
+        // FIB Teta.
         else if (dialogueId == "villaoutside.teta.fill_in_blank")
         {
             if (correctAnswers.Contains(playerInput))
@@ -225,6 +262,48 @@ public class QuizManager : MonoBehaviour
             {
                 wrongAttempts = 3;
                 return "villaoutside.teta.fib_failed1";
+            }
+        }
+
+        // FIB Lavender.
+        else if (dialogueId == "interactable.villaoutside.flowers.fill_in_blank")
+        {
+            if (correctAnswers.Contains(playerInput))
+            {
+                wrongAttempts = 3;
+                TranslationManager.Instance.UnlockWords("velké");
+                return "interactable.villaoutside.flowers.fib_correct1";
+            }
+            else if (wrongAttempts < 2)
+            {
+                wrongAttempts++;
+                return "interactable.villaoutside.flowers.fib_wrong1";
+            }
+            else
+            {
+                wrongAttempts = 3;
+                return "interactable.villaoutside.flowers.fib_failed1";
+            }
+        }
+
+        // FIB Tea.
+        else if (dialogueId == "interactable.villadiningroom.tea.fill_in_blank")
+        {
+            if (correctAnswers.Contains(playerInput))
+            {
+                wrongAttempts = 3;
+                TranslationManager.Instance.UnlockWords("vodu");
+                return "interactable.villadiningroom.tea.fib_correct1";
+            }
+            else if (wrongAttempts < 2)
+            {
+                wrongAttempts++;
+                return "interactable.villadiningroom.tea.fib_wrong1";
+            }
+            else
+            {
+                wrongAttempts = 3;
+                return "interactable.villadiningroom.tea.fib_failed1";
             }
         }
 

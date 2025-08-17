@@ -150,7 +150,6 @@ public class DialogueManager : MonoBehaviour
 
         // If this dialogue was triggered through an interactable image
         if (interactableImage != null) currentInteractableImage = interactableImage;
-        else currentInteractableImage = null;
 
         // Determine if this is a quiz (multiple choice or fill in the blank)
         currentAnswers = answers;
@@ -307,7 +306,11 @@ public class DialogueManager : MonoBehaviour
         if (controller) controller.OnDialogueComplete(id);
 
         // If this was a dialogue triggered by an interactable image and it is the final one, mark it as completed.
-        if (currentInteractableImage != null && id.Contains("final")) currentInteractableImage.OnInteractionComplete();
+        if (currentInteractableImage != null && id.Contains("final"))
+        {
+            currentInteractableImage.OnInteractionComplete();
+            currentInteractableImage = null;
+        }
     }
 
     #endregion
@@ -362,9 +365,12 @@ public class DialogueManager : MonoBehaviour
 
         // Map specific speaker IDs to display names.
         if (currentSpeaker.Contains("detective")) currentSpeakerName = "Tobiáš";
+        else if (currentSpeaker.Contains("visible")) currentSpeakerName = "???";
         else if (currentSpeaker == "letterman") currentSpeakerName = "???";
         else if (currentSpeaker == "aunt_unknown") currentSpeakerName = "Růžena Nováková";
         else if (currentSpeaker == "aunt_known") currentSpeakerName = "teta Růžena";
+        else if (currentSpeaker == "aunt") currentSpeakerName = "teta Růžena";
+        else if (currentSpeaker == "maid") currentSpeakerName = "služebná Jana";
 
         return string.IsNullOrEmpty(currentSpeakerName) ? currentSpeaker : currentSpeakerName;
     }

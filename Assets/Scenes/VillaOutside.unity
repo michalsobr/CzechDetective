@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 374412110}
   interactableID: villaoutside.flowers
-  dialogueID: interactable.villaoutside.flowers.final
+  dialogueID: interactable.villaoutside.flowers.one
   buttonText: "P\u0159i\u010Dichnout si"
   sourceTexture: {fileID: 2800000, guid: 87d21815583bc4b79af39ed1ad92374e, type: 3}
   alphaThreshold: 0.1
@@ -374,11 +374,11 @@ GameObject:
   - component: {fileID: 529759045}
   m_Layer: 3
   m_Name: FenceInteractable
-  m_TagString: InteractableImage
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &529759044
 RectTransform:
   m_ObjectHideFlags: 0
@@ -519,7 +519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactableImage: {fileID: 731888189}
   interactableID: villaoutside.broom
-  dialogueID: interactable.villaoutside.broom.final
+  dialogueID: interactable.villaoutside.broom.one
   buttonText: "Prohl\xE9dnout"
   sourceTexture: {fileID: 2800000, guid: c9e31f3f6b39b4c249cb1d9457b34ce8, type: 3}
   alphaThreshold: 0.1
@@ -588,11 +588,11 @@ GameObject:
   - component: {fileID: 798546027}
   m_Layer: 3
   m_Name: RoofInteractable
-  m_TagString: InteractableImage
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &798546026
 RectTransform:
   m_ObjectHideFlags: 0
@@ -940,11 +940,11 @@ GameObject:
   - component: {fileID: 1570190133}
   m_Layer: 3
   m_Name: TreeInteractable
-  m_TagString: InteractableImage
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1570190132
 RectTransform:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 /// <summary>
 /// Represents an interactable UI image that responds to clicks only on its visible (non-transparent) pixels.
@@ -16,6 +17,7 @@ public class InteractableImage : MonoBehaviour, IPointerClickHandler
     public string interactableID;
     public string dialogueID;
     public string buttonText;
+    public List<string> unlockedWords;
 
     [Header("Alpha Detection")]
     [SerializeField] private Texture2D sourceTexture;
@@ -93,6 +95,10 @@ public class InteractableImage : MonoBehaviour, IPointerClickHandler
     public void TriggerInteraction()
     {
         InteractableManager.Instance.HideButton();
+
+        if (unlockedWords != null && unlockedWords.Count > 0)
+            TranslationManager.Instance.UnlockWords(unlockedWords.ToArray());
+
         DialogueManager.Instance.ShowDialogue(dialogueID, this);
     }
 
