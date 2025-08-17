@@ -177,7 +177,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3696804088323199546, guid: d804b02f4f9654309a3c20d998b17879, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d804b02f4f9654309a3c20d998b17879, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -312,6 +312,7 @@ MonoBehaviour:
   interactableID: villadiningroom.drawer
   dialogueID: interactable.villadiningroom.drawer.one
   buttonText: "Otev\u0159\xEDt"
+  unlockedWords: []
   sourceTexture: {fileID: 2800000, guid: a4726d7959fb34ac8a3a6e12cc530439, type: 3}
   alphaThreshold: 0.1
 --- !u!1 &500571194
@@ -414,6 +415,7 @@ MonoBehaviour:
   interactableID: villadiningroom.tea
   dialogueID: interactable.villadiningroom.tea.one
   buttonText: "Nal\xEDt si"
+  unlockedWords: []
   sourceTexture: {fileID: 2800000, guid: 5e13bc08ca25d499ea00308d011b28f3, type: 3}
   alphaThreshold: 0.1
 --- !u!225 &756401665
@@ -521,6 +523,7 @@ MonoBehaviour:
   interactableID: villadiningroom.pictures
   dialogueID: interactable.villadiningroom.pictures.one
   buttonText: "Prohl\xE9dnout si"
+  unlockedWords: []
   sourceTexture: {fileID: 2800000, guid: 6e8dfa10dc4fe4b9ab43de409ae603fd, type: 3}
   alphaThreshold: 0.1
 --- !u!225 &757107291
@@ -873,6 +876,7 @@ MonoBehaviour:
   interactableID: villadiningroom.glassdisplay
   dialogueID: interactable.villadiningroom.glassdisplay.one
   buttonText: Prozkoumat
+  unlockedWords: []
   sourceTexture: {fileID: 2800000, guid: be9478d10fd0945cd965c14cae03e839, type: 3}
   alphaThreshold: 0.1
 --- !u!225 &1570190134
@@ -1237,6 +1241,7 @@ MonoBehaviour:
   interactableID: villadiningroom.table
   dialogueID: interactable.villadiningroom.table.one
   buttonText: Posadit se
+  unlockedWords: []
   sourceTexture: {fileID: 2800000, guid: 329d17daed336451689c1d743b191c15, type: 3}
   alphaThreshold: 0.1
 --- !u!225 &1977919076

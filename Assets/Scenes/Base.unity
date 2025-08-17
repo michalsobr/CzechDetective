@@ -177,7 +177,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5310745179583452108, guid: d3937ae3a8d7242d988bda9c09c37d65, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d3937ae3a8d7242d988bda9c09c37d65, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -312,6 +312,7 @@ MonoBehaviour:
   interactableID: base.fountain
   dialogueID: interactable.base.fountain.one
   buttonText: "P\u0159ij\xEDt bl\xED\u017E"
+  unlockedWords: []
   sourceTexture: {fileID: 2800000, guid: 74f513e815a6a4c3a96e250372e2297f, type: 3}
   alphaThreshold: 0.1
 --- !u!1 &500571194
@@ -656,6 +657,7 @@ MonoBehaviour:
   interactableID: base.cloud
   dialogueID: interactable.base.cloud.one
   buttonText: "Pod\xEDvat se nahoru"
+  unlockedWords: []
   sourceTexture: {fileID: 2800000, guid: a54f481b2ca61458687674d4f4a75363, type: 3}
   alphaThreshold: 0.1
 --- !u!225 &1570190134
