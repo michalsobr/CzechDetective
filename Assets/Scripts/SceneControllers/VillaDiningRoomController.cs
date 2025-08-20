@@ -13,7 +13,7 @@ public class VillaDiningRoomController : SceneFlowController
     #region Unity Lifecycle
 
     /// <summary>
-    /// Base setup + show the correct entry dialogue for this scene.
+    /// Base setup
     /// </summary>
     protected override void Start()
     {

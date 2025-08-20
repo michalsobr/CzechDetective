@@ -8,8 +8,8 @@ using UnityEngine.UI;
 /// <summary>
 /// Shows a simple list of learned words (the player's journal).
 /// Two modes:
-///  • Chronological — order the player actually unlocked words
-///  • Alphabetical — A→Z by the journal label
+/// - Chronological — order the player actually unlocked words
+/// - Alphabetical — A-Z by the journal label
 /// Paged output with Up/Down buttons and a toggle to switch modes.
 /// </summary>
 public class JournalPopup : PopupWindow
@@ -116,8 +116,8 @@ public class JournalPopup : PopupWindow
 
     /// <summary>
     /// Creates the two cached lists:
-    /// - Chronological — based on the order of words in GameState.unlockedWords
-    /// - Alphabetical  — A -> Z by the journal label
+    /// - Chronological — based on the order of words in GameState unlockedWords
+    /// - Alphabetical  — A-Z by the journal label
     /// </summary>
     private void RebuildLists()
     {
@@ -139,7 +139,7 @@ public class JournalPopup : PopupWindow
             }
         }
 
-        // Build alphabetical as a sorted copy by the human-facing “journal head”.
+        // Build alphabetical as a sorted copy by the "journal head”.
         alphabetical.AddRange(chronological.OrderBy(entry => GetSortKey(entry)));
     }
 

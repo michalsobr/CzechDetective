@@ -162,7 +162,7 @@ public class InteractableManager : MonoBehaviour
 
     /// <summary>
     /// Returns all UI Graphics that represent interactables for highlighting.
-    /// Tag interactable GameObjects as "Interactable" and ensure they have a Graphic.
+    /// Tag interactable GameObjects as "InteractableImage".
     /// </summary>
     public GameObject[] GetAllInteractableObjects()
     {
